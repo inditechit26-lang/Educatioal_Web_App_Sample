@@ -17,15 +17,24 @@ function updateUserDetails() {
   const user = getCurrentUser();
   if (!user) {
     window.location.href = '../auth_elitecoaching_institute/code.html?mode=login';
-    return;
+    return false;
   }
-  const nameFields = document.querySelectorAll('.profile-pill p, .profile-pill span, header .topbar-left h1');
-  const profileName = document.querySelector('.profile-pill p');
+  if (user.role === 'teacher') {
+    window.location.href = '../home_elitecoaching_institute/code.html';
+    return false;
+  }
+  const greeting = document.getElementById('dashboardUserName');
+  const profileName = document.getElementById('profileUserName');
   const profileRole = document.querySelector('.profile-pill span');
+  const studentName = document.getElementById('studentProfileName');
+  const studentEmail = document.getElementById('studentProfileEmail');
+
+  if (greeting) greeting.textContent = user.name;
   if (profileName) profileName.textContent = user.name;
   if (profileRole) profileRole.textContent = 'Elite Learner';
-  const greeting = document.querySelector('header .topbar-left h1');
-  if (greeting) greeting.textContent = user.name;
+  if (studentName) studentName.textContent = user.name;
+  if (studentEmail) studentEmail.textContent = user.email;
+  return true;
 }
 
 function applyTheme(theme) {
@@ -74,10 +83,11 @@ function showSection(id) {
 }
 
 navLinks.forEach((link) => {
-  if (link.tagName.toLowerCase() !== 'button') {
+  const href = link.getAttribute('href');
+  if (href && href.startsWith('#')) {
     link.addEventListener('click', (event) => {
       event.preventDefault();
-      const targetId = link.getAttribute('href').substring(1);
+      const targetId = href.substring(1);
       if (document.getElementById(targetId)) {
         showSection(targetId);
       }
@@ -102,5 +112,6 @@ if (countdownTimer) {
   setInterval(updateCountdown, 1000);
 }
 
-updateUserDetails();
-showSection('dashboard');
+if (updateUserDetails()) {
+  showSection('dashboard');
+}

@@ -1,5 +1,7 @@
 const storageKey = 'eliteCoachingUsers';
 const currentUserKey = 'eliteCoachingCurrentUser';
+const studentDashboardUrl = '../student_panel_elitecoaching_institute/code.html';
+const homeUrl = '../home_elitecoaching_institute/code.html';
 
 const tabs = document.querySelectorAll('.tab-btn');
 const forms = {
@@ -26,13 +28,25 @@ function showMessage(text, type = 'success') {
 }
 
 function setMode(mode) {
-  tabs.forEach((tab) => {
-    tab.classList.toggle('active', tab.dataset.mode === mode);
-  });
+  tabs.forEach((tab) => tab.classList.toggle('active', tab.dataset.mode === mode));
+  Object.entries(forms).forEach(([key, form]) => form.classList.toggle('active-form', key === mode));
+  showMessage('');
+}
 
-  Object.entries(forms).forEach(([key, form]) => {
-    form.classList.toggle('active-form', key === mode);
-  });
+function selectedRole(groupName) {
+  return document.querySelector(`input[name="${groupName}"]:checked`).value;
+}
+
+function saveSession(user) {
+  localStorage.setItem(currentUserKey, JSON.stringify({
+    name: user.name,
+    email: user.email,
+    role: user.role || 'student'
+  }));
+}
+
+function redirectForRole(role) {
+  window.location.href = role === 'teacher' ? homeUrl : studentDashboardUrl;
 }
 
 function getQueryMode() {
@@ -40,72 +54,67 @@ function getQueryMode() {
   return params.get('mode') === 'register' ? 'register' : 'login';
 }
 
-tabs.forEach((tab) => {
-  tab.addEventListener('click', () => setMode(tab.dataset.mode));
-});
+tabs.forEach((tab) => tab.addEventListener('click', () => setMode(tab.dataset.mode)));
 
-document.getElementById('loginForm').addEventListener('submit', (event) => {
+forms.login.addEventListener('submit', (event) => {
   event.preventDefault();
-
-  const email = document.getElementById('loginEmail').value.trim();
+  const email = document.getElementById('loginEmail').value.trim().toLowerCase();
   const password = document.getElementById('loginPassword').value;
-  const users = getUsers();
-  const user = users.find((entry) => entry.email === email);
+  const role = selectedRole('loginRole');
+  const user = getUsers().find((entry) => entry.email.toLowerCase() === email);
 
   if (!user) {
     showMessage('No account found for that email.', 'error');
     return;
   }
-
   if (user.password !== password) {
     showMessage('Incorrect password. Please try again.', 'error');
     return;
   }
 
-  localStorage.setItem(currentUserKey, JSON.stringify({ name: user.name, email: user.email }));
-  showMessage(`Welcome back, ${user.name}!`, 'success');
-  setTimeout(() => {
-    window.location.href = '../home_elitecoaching_institute/code.html';
-  }, 800);
+  const accountRole = user.role || 'student';
+  if (accountRole !== role) {
+    showMessage(`This email is registered as a ${accountRole}. Please select ${accountRole}.`, 'error');
+    return;
+  }
+
+  saveSession({ ...user, role: accountRole });
+  showMessage(`Welcome back, ${user.name}! Opening your ${accountRole} account...`);
+  setTimeout(() => redirectForRole(accountRole), 700);
 });
 
-document.getElementById('registerForm').addEventListener('submit', (event) => {
+forms.register.addEventListener('submit', (event) => {
   event.preventDefault();
-
   const name = document.getElementById('registerName').value.trim();
-  const email = document.getElementById('registerEmail').value.trim();
+  const email = document.getElementById('registerEmail').value.trim().toLowerCase();
   const password = document.getElementById('registerPassword').value;
   const confirmPassword = document.getElementById('registerConfirm').value;
+  const role = selectedRole('registerRole');
   const users = getUsers();
 
   if (!name || !email || !password || !confirmPassword) {
     showMessage('Please fill out all fields.', 'error');
     return;
   }
-
   if (password.length < 6) {
     showMessage('Password must be at least 6 characters long.', 'error');
     return;
   }
-
   if (password !== confirmPassword) {
     showMessage('Passwords do not match.', 'error');
     return;
   }
-
-  if (users.some((entry) => entry.email === email)) {
+  if (users.some((entry) => entry.email.toLowerCase() === email)) {
     showMessage('An account with that email already exists.', 'error');
     return;
   }
 
-  users.push({ name, email, password });
+  const newUser = { name, email, password, role };
+  users.push(newUser);
   saveUsers(users);
-  localStorage.setItem(currentUserKey, JSON.stringify({ name, email }));
-  showMessage('Account created successfully. Redirecting...', 'success');
-
-  setTimeout(() => {
-    window.location.href = '../home_elitecoaching_institute/code.html';
-  }, 800);
+  saveSession(newUser);
+  showMessage(`${role === 'teacher' ? 'Teacher' : 'Student'} account created successfully. Redirecting...`);
+  setTimeout(() => redirectForRole(role), 700);
 });
 
 setMode(getQueryMode());

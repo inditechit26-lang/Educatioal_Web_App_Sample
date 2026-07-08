@@ -41,12 +41,22 @@
                 <li><a class="relative inline-flex items-center py-1 font-label-md text-label-md text-on-surface-variant transition-all duration-200 hover:text-primary after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-200 hover:after:scale-x-100"
                         href="../contact_elitecoaching_institute/code.html">Contact</a></li>
             </ul>
-            <div class="flex items-center gap-4">
+            <div id="guestAuthActions" class="flex items-center gap-4">
                 <a href="../auth_elitecoaching_institute/code.html?mode=login"
                     class="hidden md:block font-label-md text-label-md px-4 py-2 text-primary hover:bg-primary/5 rounded-lg transition-colors">Log In</a>
                 <a href="../auth_elitecoaching_institute/code.html?mode=register"
                     class="bg-primary-container text-on-primary px-6 py-2.5 rounded-full font-label-md text-label-md scale-95 active:scale-90 transition-transform shadow-sm">Sign Up</a>
             </div>
+            <a id="studentProfileLink" href="../student_panel_elitecoaching_institute/code.html"
+                class="hidden items-center gap-3 rounded-full border border-primary/15 bg-primary/5 py-2 pl-2 pr-4 text-primary transition-colors hover:bg-primary/10"
+                aria-label="Open student dashboard">
+                <span id="studentAvatarInitial" class="flex h-9 w-9 items-center justify-center rounded-full bg-primary font-bold text-white">S</span>
+                <span class="hidden text-left sm:block">
+                    <span id="homeStudentName" class="block text-sm font-bold leading-tight">Student</span>
+                    <span id="homeStudentEmail" class="block max-w-40 truncate text-xs text-on-surface-variant">student@example.com</span>
+                </span>
+                <span class="material-symbols-outlined text-xl">dashboard</span>
+            </a>
         </nav>
     </header>
     <main>
@@ -320,31 +330,33 @@
             </div>
         </section>
         <!-- Top Results -->
-        <section class="overflow-hidden bg-white py-section-padding">
-            <div class="mx-auto max-w-container-max-width px-margin-desktop">
+        <section class="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-blue-50 py-section-padding">
+            <div class="pointer-events-none absolute -left-32 top-20 h-80 w-80 rounded-full bg-primary/10 blur-3xl"></div>
+            <div class="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-sky-200/30 blur-3xl"></div>
+            <div class="relative mx-auto max-w-container-max-width px-margin-desktop">
                 <div class="mb-12 flex flex-col gap-6 text-center lg:text-left lg:flex-row lg:items-end lg:justify-between">
                     <div class="space-y-4">
-                        <div class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
-                            Our proud achievers
+                        <div class="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700">
+                            <span class="material-symbols-outlined text-lg">workspace_premium</span> Our proud achievers
                         </div>
-                        <h2 class="font-headline-lg text-headline-lg">Success stories that inspire the next milestone</h2>
-                        <p class="mx-auto max-w-2xl text-on-surface-variant font-body-md lg:mx-0">Celebrating the top rankers of the recent exam cycles and the dedication behind each result.</p>
+                        <h2 class="font-headline-lg text-headline-lg">Meet our top rankers</h2>
+                        <p class="mx-auto max-w-2xl text-on-surface-variant font-body-md lg:mx-0">Celebrating the students who achieved outstanding ranks in recent examinations.</p>
                     </div>
                     <div class="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm text-slate-600 shadow-sm">
                         2023-24 results • 98%+ student satisfaction
                     </div>
                 </div>
-                <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-5">
-                    <div class="group rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)]">
+                <div class="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-6 [scrollbar-width:thin] [scrollbar-color:#93c5fd_transparent]">
+                    <div class="group w-[260px] shrink-0 snap-start rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)] sm:w-[280px]">
                         <div class="relative mx-auto mb-4 inline-block">
                             <img class="mx-auto h-28 w-28 rounded-full border-4 border-white object-cover shadow-lg md:h-32 md:w-32" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgBmXEM2lUmOS8CCvLyc0nlDf377FiD1ESN9rC3DEgfh5Nz2j65mFFqXz9tjStTArPRoaxq0QlPIZ-Zge9l-BGPwZld0HyuY-n5q2wT3gBjINWf49XMPxIEtAEZhtxl4p1aH1EKST3Vaiza50PDE9JnC2Y0R6mvSJb0tAbUoUUt6KOZNReCU23LBPX3DPeDrkdq5WDK91E9mMZ9o5WAaeYBR96S78vxPidZ6SWJm9uF3LL84Wan6xmBxz3jtB29CGYVipq5UxHDQ" alt="Top achiever portrait" />
                             <div class="absolute bottom-0 right-0 rounded-full border-2 border-white bg-primary px-2 py-1 text-[10px] font-bold text-white">AIR 12</div>
                         </div>
                         <h4 class="text-lg font-semibold text-primary">Aditya Sharma</h4>
                         <p class="mt-1 text-sm text-on-surface-variant">JEE Advanced 2023</p>
-                        <p class="mt-3 text-sm font-semibold text-slate-700">99.8% Tile</p>
+                        <p class="mt-3 text-sm font-semibold text-slate-700">99.8 percentile</p>
                     </div>
-                    <div class="group rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)]">
+                    <div class="group w-[260px] shrink-0 snap-start rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)] sm:w-[280px]">
                         <div class="relative mx-auto mb-4 inline-block">
                             <img class="mx-auto h-28 w-28 rounded-full border-4 border-white object-cover shadow-lg md:h-32 md:w-32" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ9bLROyCGP-fxexJlGlh267aBr843_IMpf5kYN5IQQ66Ey4WKpHM7YuHTQl-U0rGdgSF6B6Cq8Xy0bXiLJZRL0yZwNLUbO65NEyNaLery-Md7ZHOO3NfAWLxXLorvmtrhXLqWRonZJhJQ-88DT5TzSbgrC3rYF-BQ8Ced4RhAsdBi-SBSJ-Hjjr2UkYAx7i7156MV79xO0fHOhbv-zVJGBQT1uyHUm9xO8Hod56IJJqmg1zcSLpRDxbYq2eZEihG3V6aodHULJg" alt="Top achiever portrait" />
                             <div class="absolute bottom-0 right-0 rounded-full border-2 border-white bg-primary px-2 py-1 text-[10px] font-bold text-white">AIR 45</div>
@@ -353,16 +365,16 @@
                         <p class="mt-1 text-sm text-on-surface-variant">NEET 2023</p>
                         <p class="mt-3 text-sm font-semibold text-slate-700">715 / 720</p>
                     </div>
-                    <div class="group rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)]">
+                    <div class="group w-[260px] shrink-0 snap-start rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)] sm:w-[280px]">
                         <div class="relative mx-auto mb-4 inline-block">
                             <img class="mx-auto h-28 w-28 rounded-full border-4 border-white object-cover shadow-lg md:h-32 md:w-32" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTwfUZL6igJwHcD41WF6v-02v3FJiKbqA0Jw5EAtLKqDXqdOzhkvPpBg-n2NIoaKD4NkRi1dYUCTjxH-7KqouqsnjIjFUUaJLKr2RRRDClx49tO2fye_ANnL2jDjq4Z7pDHCDmwUfz5HKcqm2rqP4SXOz1ltOv7MxNHwj-oC-RopSqtnbhbdMrclvxbvPclaCe45dG8nXgs0rNmJe09xoU4kkMOquMc0w_WO5gwge1t1Vr5IuZxp8IQgx04V80QB6yAetSRANZMw" alt="Top achiever portrait" />
                             <div class="absolute bottom-0 right-0 rounded-full border-2 border-white bg-primary px-2 py-1 text-[10px] font-bold text-white">AIR 88</div>
                         </div>
                         <h4 class="text-lg font-semibold text-primary">Rohan Gupta</h4>
                         <p class="mt-1 text-sm text-on-surface-variant">JEE Main 2024</p>
-                        <p class="mt-3 text-sm font-semibold text-slate-700">99.95% Tile</p>
+                        <p class="mt-3 text-sm font-semibold text-slate-700">99.95 percentile</p>
                     </div>
-                    <div class="group rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)]">
+                    <div class="group w-[260px] shrink-0 snap-start rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)] sm:w-[280px]">
                         <div class="relative mx-auto mb-4 inline-block">
                             <img class="mx-auto h-28 w-28 rounded-full border-4 border-white object-cover shadow-lg md:h-32 md:w-32" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUVDzK24tg7cd1oGzvquQftmBG71ATJQZ7hocJd7dqnj5Gqg541XGDXDE5nbMX6dILksjc6isEVAVBOQ7NQdUtqDlR5PrzB7jfZqFM8tb5VXeurJP0Ha_p2G3wvmyoMLytltHiTqeM68eCTjD3iZRGKd63hzjIO_xEsyCCl3O3Px3PB8zcaNspbc5S-Pbe74bnK81o9MNnHTz5cQ1DotyWe_U6bo6k9a8JJXBcdE0nu5hNUByRoNfyZY6Fx7gsPRFyV-mhHp9EIw" alt="Top achiever portrait" />
                             <div class="absolute bottom-0 right-0 rounded-full border-2 border-white bg-primary px-2 py-1 text-[10px] font-bold text-white">AIR 102</div>
@@ -371,20 +383,20 @@
                         <p class="mt-1 text-sm text-on-surface-variant">NEET 2023</p>
                         <p class="mt-3 text-sm font-semibold text-slate-700">708 / 720</p>
                     </div>
-                    <div class="group rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)]">
+                    <div class="group w-[260px] shrink-0 snap-start rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)] sm:w-[280px]">
                         <div class="relative mx-auto mb-4 inline-block">
                             <img class="mx-auto h-28 w-28 rounded-full border-4 border-white object-cover shadow-lg md:h-32 md:w-32" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9pjW9MzGBYBp_5zLYDZ_pghWkyIkO1pfFA6jTQfBOIqPXBHP7POSdyaxBOzmD3equkMRp42DA9nU05-9sI35tY7dNGqHa4aSa3xscJvc6qBKlDVpur5sWHXzzZVvFOOgSGPo1VI3hjYpBxf88be2dNW2OYLxn8kgXP4eFV6hErsFPv4OdUeJyU4LAtOT9shyKotEWyABEEBAaCUh9tGkODpFU3enyMZAiaUptCJycEDeMr8abACbNU7BXQpAyxPbPtXCE_dQr0g" alt="Top achiever portrait" />
                             <div class="absolute bottom-0 right-0 rounded-full border-2 border-white bg-primary px-2 py-1 text-[10px] font-bold text-white">AIR 156</div>
                         </div>
                         <h4 class="text-lg font-semibold text-primary">Vikram Mehra</h4>
                         <p class="mt-1 text-sm text-on-surface-variant">JEE Advanced 2023</p>
-                        <p class="mt-3 text-sm font-semibold text-slate-700">99.5% Tile</p>
+                        <p class="mt-3 text-sm font-semibold text-slate-700">99.5 percentile</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!--
+        <template id="legacyVerticalToppers">
         <section class="py-section-padding bg-white overflow-hidden">
             <div class="max-w-container-max-width mx-auto px-margin-desktop">
                 <div class="text-center mb-16 space-y-4">
@@ -479,7 +491,7 @@
             </div>
         </section>
         </section>
-        -->
+        </template>
         <!-- Testimonials -->
         <section class="bg-gradient-to-br from-slate-50 via-white to-primary/5 py-section-padding">
             <div class="mx-auto max-w-container-max-width px-margin-desktop">

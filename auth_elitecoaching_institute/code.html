@@ -1,76 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login | Register | EliteCoaching</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/styles.css" />
-  </head>
-  <body>
-    <div class="page-shell">
-      <div class="back-link">
-        <a href="../home_elitecoaching_institute/code.html">← Back to Home</a>
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login | Register | EliteCoaching</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <section class="auth-card">
+      <aside class="auth-showcase">
+        <a class="brand" href="../home_elitecoaching_institute/code.html"><span>EC</span> EliteCoaching</a>
+        <div>
+          <p class="eyebrow">Learning without limits</p>
+          <h1>Your next achievement starts here.</h1>
+          <p>One secure account for focused learning, teaching, resources, and academic progress.</p>
+        </div>
+        <div class="feature-list">
+          <p><span class="material-symbols-outlined">verified_user</span> Secure account access</p>
+          <p><span class="material-symbols-outlined">monitoring</span> Personal progress space</p>
+          <p><span class="material-symbols-outlined">groups</span> Student and teacher accounts</p>
+        </div>
+      </aside>
 
-      <div class="auth-card">
+      <div class="auth-content">
+        <a class="back-link" href="../home_elitecoaching_institute/code.html">← Back to Home</a>
         <div class="auth-intro">
-          <p class="eyebrow">EliteCoaching Institute</p>
-          <h1>Welcome back, future achiever.</h1>
-          <p>
-            Create an account or sign in to access student resources, admissions updates,
-            and course details.
-          </p>
+          <p class="eyebrow">Welcome</p>
+          <h2>Access your account</h2>
+          <p>Choose your role, then sign in or create a new account.</p>
         </div>
 
         <div class="tab-switcher" role="tablist" aria-label="Authentication mode">
           <button class="tab-btn active" data-mode="login" type="button">Login</button>
           <button class="tab-btn" data-mode="register" type="button">Register</button>
         </div>
-
         <div id="messageBox" class="message-box" aria-live="polite"></div>
 
         <form id="loginForm" class="auth-form active-form">
-          <h2>Login</h2>
-          <label>
-            Email
-            <input type="email" id="loginEmail" placeholder="you@example.com" required />
-          </label>
-          <label>
-            Password
-            <input type="password" id="loginPassword" placeholder="Enter password" required />
-          </label>
-          <button type="submit">Login</button>
+          <h3>Welcome back</h3>
+          <fieldset class="role-selector">
+            <legend>Login as</legend>
+            <label class="role-option"><input type="radio" name="loginRole" value="student" checked /><span class="material-symbols-outlined">school</span><strong>Student</strong></label>
+            <label class="role-option"><input type="radio" name="loginRole" value="teacher" /><span class="material-symbols-outlined">co_present</span><strong>Teacher</strong></label>
+          </fieldset>
+          <label>Email<input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" required /></label>
+          <label>Password<input type="password" id="loginPassword" placeholder="Enter password" autocomplete="current-password" required /></label>
+          <button class="submit-btn" type="submit">Login to account <span class="material-symbols-outlined">arrow_forward</span></button>
         </form>
 
         <form id="registerForm" class="auth-form">
-          <h2>Create Account</h2>
-          <label>
-            Full Name
-            <input type="text" id="registerName" placeholder="Your full name" required />
-          </label>
-          <label>
-            Email
-            <input type="email" id="registerEmail" placeholder="you@example.com" required />
-          </label>
-          <label>
-            Password
-            <input type="password" id="registerPassword" placeholder="At least 6 characters" required />
-          </label>
-          <label>
-            Confirm Password
-            <input type="password" id="registerConfirm" placeholder="Re-enter password" required />
-          </label>
-          <button type="submit">Register</button>
+          <h3>Create your account</h3>
+          <fieldset class="role-selector">
+            <legend>Register as</legend>
+            <label class="role-option"><input type="radio" name="registerRole" value="student" checked /><span class="material-symbols-outlined">school</span><strong>Student</strong></label>
+            <label class="role-option"><input type="radio" name="registerRole" value="teacher" /><span class="material-symbols-outlined">co_present</span><strong>Teacher</strong></label>
+          </fieldset>
+          <label>Full Name<input type="text" id="registerName" placeholder="Your full name" autocomplete="name" required /></label>
+          <label>Email<input type="email" id="registerEmail" placeholder="you@example.com" autocomplete="email" required /></label>
+          <div class="password-grid">
+            <label>Password<input type="password" id="registerPassword" placeholder="At least 6 characters" autocomplete="new-password" required /></label>
+            <label>Confirm Password<input type="password" id="registerConfirm" placeholder="Re-enter password" autocomplete="new-password" required /></label>
+          </div>
+          <button class="submit-btn" type="submit">Create account <span class="material-symbols-outlined">arrow_forward</span></button>
         </form>
       </div>
-    </div>
-
-    <script src="js/script.js"></script>
-  </body>
+    </section>
+  </main>
+  <script src="js/script.js"></script>
+</body>
 </html>
