@@ -65,7 +65,7 @@ document.getElementById('loginForm').addEventListener('submit', (event) => {
   localStorage.setItem(currentUserKey, JSON.stringify({ name: user.name, email: user.email }));
   showMessage(`Welcome back, ${user.name}!`, 'success');
   setTimeout(() => {
-    window.location.href = '../student_panel_elitecoaching_institute/code.html';
+    window.location.href = '../home_elitecoaching_institute/code.html';
   }, 800);
 });
 
@@ -104,12 +104,8 @@ document.getElementById('registerForm').addEventListener('submit', (event) => {
   showMessage('Account created successfully. Redirecting...', 'success');
 
   setTimeout(() => {
-    window.location.href = '../student_panel_elitecoaching_institute/code.html';
+    window.location.href = '../home_elitecoaching_institute/code.html';
   }, 800);
 });
-
-if (localStorage.getItem(currentUserKey)) {
-  window.location.href = '../student_panel_elitecoaching_institute/code.html';
-}
 
 setMode(getQueryMode());
