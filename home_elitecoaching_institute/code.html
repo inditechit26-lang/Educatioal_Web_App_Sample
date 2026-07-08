@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>EliteCoaching Institute | Empowering Next-Gen Leaders</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Manrope:wght@600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="js/tailwind.config.js"></script>
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+
+<body
+    class="bg-background text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
+    <!-- TopNavBar -->
+    <header
+        class="bg-surface-container-lowest dark:bg-surface-container-lowest shadow-sm dark:shadow-none docked full-width top-0 sticky z-50 glass-header">
+        <nav class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max-width mx-auto">
+            <a href="../home_elitecoaching_institute/code.html"
+                class="text-headline-sm font-headline-sm font-extrabold text-primary dark:text-inverse-primary">EliteCoaching</a>
+            <!-- Desktop Nav -->
+            <ul class="hidden lg:flex items-center gap-8">
+                <li><a class="text-primary dark:text-inverse-primary font-bold border-b-2 border-primary font-label-md text-label-md py-1"
+                        href="../home_elitecoaching_institute/code.html">Home</a></li>
+                <li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md py-1"
+                        href="../about_us_elitecoaching_institute/code.html">About</a></li>
+                <li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md py-1"
+                        href="../our_courses_elitecoaching_institute/code.html">Courses</a></li>
+                <li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md py-1"
+                        href="../faculty_results_elitecoaching_institute/code.html">Results</a></li>
+                <li><a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md py-1"
+                        href="../contact_elitecoaching_institute/code.html">Contact</a></li>
+            </ul>
+            <div class="flex items-center gap-4">
+                <a href="../auth_elitecoaching_institute/code.html?mode=login"
+                    class="hidden md:block font-label-md text-label-md px-4 py-2 text-primary hover:bg-primary/5 rounded-lg transition-colors">Student
+                    Portal</a>
+                <a href="../auth_elitecoaching_institute/code.html?mode=register"
+                    class="bg-primary-container text-on-primary px-6 py-2.5 rounded-full font-label-md text-label-md scale-95 active:scale-90 transition-transform shadow-sm">Admissions
+                    Open</a>
+            </div>
+        </nav>
+    </header>
+    <main>
+        <!-- Hero Section -->
+        <section
+            class="relative min-h-[600px] py-16 md:py-24 flex flex-col justify-center overflow-hidden bg-surface-container-low">
+            <div class="absolute inset-0 z-0">
+                <img class="w-full h-full object-cover opacity-90"
+                    data-alt="A premium academic classroom with students engaged in focused learning, bright natural light, modern desks, and a professional educational environment."
+                    src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1600&q=80" />
+                <div class="absolute inset-0 bg-gradient-to-r from-slate-950/70 via-slate-900/55 to-slate-800/35"></div>
+            </div>
+            <div
+                class="relative z-10 max-w-container-max-width mx-auto px-margin-desktop w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="space-y-8 animate-in fade-in slide-in-from-left duration-700">
+                    <span
+                        class="bg-white/90 text-primary px-4 py-1.5 rounded-full font-label-md text-label-md inline-block shadow-sm">Established
+                        Since 2012</span>
+                    <h1
+                        class="font-display-lg text-display-lg text-white leading-tight drop-shadow-[0_2px_20px_rgba(0,0,0,0.45)]">
+                        Empowering the <span class="text-sky-200">Next Generation</span> of Leaders
+                    </h1>
+                    <p class="font-body-lg text-body-lg text-slate-100/95 max-w-lg leading-relaxed">
+                        World-class education delivered through flexible Offline and Online modes. Join the institute
+                        where excellence meets aspiration.
+                    </p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="../auth_elitecoaching_institute/code.html?mode=register"
+                            class="bg-primary text-on-primary px-8 py-4 rounded-xl font-label-md text-label-md hover:shadow-lg transition-all active:scale-95 shadow-md">Enroll
+                            Now</a>
+                        <a href="../auth_elitecoaching_institute/code.html?mode=login"
+                            class="border border-slate-300 bg-white/90 text-slate-900 px-8 py-4 rounded-xl font-label-md text-label-md hover:bg-white transition-all active:scale-95 shadow-sm">Book
+                            Free Demo Class</a>
+                    </div>
+                    <div id="homeAuthStatus"
+                        class="rounded-2xl border border-primary/20 bg-white/90 px-4 py-3 text-sm text-primary shadow-sm">
+                    </div>
+                </div>
+                <div class="hidden lg:grid grid-cols-2 gap-6 animate-in fade-in zoom-in duration-1000">
+                    <div class="p-6 bg-white rounded-[32px] tonal-elevation-1 space-y-2 border border-slate-50">
+                        <span class="text-primary font-headline-lg text-headline-lg block">15K+</span>
+                        <span class="text-on-surface-variant font-label-md text-label-md">Global Students</span>
+                    </div>
+                    <div
+                        class="p-6 bg-white rounded-[32px] tonal-elevation-1 space-y-2 translate-y-8 border border-slate-50">
+                        <span class="text-primary font-headline-lg text-headline-lg block">12+</span>
+                        <span class="text-on-surface-variant font-label-md text-label-md">Years Experience</span>
+                    </div>
+                    <div class="p-6 bg-white rounded-[32px] tonal-elevation-1 space-y-2 border border-slate-50">
+                        <span class="text-primary font-headline-lg text-headline-lg block">50+</span>
+                        <span class="text-on-surface-variant font-label-md text-label-md">Expert Faculty</span>
+                    </div>
+                    <div
+                        class="p-6 bg-white rounded-[32px] tonal-elevation-1 space-y-2 translate-y-8 border border-slate-50">
+                        <span class="text-primary font-headline-lg text-headline-lg block">98%</span>
+                        <span class="text-on-surface-variant font-label-md text-label-md">Success Rate</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Why Choose Us -->
+        <section class="py-section-padding bg-white">
+            <div class="max-w-container-max-width mx-auto px-margin-desktop">
+                <div class="text-center mb-16 space-y-4">
+                    <h2 class="font-headline-lg text-headline-lg">Why Choose EliteCoaching?</h2>
+                    <p class="text-on-surface-variant font-body-md max-w-2xl mx-auto">We provide a holistic learning
+                        ecosystem designed to foster critical thinking and academic mastery.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+                    <!-- Cards -->
+                    <div
+                        class="p-8 bg-surface-container-lowest rounded-2xl tonal-elevation-1 hover:tonal-elevation-2 transition-all group">
+                        <div
+                            class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">school</span>
+                        </div>
+                        <h3 class="font-headline-sm text-headline-sm mb-2">Experienced Teachers</h3>
+                        <p class="text-on-surface-variant font-body-sm">Learn from industry veterans and PhD scholars
+                            with decades of combined teaching experience.</p>
+                    </div>
+                    <div
+                        class="p-8 bg-surface-container-lowest rounded-2xl tonal-elevation-1 hover:tonal-elevation-2 transition-all group">
+                        <div
+                            class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">devices</span>
+                        </div>
+                        <h3 class="font-headline-sm text-headline-sm mb-2">Offline + Online</h3>
+                        <p class="text-on-surface-variant font-body-sm">Seamlessly switch between physical classroom
+                            sessions and digital live lectures anytime.</p>
+                    </div>
+                    <div
+                        class="p-8 bg-surface-container-lowest rounded-2xl tonal-elevation-1 hover:tonal-elevation-2 transition-all group">
+                        <div
+                            class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">groups</span>
+                        </div>
+                        <h3 class="font-headline-sm text-headline-sm mb-2">Small Batches</h3>
+                        <p class="text-on-surface-variant font-body-sm">Personalized attention guaranteed with a strict
+                            15:1 student-to-teacher ratio for better focus.</p>
+                    </div>
+                    <div
+                        class="p-8 bg-surface-container-lowest rounded-2xl tonal-elevation-1 hover:tonal-elevation-2 transition-all group">
+                        <div
+                            class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">assignment_turned_in</span>
+                        </div>
+                        <h3 class="font-headline-sm text-headline-sm mb-2">Weekly Tests</h3>
+                        <p class="text-on-surface-variant font-body-sm">Rigorous assessment schedules to track progress
+                            and identify areas needing improvement.</p>
+                    </div>
+                    <!-- Row 2 -->
+                    <div
+                        class="p-8 bg-surface-container-lowest rounded-2xl tonal-elevation-1 hover:tonal-elevation-2 transition-all group">
+                        <div
+                            class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">quiz</span>
+                        </div>
+                        <h3 class="font-headline-sm text-headline-sm mb-2">Doubt Solving</h3>
+                        <p class="text-on-surface-variant font-body-sm">Dedicated 1-on-1 doubt clearing sessions and
+                            24/7 support through our mobile app.</p>
+                    </div>
+                    <div
+                        class="p-8 bg-surface-container-lowest rounded-2xl tonal-elevation-1 hover:tonal-elevation-2 transition-all group">
+                        <div
+                            class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">play_circle</span>
+                        </div>
+                        <h3 class="font-headline-sm text-headline-sm mb-2">Recorded Lectures</h3>
+                        <p class="text-on-surface-variant font-body-sm">Never miss a class with high-definition
+                            recordings available for all sessions instantly.</p>
+                    </div>
+                    <div
+                        class="p-8 bg-surface-container-lowest rounded-2xl tonal-elevation-1 hover:tonal-elevation-2 transition-all group">
+                        <div
+                            class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">analytics</span>
+                        </div>
+                        <h3 class="font-headline-sm text-headline-sm mb-2">Parent Reports</h3>
+                        <p class="text-on-surface-variant font-body-sm">Comprehensive performance analytics shared with
+                            parents weekly via the portal.</p>
+                    </div>
+                    <div
+                        class="p-8 bg-surface-container-lowest rounded-2xl tonal-elevation-1 hover:tonal-elevation-2 transition-all group">
+                        <div
+                            class="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                            <span class="material-symbols-outlined">psychology</span>
+                        </div>
+                        <h3 class="font-headline-sm text-headline-sm mb-2">Career Guidance</h3>
+                        <p class="text-on-surface-variant font-body-sm">Expert counseling to help students choose the
+                            right career path and university.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Featured Courses -->
+        <section class="py-section-padding bg-surface-container-low">
+            <div class="max-w-container-max-width mx-auto px-margin-desktop">
+                <div class="flex justify-between items-end mb-16">
+                    <div class="space-y-4">
+                        <h2 class="font-headline-lg text-headline-lg">Our Flagship Programs</h2>
+                        <p class="text-on-surface-variant font-body-md">Targeted curriculums for competitive success.
+                        </p>
+                    </div>
+                    <button class="text-primary font-label-md text-label-md flex items-center gap-2 hover:underline">
+                        View All Courses <span class="material-symbols-outlined">arrow_forward</span>
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+                    <!-- Course Card 1 -->
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden tonal-elevation-1 hover:tonal-elevation-2 transition-all flex flex-col h-full">
+                        <div class="h-56 relative">
+                            <img class="w-full h-full object-cover"
+                                data-alt="A clean, focused close-up of advanced physics and mathematics textbooks, a high-end calculator, and detailed engineering diagrams on a light gray desk. The lighting is crisp and professional, symbolizing the rigor of IIT-JEE preparation. Premium corporate educational aesthetic with a Royal Blue and white color scheme."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuABliJUPNLsXNNIKxBsI9ck6saKfTdJ6Pro98ILMijK5W2y7NPOL4ItIOP9bT0Z_jfXTqD1tBlnbKxcuhQYjL0XrG4KJDiJcskC2y1XBOCokxl3CiQ4_CTeBFilk_fBWvQA2AnG1xHdsxqLOtDUuWgMF1ytKzV6EWRP9LNyzFalXA7sBkd5P2fBXBkEbRtl7sIKB849QKVkI7AgMlgs5tGXFg3NdLLRNJwDzgwCtmZO3yTSPpjM7ab3OuMZ66j2u-OxTrKJ0vvijg" />
+                            <div
+                                class="absolute top-4 right-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                                Top Rated</div>
+                        </div>
+                        <div class="p-8 space-y-6 flex-grow flex flex-col">
+                            <div>
+                                <div class="flex items-center justify-between gap-3 mb-2">
+                                    <h3 class="font-headline-md text-headline-md">IIT-JEE (Main + Adv)</h3>
+                                </div>
+                                <div class="flex gap-4 text-on-surface-variant font-label-sm text-label-sm">
+                                    <span class="flex items-center gap-1"><span
+                                            class="material-symbols-outlined text-sm">calendar_today</span> 2
+                                        Years</span>
+                                    <span class="flex items-center gap-1"><span
+                                            class="material-symbols-outlined text-sm">laptop_mac</span> Hybrid
+                                        Mode</span>
+                                </div>
+                            </div>
+                            <p class="text-on-surface-variant font-body-sm flex-grow">Comprehensive coaching for
+                                engineering aspirants with focus on concept clarity and problem-solving speed.</p>
+                            <div
+                                class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 flex items-center justify-between">
+                                <span class="text-sm font-medium text-on-surface-variant">Course Fee</span>
+                                <span class="text-primary font-semibold text-lg">₹18,999</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <a href="../auth_elitecoaching_institute/code.html?mode=register"
+                                    class="group flex-1 bg-primary text-white py-3 rounded-xl font-label-md text-label-md text-center shadow-sm relative overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:bg-primary/95 active:scale-95"><span
+                                        class="relative z-10">Buy Now</span><span
+                                        class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-700"></span></a>
+                                <a href="../our_courses_elitecoaching_institute/code.html"
+                                    class="group flex-1 border-2 border-primary text-primary py-3 rounded-xl font-label-md text-label-md text-center shadow-sm relative overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg hover:bg-primary hover:text-white active:scale-95"><span
+                                        class="relative z-10">Course Details</span><span
+                                        class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-700"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Course Card 2 -->
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden tonal-elevation-1 hover:tonal-elevation-2 transition-all flex flex-col h-full">
+                        <div class="h-56 relative">
+                            <img class="w-full h-full object-cover"
+                                data-alt="A professional medical study environment showing a stethoscope resting on a high-resolution biology textbook, with realistic anatomical models in a softly blurred background. Bright, clinical yet warm lighting. Minimalist workspace aesthetic emphasizing excellence in NEET preparation. Dominant white and soft blue tones."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfxEyvETUdFvKw8UqjpSz7D4ZuFh_39Evl2k8ah-5ijreYhU9EJGxtV61doqgioPEkr9yeDTxwMQfhx5N9Ez6VpBBvuiS8j3_Ymb4JdzihFXW8QOPzCTglYJPRlvv2P6r2Pa5ScPr5hHBM4HT-NebnEtaKiIT5ulTNe_IFSi0FvPguVMNb3TkbptwzjTwkQ2KwbbxuMF3tOupFqOg7yQtQZKtSpH7wkbEdl7mh0dvraCUcrJWf-xBotxu7wjcMdO3B0wkQ7PR0hQ" />
+                            <div
+                                class="absolute top-4 right-4 bg-tertiary text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                                Enroll Now</div>
+                        </div>
+                        <div class="p-8 space-y-6 flex-grow flex flex-col">
+                            <div>
+                                <div class="flex items-center justify-between gap-3 mb-2">
+                                    <h3 class="font-headline-md text-headline-md">NEET (Medical)</h3>
+                                </div>
+                                <div class="flex gap-4 text-on-surface-variant font-label-sm text-label-sm">
+                                    <span class="flex items-center gap-1"><span
+                                            class="material-symbols-outlined text-sm">calendar_today</span> 2
+                                        Years</span>
+                                    <span class="flex items-center gap-1"><span
+                                            class="material-symbols-outlined text-sm">school</span> Offline Focus</span>
+                                </div>
+                            </div>
+                            <p class="text-on-surface-variant font-body-sm flex-grow">Deep-dive into Biology, Physics,
+                                and Chemistry with expert doctors and specialized medical faculty.</p>
+                            <div
+                                class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 flex items-center justify-between">
+                                <span class="text-sm font-medium text-on-surface-variant">Course Fee</span>
+                                <span class="text-primary font-semibold text-lg">₹15,499</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <a href="../auth_elitecoaching_institute/code.html?mode=register"
+                                    class="group flex-1 bg-primary text-white py-3 rounded-xl font-label-md text-label-md text-center shadow-sm relative overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:bg-primary/95 active:scale-95"><span
+                                        class="relative z-10">Buy Now</span><span
+                                        class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-700"></span></a>
+                                <a href="../our_courses_elitecoaching_institute/code.html"
+                                    class="group flex-1 border-2 border-primary text-primary py-3 rounded-xl font-label-md text-label-md text-center shadow-sm relative overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg hover:bg-primary hover:text-white active:scale-95"><span
+                                        class="relative z-10">Course Details</span><span
+                                        class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-700"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Course Card 3 -->
+                    <div
+                        class="bg-white rounded-2xl overflow-hidden tonal-elevation-1 hover:tonal-elevation-2 transition-all flex flex-col h-full">
+                        <div class="h-56 relative">
+                            <img class="w-full h-full object-cover"
+                                data-alt="Bright and vibrant middle-school learning setup with colorful educational props, a clean laptop, and structured notebooks. Professional studio lighting, airy and motivating atmosphere. The visual represents early foundation building for competitive exams. Modern corporate style with a balanced color palette."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPURbimEbayL8s3-_1_3AF2EcJxymhMaRfP0RrmvADMBD8Cr-kZtPoOj_PqkLZFTpMjyNquUWcSOCsMVywRzzNksgHI-Lv3dkd6N0FF3p3mNETfeGxxcTDudF4WLkSvv_f6dVAzuOQBcoX_5tBWhKgbQ0HdaEB96vaP2H9caIE1Ui0Xy9z2Y3YyDLyKW58N2CBlViWl306KYeQC9LiYj7G_8lmO7UBdrrmQQlhL4CVz128x8le8DLRyNPKrdvm2ZqWcMhy87cXRw" />
+                        </div>
+                        <div class="p-8 space-y-6 flex-grow flex flex-col">
+                            <div>
+                                <div class="flex items-center justify-between gap-3 mb-2">
+                                    <h3 class="font-headline-md text-headline-md">Foundation (Class 8-10)</h3>
+                                </div>
+                                <div class="flex gap-4 text-on-surface-variant font-label-sm text-label-sm">
+                                    <span class="flex items-center gap-1"><span
+                                            class="material-symbols-outlined text-sm">calendar_today</span> 1-3
+                                        Years</span>
+                                    <span class="flex items-center gap-1"><span
+                                            class="material-symbols-outlined text-sm">devices_other</span>
+                                        Flexible</span>
+                                </div>
+                            </div>
+                            <p class="text-on-surface-variant font-body-sm flex-grow">Nurturing young minds with strong
+                                fundamentals in Science and Math for early competitive edge.</p>
+                            <div
+                                class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 flex items-center justify-between">
+                                <span class="text-sm font-medium text-on-surface-variant">Course Fee</span>
+                                <span class="text-primary font-semibold text-lg">₹7,999</span>
+                            </div>
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <a href="../auth_elitecoaching_institute/code.html?mode=register"
+                                    class="group flex-1 bg-primary text-white py-3 rounded-xl font-label-md text-label-md text-center shadow-sm relative overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:bg-primary/95 active:scale-95"><span
+                                        class="relative z-10">Buy Now</span><span
+                                        class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-700"></span></a>
+                                <a href="../our_courses_elitecoaching_institute/code.html"
+                                    class="group flex-1 border-2 border-primary text-primary py-3 rounded-xl font-label-md text-label-md text-center shadow-sm relative overflow-hidden transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-lg hover:bg-primary hover:text-white active:scale-95"><span
+                                        class="relative z-10">Course Details</span><span
+                                        class="absolute inset-0 bg-gradient-to-r from-white/0 via-white/15 to-white/0 translate-x-[-120%] group-hover:translate-x-[120%] transition-transform duration-700"></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Top Results -->
+        <section class="py-section-padding bg-white overflow-hidden">
+            <div class="max-w-container-max-width mx-auto px-margin-desktop">
+                <div class="text-center mb-16 space-y-4">
+                    <h2 class="font-headline-lg text-headline-lg">Our Proud Achievers</h2>
+                    <p class="text-on-surface-variant font-body-md">Celebrating the top rankers of 2023-24 exams.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                    <!-- Ranker -->
+                    <div class="space-y-4 text-center group">
+                        <div class="relative inline-block">
+                            <div
+                                class="absolute inset-0 bg-primary rounded-full scale-105 opacity-0 group-hover:opacity-10 transition-opacity">
+                            </div>
+                            <img class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-surface-container-high object-cover mx-auto"
+                                data-alt="A high-quality studio portrait of a smiling young male student wearing a neat professional polo shirt, looking confident and successful. Clean white background, professional lighting. The aesthetic is academic, trustworthy, and elite. High resolution and modern."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgBmXEM2lUmOS8CCvLyc0nlDf377FiD1ESN9rC3DEgfh5Nz2j65mFFqXz9tjStTArPRoaxq0QlPIZ-Zge9l-BGPwZld0HyuY-n5q2wT3gBjINWf49XMPxIEtAEZhtxl4p1aH1EKST3Vaiza50PDE9JnC2Y0R6mvSJb0tAbUoUUt6KOZNReCU23LBPX3DPeDrkdq5WDK91E9mWZ9o5WAaeYBR96S78vxPidZ6SWJm9uF3LL84Wan6xmBxz3jtB29CGYVipq5UxHDQ" />
+                            <div
+                                class="absolute bottom-0 right-0 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full border-2 border-white">
+                                AIR 12</div>
+                        </div>
+                        <div>
+                            <h4 class="font-headline-sm text-headline-sm text-primary">Aditya Sharma</h4>
+                            <p class="text-on-surface-variant font-label-sm text-label-sm">JEE Advanced 2023</p>
+                            <p class="text-secondary font-bold">99.8% Tile</p>
+                        </div>
+                    </div>
+                    <!-- Ranker 2 -->
+                    <div class="space-y-4 text-center group">
+                        <div class="relative inline-block">
+                            <img class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-surface-container-high object-cover mx-auto"
+                                data-alt="A professional studio headshot of a brilliant young female student with a confident smile, appearing motivated and accomplished. Minimalist light gray background, soft key lighting. Representing academic excellence and high rankings. Clean, crisp corporate portrait."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ9bLROyCGP-fxexJlGlh267aBr843_IMpf5kYN5IQQ66Ey4WKpHM7YuHTQl-U0rGdgSF6B6Cq8Xy0bXiLJZRL0yZwNLUbO65NEyNaLery-Md7ZHOO3NfAWLxXLorvmtrhXLqWRonZJhJQ-88DT5TzSbgrC3rYF-BQ8Ced4RhAsdBi-SBSJ-Hjjr2UkYAx7i7156MV79xO0fHOhbv-zVJGBQT1uyHUm9xO8Hod56IJJqmg1zcSLpRDxbYq2eZEihG3V6aodHULJg" />
+                            <div
+                                class="absolute bottom-0 right-0 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full border-2 border-white">
+                                AIR 45</div>
+                        </div>
+                        <div>
+                            <h4 class="font-headline-sm text-headline-sm text-primary">Priya Patel</h4>
+                            <p class="text-on-surface-variant font-label-sm text-label-sm">NEET 2023</p>
+                            <p class="text-secondary font-bold">715 / 720</p>
+                        </div>
+                    </div>
+                    <!-- Ranker 3 -->
+                    <div class="space-y-4 text-center group">
+                        <div class="relative inline-block">
+                            <img class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-surface-container-high object-cover mx-auto"
+                                data-alt="Professional portrait of a successful young male student in a bright educational setting, conveying intelligence and achievement. Bright and high-key lighting, focused look. Representing the top tier of academic performers at an elite coaching institute."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTwfUZL6igJwHcD41WF6v-02v3FJiKbqA0Jw5EAtLKqDXqdOzhkvPpBg-n2NIoaKD4NkRi1dYUCTjxH-7KqouqsnjIjFUUaJLKr2RRRDClx49tO2fye_ANnL2jDjq4Z7pDHCDmwUfz5HKcqm2rqP4SXOz1ltOv7MxNHwj-oC-RopSqtnbhbdMrclvxbvPclaCe45dG8nXgs0rNmJe09xoU4kkMOquMc0w_WO5gwge1t1Vr5IuZxp8IQgx04V80QB6yAetSRANZMw" />
+                            <div
+                                class="absolute bottom-0 right-0 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full border-2 border-white">
+                                AIR 88</div>
+                        </div>
+                        <div>
+                            <h4 class="font-headline-sm text-headline-sm text-primary">Rohan Gupta</h4>
+                            <p class="text-on-surface-variant font-label-sm text-label-sm">JEE Main 2024</p>
+                            <p class="text-secondary font-bold">99.95% Tile</p>
+                        </div>
+                    </div>
+                    <!-- Ranker 4 -->
+                    <div class="space-y-4 text-center group">
+                        <div class="relative inline-block">
+                            <img class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-surface-container-high object-cover mx-auto"
+                                data-alt="A high-end, friendly studio portrait of a bright young female student, showcasing confidence and academic triumph. Clean background, soft natural lighting, high-quality professional photography style. Consistent with an elite brand identity."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUVDzK24tg7cd1oGzvquQftmBG71ATJQZ7hocJd7dqnj5Gqg541XGDXDE5nbMX6dILksjc6isEVAVBOQ7NQdUtqDlR5PrzB7jfZqFM8tb5VXeurJP0Ha_p2G3wvmyoMLytltHiTqeM68eCTjD3iZRGKd63hzjIO_xEsyCCl3O3Px3PB8zcaNspbc5S-Pbe74bnK81o9MNnHTz5cQ1DotyWe_U6bo6k9a8JJXBcdE0nu5hNUByRoNfyZY6Fx7gsPRFyV-mhHp9EIw" />
+                            <div
+                                class="absolute bottom-0 right-0 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full border-2 border-white">
+                                AIR 102</div>
+                        </div>
+                        <div>
+                            <h4 class="font-headline-sm text-headline-sm text-primary">Ananya Singh</h4>
+                            <p class="text-on-surface-variant font-label-sm text-label-sm">NEET 2023</p>
+                            <p class="text-secondary font-bold">708 / 720</p>
+                        </div>
+                    </div>
+                    <!-- Ranker 5 -->
+                    <div class="space-y-4 text-center group">
+                        <div class="relative inline-block">
+                            <img class="w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-surface-container-high object-cover mx-auto"
+                                data-alt="Clear studio headshot of a high-achieving young male student, looking forward-thinking and ready for success. Natural, bright lighting, minimalist aesthetic. Portraying a top-performing student from a premium coaching center."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9pjW9MzGBYBp_5zLYDZ_pghWkyIkO1pfFA6jTQfBOIqPXBHP7POSdyaxBOzmD3equkMRp42DA9nU05-9sI35tY7dNGqHa4aSa3xscJvc6qBKlDVpur5sWHXzzZVvFOOgSGPo1VI3hjYpBxf88be2dNW2OYLxn8kgXP4eFV6hErsFPv4OdUeJyU4LAtOT9shyKotEWyABEEBAaCUh9tGkODpFU3enyMZAiaUptCJycEDeMr8abACbNU7BXQpAyxPbPtXCE_dQr0g" />
+                            <div
+                                class="absolute bottom-0 right-0 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-full border-2 border-white">
+                                AIR 156</div>
+                        </div>
+                        <div>
+                            <h4 class="font-headline-sm text-headline-sm text-primary">Vikram Mehra</h4>
+                            <p class="text-on-surface-variant font-label-sm text-label-sm">JEE Advanced 2023</p>
+                            <p class="text-secondary font-bold">99.5% Tile</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Testimonials -->
+        <section class="py-section-padding bg-surface-container-high">
+            <div class="max-w-container-max-width mx-auto px-margin-desktop">
+                <div class="text-center mb-16">
+                    <h2 class="font-headline-lg text-headline-lg">What Our Community Says</h2>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+                    <div class="bg-white p-8 rounded-2xl tonal-elevation-1 space-y-6">
+                        <div class="flex gap-1 text-primary">
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                        </div>
+                        <p class="text-on-surface font-body-md italic text-on-surface-variant">"The level of personal
+                            attention my daughter received at EliteCoaching was phenomenal. The weekly test analysis
+                            helped her focus on her weaknesses effectively."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-slate-200 rounded-full"></div>
+                            <div>
+                                <p class="font-label-md text-label-md">Mrs. Kavita Verma</p>
+                                <p class="text-on-surface-variant text-[12px]">Parent (IIT-JEE Batch)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl tonal-elevation-1 space-y-6">
+                        <div class="flex gap-1 text-primary">
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                        </div>
+                        <p class="text-on-surface font-body-md italic text-on-surface-variant">"I cleared NEET with a
+                            top rank solely because of the expert guidance and the comprehensive study material provided
+                            here. Highly recommended!"</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-slate-200 rounded-full"></div>
+                            <div>
+                                <p class="font-label-md text-label-md">Siddharth Khanna</p>
+                                <p class="text-on-surface-variant text-[12px]">Student (MBBS '27)</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-8 rounded-2xl tonal-elevation-1 space-y-6">
+                        <div class="flex gap-1 text-primary">
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="material-symbols-outlined"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                        </div>
+                        <p class="text-on-surface font-body-md italic text-on-surface-variant">"The hybrid mode is a
+                            lifesaver. Even when I couldn't attend physical classes, I never felt I was missing out
+                            thanks to the high-quality recorded lectures."</p>
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-slate-200 rounded-full"></div>
+                            <div>
+                                <p class="font-label-md text-label-md">Rahul Deshmukh</p>
+                                <p class="text-on-surface-variant text-[12px]">Student (Foundation)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Admission Process -->
+        <section class="py-section-padding bg-white">
+            <div class="max-w-container-max-width mx-auto px-margin-desktop">
+                <div class="text-center mb-16 space-y-4">
+                    <h2 class="font-headline-lg text-headline-lg">Simple Admission Journey</h2>
+                    <p class="text-on-surface-variant font-body-md">Your path to success in four easy steps.</p>
+                </div>
+                <div class="relative grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <!-- Connector line for desktop -->
+                    <div class="hidden md:block absolute top-12 left-0 w-full h-0.5 bg-surface-container-high -z-10">
+                    </div>
+                    <!-- Steps -->
+                    <div class="flex flex-col items-center text-center space-y-6">
+                        <div
+                            class="w-24 h-24 bg-white rounded-full border-4 border-primary flex items-center justify-center text-primary font-bold text-2xl tonal-elevation-1">
+                            01</div>
+                        <div>
+                            <h3 class="font-headline-sm text-headline-sm">Register</h3>
+                            <p class="text-on-surface-variant font-body-sm px-4">Fill out the online application or
+                                visit our center.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center text-center space-y-6">
+                        <div
+                            class="w-24 h-24 bg-white rounded-full border-4 border-slate-100 flex items-center justify-center text-slate-300 font-bold text-2xl tonal-elevation-1">
+                            02</div>
+                        <div>
+                            <h3 class="font-headline-sm text-headline-sm">Counseling</h3>
+                            <p class="text-on-surface-variant font-body-sm px-4">Meet our experts for personalized
+                                career guidance.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center text-center space-y-6">
+                        <div
+                            class="w-24 h-24 bg-white rounded-full border-4 border-slate-100 flex items-center justify-center text-slate-300 font-bold text-2xl tonal-elevation-1">
+                            03</div>
+                        <div>
+                            <h3 class="font-headline-sm text-headline-sm">Admission</h3>
+                            <p class="text-on-surface-variant font-body-sm px-4">Complete the paperwork and select your
+                                batch.</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-center text-center space-y-6">
+                        <div
+                            class="w-24 h-24 bg-white rounded-full border-4 border-slate-100 flex items-center justify-center text-slate-300 font-bold text-2xl tonal-elevation-1">
+                            04</div>
+                        <div>
+                            <h3 class="font-headline-sm text-headline-sm">Start</h3>
+                            <p class="text-on-surface-variant font-body-sm px-4">Begin your transformation and aim for
+                                the top.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Contact Preview -->
+        <section class="py-section-padding bg-surface-container-low">
+            <div class="max-w-container-max-width mx-auto px-margin-desktop">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                    <div class="space-y-10">
+                        <div>
+                            <h2 class="font-headline-lg text-headline-lg mb-4">Get in Touch</h2>
+                            <p class="text-on-surface-variant font-body-md">Have questions? We're here to help you
+                                navigate your educational future.</p>
+                        </div>
+                        <div class="space-y-6">
+                            <div class="flex items-start gap-4">
+                                <span class="material-symbols-outlined text-primary mt-1">location_on</span>
+                                <div>
+                                    <h4 class="font-label-md text-label-md">Main Campus</h4>
+                                    <p class="text-on-surface-variant font-body-sm">123 Education Drive, Academic
+                                        Square,<br />New Delhi, 110001</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <span class="material-symbols-outlined text-primary mt-1">call</span>
+                                <div>
+                                    <h4 class="font-label-md text-label-md">Call Us</h4>
+                                    <p class="text-on-surface-variant font-body-sm">+91 1800 234 5678 (Toll
+                                        Free)<br />+91 98765 43210</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <span class="material-symbols-outlined text-primary mt-1">mail</span>
+                                <div>
+                                    <h4 class="font-label-md text-label-md">Email Support</h4>
+                                    <p class="text-on-surface-variant font-body-sm">
+                                        admissions@elitecoaching.com<br />info@elitecoaching.com</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h-64 rounded-2xl overflow-hidden shadow-sm">
+                            <div class="w-full h-full bg-slate-200 flex items-center justify-center relative">
+                                <div class="absolute inset-0 grayscale contrast-125 opacity-70"
+                                    data-location="New Delhi" style="">
+                                    <img class="w-full h-full object-cover"
+                                        data-alt="A clean, minimalist architectural map view of a modern urban district, focusing on academic and institutional zones. Light mode aesthetic with soft gray roads and subtle blue institutional markers. Professional and structured."
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJQ7lWE4t3bzRtnV34RBfC7_LhJyE4wKqykUF4ej0_UZryKbbPkDiKEDHrAcqlQ5tF835GClHd1tbjX792zJULfWbAbndjcFLCC9ZwdW6wPCYQTaJGK2Cs9_AmxdlQEF4n6S9pwZGewNy1tPiRD1uqAVp8mtvEdYkmMHgbj2L2U4gdVyCL_wRCs8Bqsa_NWfPbWVI9WVQzeyfQF2ky5Zr4YGsJS2F_Q1RzlbKhq7itT81Tc_zFl5FYw05gXZkm6_igDGzefyHwZA" />
+                                </div>
+                                <div
+                                    class="relative z-10 bg-white p-4 rounded-xl tonal-elevation-2 flex items-center gap-3">
+                                    <span class="material-symbols-outlined text-primary">location_on</span>
+                                    <span class="font-label-md text-label-md">Visit Our Center</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-10 rounded-[32px] tonal-elevation-1">
+                        <form class="space-y-6">
+                            <h3 class="font-headline-md text-headline-md mb-8">Quick Inquiry</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="font-label-sm text-label-sm block text-on-surface-variant">Full
+                                        Name</label>
+                                    <input
+                                        class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all outline-none"
+                                        placeholder="John Doe" type="text" />
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="font-label-sm text-label-sm block text-on-surface-variant">Phone
+                                        Number</label>
+                                    <input
+                                        class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all outline-none"
+                                        placeholder="+91" type="tel" />
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="font-label-sm text-label-sm block text-on-surface-variant">Interested
+                                    Course</label>
+                                <select
+                                    class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all outline-none appearance-none">
+                                    <option>Select a course</option>
+                                    <option>IIT-JEE</option>
+                                    <option>NEET</option>
+                                    <option>Foundation</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="font-label-sm text-label-sm block text-on-surface-variant">Message</label>
+                                <textarea
+                                    class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 focus:border-primary focus:ring-2 focus:ring-primary/10 transition-all outline-none h-32"
+                                    placeholder="Tell us about your goals..."></textarea>
+                            </div>
+                            <button
+                                class="w-full bg-primary text-on-primary py-4 rounded-xl font-label-md text-label-md shadow-sm hover:shadow-lg hover:bg-primary/95 transition-all active:scale-95">Submit
+                                Inquiry</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-surface-container-high dark:bg-surface-container-high full-width bottom-0">
+        <div
+            class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-section-padding max-w-container-max-width mx-auto">
+            <div class="space-y-6">
+                <div class="text-headline-sm font-headline-sm font-bold text-on-surface dark:text-on-surface">
+                    EliteCoaching</div>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">Empowering students through premium
+                    education and personalized guidance for over a decade. Join the elite league today.</p>
+                <div class="flex gap-4">
+                    <a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100"
+                        href="#">
+                        <span class="material-symbols-outlined text-sm">public</span>
+                    </a>
+                    <a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100"
+                        href="#">
+                        <span class="material-symbols-outlined text-sm">video_library</span>
+                    </a>
+                    <a class="w-10 h-10 rounded-full border border-outline-variant flex items-center justify-center text-on-surface-variant hover:text-primary transition-colors opacity-80 hover:opacity-100"
+                        href="#">
+                        <span class="material-symbols-outlined text-sm">podcasts</span>
+                    </a>
+                </div>
+            </div>
+            <div class="space-y-6">
+                <h4 class="font-label-md text-label-md uppercase tracking-wider text-on-surface">Institution</h4>
+                <ul class="space-y-3">
+                    <li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all"
+                            href="../about_us_elitecoaching_institute/code.html">About</a></li>
+                    <li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all"
+                            href="#">Careers</a></li>
+                    <li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all"
+                            href="#">Team</a></li>
+                    <li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all"
+                            href="../faculty_results_elitecoaching_institute/code.html">Faculty</a></li>
+                </ul>
+            </div>
+            <div class="space-y-6">
+                <h4 class="font-label-md text-label-md uppercase tracking-wider text-on-surface">Academics</h4>
+                <ul class="space-y-3">
+                    <li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all"
+                            href="../our_courses_elitecoaching_institute/code.html">Course Categories</a></li>
+                    <li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all"
+                            href="#">Admission Process</a></li>
+                    <li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all"
+                            href="#">Fee Structure</a></li>
+                    <li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all"
+                            href="#">Scholarships</a></li>
+                </ul>
+            </div>
+            <div class="space-y-6">
+                <h4 class="font-label-md text-label-md uppercase tracking-wider text-on-surface">Support</h4>
+                <ul class="space-y-3">
+                    <li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all"
+                            href="../contact_elitecoaching_institute/code.html">Contact Info</a></li>
+                    <li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all"
+                            href="#">Privacy Policy</a></li>
+                    <li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all"
+                            href="#">Terms</a></li>
+                    <li><a class="font-body-sm text-body-sm text-on-surface-variant hover:text-primary underline transition-all"
+                            href="#">Sitemap</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="border-t border-outline-variant/30 py-8 text-center px-margin-desktop">
+            <p class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Elite Coaching Institute. All rights
+                reserved.</p>
+        </div>
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

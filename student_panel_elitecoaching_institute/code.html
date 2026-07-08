@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EliteCoaching Institute | Student Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand-panel">
+        <div class="brand-mark">EC</div>
+        <div>
+          <p class="brand-title">EliteCoaching</p>
+          <p class="brand-subtitle">Student Panel</p>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#dashboard" class="sidebar-link active"><span class="material-symbols-outlined">dashboard</span>Dashboard</a>
+        <a href="#courses" class="sidebar-link"><span class="material-symbols-outlined">school</span>My Courses</a>
+        <a href="#live-classes" class="sidebar-link"><span class="material-symbols-outlined">live_tv</span>Live Classes</a>
+        <a href="#recorded" class="sidebar-link"><span class="material-symbols-outlined">video_library</span>Recorded Lectures</a>
+        <a href="#mock-tests" class="sidebar-link"><span class="material-symbols-outlined">history_edu</span>Mock Tests</a>
+        <a href="#analytics" class="sidebar-link"><span class="material-symbols-outlined">insights</span>Performance Analytics</a>
+        <a href="#planner" class="sidebar-link"><span class="material-symbols-outlined">event_note</span>Study Planner</a>
+        <a href="#resources" class="sidebar-link"><span class="material-symbols-outlined">menu_book</span>Resources</a>
+        <a href="#doubts" class="sidebar-link"><span class="material-symbols-outlined">help_center</span>Doubt Center</a>
+        <a href="#leaderboard" class="sidebar-link"><span class="material-symbols-outlined">leaderboard</span>Leaderboard</a>
+        <a href="#fees" class="sidebar-link"><span class="material-symbols-outlined">payments</span>Fees & Payments</a>
+        <a href="#notifications" class="sidebar-link"><span class="material-symbols-outlined">notifications</span>Notifications</a>
+        <a href="#profile" class="sidebar-link"><span class="material-symbols-outlined">person</span>Profile</a>
+        <button class="sidebar-link logout-btn"><span class="material-symbols-outlined">logout</span>Logout</button>
+      </nav>
+    </aside>
+
+    <div class="page-content">
+      <header class="topbar">
+        <div class="topbar-left">
+          <div>
+            <p class="eyebrow">Welcome back,</p>
+            <h1>Priya Sharma</h1>
+          </div>
+          <div class="quote-card">
+            <span class="material-symbols-outlined">auto_awesome</span>
+            <div>
+              <p class="quote-label">Daily Motivation</p>
+              <p class="quote-text">Small steps every day lead to big exam victories.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="icon-btn"><span class="material-symbols-outlined">search</span></button>
+          <button id="themeToggle" class="icon-btn" aria-label="Toggle theme"><span class="material-symbols-outlined">dark_mode</span></button>
+          <button class="icon-btn notification-btn">
+            <span class="material-symbols-outlined">notifications</span>
+            <span class="badge">4</span>
+          </button>
+          <div class="profile-pill">
+            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80" alt="student avatar" />
+            <div>
+              <p>Priya Sharma</p>
+              <span>Elite Learner</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="dashboard-grid">
+        <section id="dashboard" class="dashboard-panel">
+          <div class="section-grid hero-grid">
+            <div class="card hero-card">
+              <div class="hero-meta">
+                <div>
+                  <span class="eyebrow">Good afternoon</span>
+                  <h2>Ready for another productive study session?</h2>
+                </div>
+                <button class="primary-btn">Start Today's Plan</button>
+              </div>
+              <div class="stats-grid">
+                <article class="stat-card">
+                  <span class="stat-value">6</span>
+                  <p>Enrolled Courses</p>
+                </article>
+                <article class="stat-card">
+                  <span class="stat-value">28</span>
+                  <p>Completed Lectures</p>
+                </article>
+                <article class="stat-card">
+                  <span class="stat-value">2</span>
+                  <p>Upcoming Classes</p>
+                </article>
+                <article class="stat-card">
+                  <span class="stat-value">5</span>
+                  <p>Pending Assignments</p>
+                </article>
+              </div>
+            </div>
+
+            <div class="card mini-grid">
+              <div class="mini-card accent-card">
+                <p>Study Streak</p>
+                <h3>9 Days</h3>
+                <div class="progress-pill"><span>Keep it going</span></div>
+              </div>
+              <div class="mini-card countdown-card">
+                <p>Exam Countdown</p>
+                <div id="countdownTimer" class="countdown-grid">
+                  <div><span>12</span><small>Days</small></div>
+                  <div><span>07</span><small>Hours</small></div>
+                  <div><span>42</span><small>Minutes</small></div>
+                  <div><span>19</span><small>Seconds</small></div>
+                </div>
+              </div>
+              <div class="mini-card live-card">
+                <p>Next Live Class</p>
+                <h3>Physics: Motion & Forces</h3>
+                <span>Starts in 38 mins</span>
+                <button class="secondary-btn">Join Now</button>
+              </div>
+              <div class="mini-card announcement-card">
+                <p>Latest Announcement</p>
+                <h3>New doubt support group launched</h3>
+                <span>Check your inbox for updates</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-grid content-grid">
+            <div class="card continue-card">
+              <div class="section-header">
+                <div>
+                  <p class="eyebrow">Continue Learning</p>
+                  <h3>Organic Chemistry: Reaction Mechanisms</h3>
+                </div>
+                <span class="tag">38% complete</span>
+              </div>
+              <p>Last watched: Lecture 7 — Electrophilic Substitution</p>
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 38%"></div>
+              </div>
+              <div class="card-actions">
+                <button class="primary-btn">Resume Lecture</button>
+                <button class="icon-text-btn"><span class="material-symbols-outlined">play_circle</span>Watch again</button>
+              </div>
+            </div>
+
+            <div class="card chart-card">
+              <div class="section-header">
+                <div>
+                  <p class="eyebrow">Weekly Focus</p>
+                  <h3>Weekly Study Hours</h3>
+                </div>
+                <span class="tag secondary">7 hrs goal</span>
+              </div>
+              <div class="chart-line">
+                <div class="chart-bar" style="height: 55%" title="Mon 2.5h"><span>2.5h</span></div>
+                <div class="chart-bar" style="height: 75%" title="Tue 3.8h"><span>3.8h</span></div>
+                <div class="chart-bar" style="height: 60%" title="Wed 3.2h"><span>3.2h</span></div>
+                <div class="chart-bar" style="height: 90%" title="Thu 4.4h"><span>4.4h</span></div>
+                <div class="chart-bar" style="height: 80%" title="Fri 4.0h"><span>4.0h</span></div>
+                <div class="chart-bar" style="height: 40%" title="Sat 2.0h"><span>2.0h</span></div>
+                <div class="chart-bar" style="height: 70%" title="Sun 3.5h"><span>3.5h</span></div>
+              </div>
+            </div>
+
+            <div class="card progress-card">
+              <div class="section-header">
+                <div>
+                  <p class="eyebrow">Subject Progress</p>
+                  <h3>Focus areas this week</h3>
+                </div>
+              </div>
+              <div class="skill-row">
+                <span>Physics</span>
+                <div class="progress-track small"><div class="progress-fill" style="width: 82%"></div></div>
+                <strong>82%</strong>
+              </div>
+              <div class="skill-row">
+                <span>Chemistry</span>
+                <div class="progress-track small"><div class="progress-fill" style="width: 71%"></div></div>
+                <strong>71%</strong>
+              </div>
+              <div class="skill-row">
+                <span>Mathematics</span>
+                <div class="progress-track small"><div class="progress-fill" style="width: 65%"></div></div>
+                <strong>65%</strong>
+              </div>
+              <div class="skill-row">
+                <span>Biology</span>
+                <div class="progress-track small"><div class="progress-fill" style="width: 59%"></div></div>
+                <strong>59%</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="action-strip card">
+            <button class="accent-btn"><span class="material-symbols-outlined">live_tv</span>Join Live Class</button>
+            <button class="accent-btn"><span class="material-symbols-outlined">quiz</span>Attempt Mock Test</button>
+            <button class="accent-btn"><span class="material-symbols-outlined">download</span>Download Notes</button>
+            <button class="accent-btn"><span class="material-symbols-outlined">chat</span>Ask Doubt</button>
+          </div>
+        </section>
+
+        <section id="courses" class="section-card hidden-section">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">My Courses</p>
+              <h2>Active learning paths</h2>
+            </div>
+            <button class="secondary-btn">View All Courses</button>
+          </div>
+          <div class="course-grid">
+            <article class="course-card">
+              <img class="course-thumb" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80" alt="Physics course" />
+              <div class="course-body">
+                <span class="course-badge">NEET</span>
+                <h3>Advance Physics Masterclass</h3>
+                <div class="course-meta">
+                  <div class="avatar"><img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80" alt="faculty" /></div>
+                  <div>
+                    <p>Dr. A. Verma</p>
+                    <span>30 Lectures</span>
+                  </div>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width: 76%"></div></div>
+                <div class="course-footer">
+                  <span>76% complete</span>
+                  <button class="text-btn">Continue</button>
+                </div>
+              </div>
+            </article>
+            <article class="course-card">
+              <img class="course-thumb" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80" alt="Chemistry course" />
+              <div class="course-body">
+                <span class="course-badge">JEE</span>
+                <h3>Organic Chemistry Essentials</h3>
+                <div class="course-meta">
+                  <div class="avatar"><img src="https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=120&q=80" alt="faculty" /></div>
+                  <div>
+                    <p>Prof. N. Gupta</p>
+                    <span>18 Lectures</span>
+                  </div>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width: 54%"></div></div>
+                <div class="course-footer">
+                  <span>54% complete</span>
+                  <button class="text-btn">Continue</button>
+                </div>
+              </div>
+            </article>
+            <article class="course-card">
+              <img class="course-thumb" src="https://images.unsplash.com/photo-1498079022511-d15614cb1c02?auto=format&fit=crop&w=600&q=80" alt="Biology course" />
+              <div class="course-body">
+                <span class="course-badge">Foundation</span>
+                <h3>Biology Revision Sprint</h3>
+                <div class="course-meta">
+                  <div class="avatar"><img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=120&q=80" alt="faculty" /></div>
+                  <div>
+                    <p>Ms. R. Jain</p>
+                    <span>12 Lectures</span>
+                  </div>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width: 91%"></div></div>
+                <div class="course-footer">
+                  <span>91% complete</span>
+                  <button class="text-btn">Continue</button>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section id="live-classes" class="section-card hidden-section">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">Live Classes</p>
+              <h2>Join upcoming sessions</h2>
+            </div>
+            <button class="secondary-btn">View Schedule</button>
+          </div>
+          <div class="grid analytics-grid-2">
+            <div class="card mini-analytics">
+              <p>Today’s Live Class</p>
+              <h3>Physics: Electrostatics</h3>
+              <span>Start at 5:00 PM</span>
+              <button class="primary-btn">Join Now</button>
+            </div>
+            <div class="card mini-analytics">
+              <p>Next Live Sessions</p>
+              <ul class="notelist">
+                <li>Maths: Calculus Boost – 6:30 PM</li>
+                <li>Chemistry: Aryl Halides – 7:45 PM</li>
+                <li>Biology: Genetics Review – 9:00 PM</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="recorded" class="section-card hidden-section">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">Recorded Lectures</p>
+              <h2>Revise at your pace</h2>
+            </div>
+            <button class="secondary-btn">Browse Library</button>
+          </div>
+          <div class="resource-grid">
+            <article class="resource-card"><span class="material-symbols-outlined">play_circle</span><h4>Physics: Motion Lecture</h4><p>35 min • Completed 4/6</p></article>
+            <article class="resource-card"><span class="material-symbols-outlined">play_circle</span><h4>Chemistry: Organic Basics</h4><p>42 min • In progress</p></article>
+            <article class="resource-card"><span class="material-symbols-outlined">play_circle</span><h4>Biology: Cell Structure</h4><p>28 min • Not started</p></article>
+            <article class="resource-card"><span class="material-symbols-outlined">play_circle</span><h4>Maths: Sequence Practice</h4><p>31 min • Completed</p></article>
+          </div>
+        </section>
+
+        <section id="mock-tests" class="section-card split-grid hidden-section">
+          <div>
+            <div class="section-title-row">
+              <div>
+                <p class="eyebrow">Mock Tests</p>
+                <h2>Performance snapshot</h2>
+              </div>
+              <button class="secondary-btn">Review Reports</button>
+            </div>
+            <div class="analytics-grid">
+              <article class="score-card">
+                <p>Rank</p>
+                <h3>14</h3>
+                <span>Top 3% batch</span>
+              </article>
+              <article class="score-card">
+                <p>Percentile</p>
+                <h3>96.5</h3>
+                <span>Strong consistency</span>
+              </article>
+              <article class="score-card">
+                <p>Accuracy</p>
+                <h3>84%</h3>
+                <span>Target 90%</span>
+              </article>
+              <article class="score-card">
+                <p>Average Speed</p>
+                <h3>1m 32s</h3>
+                <span>Per question</span>
+              </article>
+            </div>
+          </div>
+          <div class="table-panel">
+            <div class="table-header">
+              <p class="eyebrow">Test history</p>
+              <button class="text-btn">New Mock Test</button>
+            </div>
+            <table>
+              <thead>
+                <tr><th>Test</th><th>Date</th><th>Score</th><th>Rank</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Full Syllabus NEET</td><td>Jun 12</td><td>82%</td><td>14</td><td class="status success">Completed</td></tr>
+                <tr><td>Physics Booster</td><td>Jun 05</td><td>75%</td><td>22</td><td class="status warning">Review</td></tr>
+                <tr><td>Chemistry Speed Test</td><td>May 28</td><td>88%</td><td>10</td><td class="status success">Completed</td></tr>
+                <tr><td>Biology Mock Drill</td><td>May 21</td><td>79%</td><td>18</td><td class="status warning">Practice</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="analytics" class="section-card hidden-section">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">Performance Analytics</p>
+              <h2>Insight-driven growth</h2>
+            </div>
+            <button class="secondary-btn">Download Insights</button>
+          </div>
+          <div class="grid analytics-grid-2">
+            <div class="card mini-analytics">
+              <p>Weekly Score Trend</p>
+              <div class="sparkline">
+                <span style="height: 28%"></span>
+                <span style="height: 45%"></span>
+                <span style="height: 62%"></span>
+                <span style="height: 77%"></span>
+                <span style="height: 69%"></span>
+                <span style="height: 83%"></span>
+                <span style="height: 90%"></span>
+              </div>
+            </div>
+            <div class="card mini-analytics">
+              <p>Subject Comparison</p>
+              <div class="progress-track small"><div class="progress-fill" style="width: 87%"></div></div>
+              <p class="caption">Physics vs Chemistry</p>
+              <div class="comparison-row"><span>Physics 87%</span><span>Chemistry 74%</span></div>
+            </div>
+            <div class="card mini-analytics">
+              <p>Accuracy</p>
+              <h3>84%</h3>
+              <div class="progress-track small"><div class="progress-fill" style="width: 84%"></div></div>
+            </div>
+            <div class="card mini-analytics">
+              <p>Improvement</p>
+              <h3>+12%</h3>
+              <span>Compared to last week</span>
+            </div>
+            <div class="card recommendation-card">
+              <p>AI Study Assistant</p>
+              <h3>Recommendation</h3>
+              <ul>
+                <li>Focus on calculus shortcuts for speed.</li>
+                <li>Revise previous mock test weak topics.</li>
+                <li>Attend evening doubt-clearing session.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="planner" class="section-card split-grid hidden-section">
+          <div>
+            <div class="section-title-row">
+              <div>
+                <p class="eyebrow">Study Planner</p>
+                <h2>Daily and weekly goals</h2>
+              </div>
+              <button class="secondary-btn">Edit Planner</button>
+            </div>
+            <div class="planner-grid">
+              <div class="planner-card">
+                <h3>Daily Goals</h3>
+                <ul>
+                  <li><input type="checkbox" checked /> Complete 2 chapters of Physics</li>
+                  <li><input type="checkbox" /> Solve 20 chemistry MCQs</li>
+                  <li><input type="checkbox" /> Review biology diagrams</li>
+                </ul>
+              </div>
+              <div class="planner-card">
+                <h3>Upcoming Exams</h3>
+                <div class="event-row"><strong>NEET Full Mock</strong><span>Jul 15</span></div>
+                <div class="event-row"><strong>JEE Physics Drill</strong><span>Jul 19</span></div>
+                <div class="event-row"><strong>Revision Sprint</strong><span>Jul 22</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="planner-summary card">
+            <div class="section-header">
+              <div>
+                <p class="eyebrow">Productivity Score</p>
+                <h3>89 / 100</h3>
+              </div>
+              <span class="tag">On track</span>
+            </div>
+            <p>You've maintained a strong study pace with balanced review and practice sessions. Keep the momentum through the next exam window.</p>
+            <div class="progress-track"><div class="progress-fill" style="width: 89%"></div></div>
+          </div>
+        </section>
+
+        <section id="resources" class="section-card hidden-section">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">Resources</p>
+              <h2>Notes, PDFs and practice</h2>
+            </div>
+            <div class="filter-row">
+              <input type="search" placeholder="Search resources" />
+              <button class="secondary-btn">Filter</button>
+            </div>
+          </div>
+          <div class="resource-grid">
+            <article class="resource-card"><span class="material-symbols-outlined">description</span><h4>Physics Formula Sheet</h4><p>Download PDF</p></article>
+            <article class="resource-card"><span class="material-symbols-outlined">file_present</span><h4>NEET PYQ Set</h4><p>20 Chapters</p></article>
+            <article class="resource-card"><span class="material-symbols-outlined">library_books</span><h4>Chemistry Notes</h4><p>Organic + Inorganic</p></article>
+            <article class="resource-card"><span class="material-symbols-outlined">play_circle</span><h4>Recorded Sessions</h4><p>10 Videos</p></article>
+          </div>
+        </section>
+
+        <section id="notifications" class="section-card hidden-section">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">Notifications</p>
+              <h2>Recent updates</h2>
+            </div>
+            <button class="secondary-btn">Mark all read</button>
+          </div>
+          <div class="notification-list">
+            <div class="notification-item success">
+              <p><strong>Admission Update:</strong> Your application is approved. Welcome aboard!</p>
+              <span>2 hours ago</span>
+            </div>
+            <div class="notification-item">
+              <p><strong>Mock Test:</strong> Results for Chemistry Speed Test are out.</p>
+              <span>6 hours ago</span>
+            </div>
+            <div class="notification-item warning">
+              <p><strong>Reminder:</strong> Pay installment 3 before Jul 10 to avoid late fees.</p>
+              <span>1 day ago</span>
+            </div>
+          </div>
+        </section>
+
+        <section id="doubts" class="section-card split-grid hidden-section">
+          <div>
+            <div class="section-title-row">
+              <div>
+                <p class="eyebrow">Doubt Center</p>
+                <h2>Ask and resolve quickly</h2>
+              </div>
+              <button class="secondary-btn">New Doubt</button>
+            </div>
+            <div class="doubt-box">
+              <textarea placeholder="Type your doubt here..."></textarea>
+              <div class="doubt-actions">
+                <button class="text-btn"><span class="material-symbols-outlined">image</span>Add Image</button>
+                <button class="primary-btn">Submit</button>
+              </div>
+            </div>
+          </div>
+          <div class="doubt-feed card">
+            <h3>Recent solved doubts</h3>
+            <div class="reply-card">
+              <p><strong>Q:</strong> How to approach rate of reaction problems?</p>
+              <p><strong>A:</strong> Identify the order first and simplify using initial rate equations.</p>
+            </div>
+            <div class="reply-card">
+              <p><strong>Q:</strong> What is the best revision sequence for buffer systems?</p>
+              <p><strong>A:</strong> Start with definitions, follow with examples, then solve 10 practice questions.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="leaderboard" class="section-card leaderboard-card hidden-section">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">Leaderboard</p>
+              <h2>Batch rankings and streaks</h2>
+            </div>
+            <button class="secondary-btn">View Full Board</button>
+          </div>
+          <div class="leaderboard-grid">
+            <div class="leader-card"><h3>Batch Rank</h3><p>14</p></div>
+            <div class="leader-card"><h3>Weekly Rank</h3><p>3</p></div>
+            <div class="leader-card"><h3>Streak</h3><p>9 Days</p></div>
+            <div class="leader-card"><h3>Achievement</h3><p>Top Performer</p></div>
+          </div>
+        </section>
+
+        <section id="fees" class="section-card split-grid hidden-section">
+          <div>
+            <div class="section-title-row">
+              <div>
+                <p class="eyebrow">Fees & Payments</p>
+                <h2>Payment history</h2>
+              </div>
+              <button class="secondary-btn">Download Receipt</button>
+            </div>
+            <div class="table-panel compact">
+              <table>
+                <thead><tr><th>Date</th><th>Amount</th><th>Type</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr><td>May 05</td><td>₹18,000</td><td>Installment 2</td><td class="status success">Paid</td></tr>
+                  <tr><td>Apr 01</td><td>₹18,000</td><td>Installment 1</td><td class="status success">Paid</td></tr>
+                  <tr><td>Jul 10</td><td>₹18,000</td><td>Installment 3</td><td class="status pending">Pending</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="fees-summary card">
+            <p class="eyebrow">Pending Amount</p>
+            <h3>₹18,000</h3>
+            <p>Next installment due in 2 days. Pay online to keep your access uninterrupted.</p>
+            <button class="primary-btn">Pay Now</button>
+          </div>
+        </section>
+
+        <section id="profile" class="section-card profile-panel hidden-section">
+          <div class="section-title-row">
+            <div>
+              <p class="eyebrow">Profile</p>
+              <h2>Your student details</h2>
+            </div>
+            <button class="secondary-btn">Edit Profile</button>
+          </div>
+          <div class="profile-grid">
+            <div class="profile-card">
+              <p>Student Name</p>
+              <h3>Priya Sharma</h3>
+            </div>
+            <div class="profile-card">
+              <p>Enrollment ID</p>
+              <h3>EC-2024-0912</h3>
+            </div>
+            <div class="profile-card">
+              <p>Current Batch</p>
+              <h3>NEET 2025</h3>
+            </div>
+            <div class="profile-card">
+              <p>Assigned Mentor</p>
+              <h3>Dr. Arjun Verma</h3>
+            </div>
+          </div>
+          <div class="profile-actions">
+            <button class="text-btn">Change Password</button>
+            <button class="text-btn">Download ID Card</button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <script src="js/script.js"></script>
+</body>
+</html>
