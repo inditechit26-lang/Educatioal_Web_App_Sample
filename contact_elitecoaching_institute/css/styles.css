@@ -1,0 +1,38 @@
+:root {
+  --primary: #004ac6;
+  --primary-container: #2563eb;
+  --surface: #f7f9fb;
+  --surface-lowest: #ffffff;
+  --text: #191c1e;
+  --muted: #434655;
+  --border: #c3c6d7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(135deg, #f7f9fb 0%, #eef4ff 100%);
+  color: var(--text);
+}
+
+a {
+  text-decoration: none;
+}
+
+#mobileMenu {
+  display: none;
+}
+
+#mobileMenu.open {
+  display: block;
+}
+
+@media (max-width: 767px) {
+  .font-display-lg {
+    font-size: 2.1rem !important;
+    line-height: 2.5rem !important;
+  }
+}

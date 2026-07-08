@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login | Register | EliteCoaching</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <div class="back-link">
+        <a href="../home_elitecoaching_institute/code.html">← Back to Home</a>
+      </div>
+
+      <div class="auth-card">
+        <div class="auth-intro">
+          <p class="eyebrow">EliteCoaching Institute</p>
+          <h1>Welcome back, future achiever.</h1>
+          <p>
+            Create an account or sign in to access student resources, admissions updates,
+            and course details.
+          </p>
+        </div>
+
+        <div class="tab-switcher" role="tablist" aria-label="Authentication mode">
+          <button class="tab-btn active" data-mode="login" type="button">Login</button>
+          <button class="tab-btn" data-mode="register" type="button">Register</button>
+        </div>
+
+        <div id="messageBox" class="message-box" aria-live="polite"></div>
+
+        <form id="loginForm" class="auth-form active-form">
+          <h2>Login</h2>
+          <label>
+            Email
+            <input type="email" id="loginEmail" placeholder="you@example.com" required />
+          </label>
+          <label>
+            Password
+            <input type="password" id="loginPassword" placeholder="Enter password" required />
+          </label>
+          <button type="submit">Login</button>
+        </form>
+
+        <form id="registerForm" class="auth-form">
+          <h2>Create Account</h2>
+          <label>
+            Full Name
+            <input type="text" id="registerName" placeholder="Your full name" required />
+          </label>
+          <label>
+            Email
+            <input type="email" id="registerEmail" placeholder="you@example.com" required />
+          </label>
+          <label>
+            Password
+            <input type="password" id="registerPassword" placeholder="At least 6 characters" required />
+          </label>
+          <label>
+            Confirm Password
+            <input type="password" id="registerConfirm" placeholder="Re-enter password" required />
+          </label>
+          <button type="submit">Register</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>
