@@ -276,7 +276,7 @@ function ClassesTab({ course }: { course: Course }) {
 
   if (selectedSubject && selectedChapter) {
     return (
-      <ChapterWorkspaceView
+      <LectureListView
         course={course}
         subject={selectedSubject}
         chapter={selectedChapter}

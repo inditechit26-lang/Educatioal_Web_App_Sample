@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import {
-  Bell, BookOpen, ChartNoAxesCombined, ChevronLeft,
+  Bell, BookOpen, ChartNoAxesCombined, ChevronLeft, Home,
   FileText, GraduationCap, LayoutDashboard, LogOut, Menu,
   PanelLeftClose, PanelLeftOpen, PlaySquare, Search, TestTubeDiagonal, X,
 } from "lucide-react";
@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 
 const nav = [
   { label: "Dashboard", href: "/", icon: LayoutDashboard },
+  { label: "Website", href: "/home_elitecoaching_institute/code.html", icon: Home },
   { label: "Courses", href: "/courses", icon: BookOpen },
   { label: "Live Classes", href: "/#schedule", icon: PlaySquare },
   { label: "Tests", href: "/#tests", icon: TestTubeDiagonal },
@@ -76,7 +77,7 @@ export function AppShell({ children, back }: { children: React.ReactNode; back?:
       </nav>
 
       <div className="border-t border-line p-3">
-        <button onClick={() => { localStorage.removeItem("eliteCoachingCurrentUser"); window.location.href = "../auth_elitecoaching_institute/code.html?mode=login"; }} className={cn("flex h-11 w-full items-center gap-3 rounded-xl px-3 text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600", collapsed && "lg:justify-center lg:px-0")}>
+        <button onClick={() => { localStorage.removeItem("eliteCoachingCurrentUser"); window.location.href = "/auth_elitecoaching_institute/code.html?mode=login"; }} className={cn("flex h-11 w-full items-center gap-3 rounded-xl px-3 text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600", collapsed && "lg:justify-center lg:px-0")}>
           <LogOut size={19} strokeWidth={1.8} />{!collapsed && "Logout"}
         </button>
         <button onClick={() => setCollapsed(!collapsed)} className="mt-1 hidden h-10 w-full items-center justify-center rounded-xl text-muted hover:bg-slate-50 lg:flex" aria-label="Toggle sidebar">
