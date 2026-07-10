@@ -280,6 +280,7 @@ const state = {
   chapterTab: "lectures",
   activeLectureId: "lec-3",
   purchases: new Set(),
+  dynamicBound: false,
 };
 
 function init() {
@@ -319,10 +320,10 @@ function savePurchases() {
 
 function bindShellEvents() {
   document.querySelectorAll("[data-screen]").forEach((button) => {
-    button.addEventListener("click", () => showScreen(button.dataset.screen));
+    button.addEventListener("click", () => navigateScreen(button.dataset.screen));
   });
   document.querySelectorAll("[data-screen-shortcut]").forEach((button) => {
-    button.addEventListener("click", () => showScreen(button.dataset.screenShortcut));
+    button.addEventListener("click", () => navigateScreen(button.dataset.screenShortcut));
   });
   document.getElementById("logoutButton").addEventListener("click", () => {
     localStorage.removeItem(currentUserKey);
@@ -337,9 +338,19 @@ function bindShellEvents() {
   document.getElementById("globalSearch").addEventListener("input", (event) => {
     state.courseQuery = event.target.value;
     state.courseView = "list";
-    showScreen("courses");
+    navigateScreen("courses");
     renderCourses();
   });
+}
+
+function navigateScreen(screen) {
+  if (screen === "courses") {
+    state.courseView = "list";
+  }
+  showScreen(screen);
+  if (screen === "courses") {
+    renderCourses();
+  }
 }
 
 function applyTheme(theme) {
@@ -379,7 +390,49 @@ function renderAll() {
 }
 
 function courses() {
-  return courseCatalog.map((course) => ({ ...course, enrolled: course.enrolled || state.purchases.has(course.id) }));
+  return courseCatalog.map((course) => {
+    const enrolled = course.enrolled || state.purchases.has(course.id);
+    return {
+      ...course,
+      enrolled,
+      subjects: course.subjects.length ? course.subjects : buildStarterCurriculum(course),
+      batchStart: course.batchStart || "01 Jul 2026",
+      batchEnd: course.batchEnd || "31 Jan 2027",
+      validTill: course.validTill || "31 Mar 2027",
+      enrollmentDate: course.enrollmentDate || "Today",
+      status: course.status || (enrolled ? "Active" : "Preview"),
+      watchTime: course.watchTime || "0h 00m",
+      estimatedRemaining: course.estimatedRemaining || course.duration,
+      lastDownloaded: course.lastDownloaded || "Orientation Notes",
+      lastAssignment: course.lastAssignment || "Not submitted yet",
+    };
+  });
+}
+
+function buildStarterCurriculum(course) {
+  const subjectName = course.category.includes("Class") ? course.category : course.category === "Crash Course" ? "Revision" : course.category;
+  return [
+    {
+      id: `${course.id}-subject`,
+      name: subjectName,
+      icon: course.thumbnail || "menu_book",
+      progress: course.progress || 0,
+      lastStudied: "Orientation",
+      chapters: [
+        {
+          id: `${course.id}-chapter-1`,
+          name: `${course.title} Orientation`,
+          duration: course.duration,
+          progress: course.progress || 0,
+          lectures: [
+            { id: "lec-1", title: "Course Roadmap", duration: "32 min", progress: course.progress ? 100 : 0, completed: Boolean(course.progress), pdf: true },
+            { id: "lec-2", title: "Study Plan and Resources", duration: "38 min", progress: 0, current: true, pdf: true },
+            { id: "lec-3", title: "First Practice Session", duration: "45 min", progress: 0, pdf: false },
+          ],
+        },
+      ],
+    },
+  ];
 }
 
 function purchasedCourses() {
@@ -848,29 +901,131 @@ function renderProfile() {
 }
 
 function bindDynamicActions() {
-  document.querySelectorAll("[data-screen]").forEach((button) => button.addEventListener("click", () => showScreen(button.dataset.screen)));
-  document.querySelectorAll("[data-course-tab]").forEach((button) => button.addEventListener("click", () => { state.courseTab = button.dataset.courseTab; state.courseView = "list"; renderCourses(); }));
-  document.querySelectorAll("[data-category]").forEach((button) => button.addEventListener("click", () => { state.courseCategory = button.dataset.category; renderCourses(); }));
-  document.querySelectorAll("[data-start-course]").forEach((element) => element.addEventListener("click", (event) => { event.stopPropagation(); openCourse(element.dataset.startCourse); }));
-  document.querySelectorAll("[data-buy]").forEach((button) => button.addEventListener("click", () => { state.purchases.add(button.dataset.buy); savePurchases(); state.courseTab = "purchased"; state.courseView = "list"; renderAll(); showScreen("courses"); toast("Course added to Purchased."); }));
-  document.querySelectorAll("[data-course-view]").forEach((button) => button.addEventListener("click", () => { state.courseView = button.dataset.courseView; renderCourses(); }));
-  document.querySelectorAll("[data-workspace-tab]").forEach((button) => button.addEventListener("click", () => { state.workspaceTab = button.dataset.workspaceTab; state.courseView = "workspace"; renderCourses(); }));
-  document.querySelectorAll("[data-open-subject]").forEach((card) => card.addEventListener("click", () => { state.activeSubjectId = card.dataset.openSubject; state.courseView = "subject"; renderCourses(); }));
-  document.querySelectorAll("[data-open-chapter]").forEach((card) => card.addEventListener("click", () => { state.activeChapterId = card.dataset.openChapter; state.courseView = "chapter"; state.chapterTab = "lectures"; renderCourses(); }));
-  document.querySelectorAll("[data-chapter-tab]").forEach((button) => button.addEventListener("click", () => { state.chapterTab = button.dataset.chapterTab; renderCourses(); }));
-  document.querySelectorAll("[data-open-player]").forEach((button) => button.addEventListener("click", () => {
-    const [subjectId, chapterId, lectureId] = button.dataset.openPlayer.split("|");
-    state.activeSubjectId = subjectId;
-    state.activeChapterId = chapterId;
-    state.activeLectureId = lectureId;
-    state.courseView = "player";
+  if (state.dynamicBound) return;
+  state.dynamicBound = true;
+  const content = document.querySelector(".content");
+
+  content.addEventListener("click", (event) => {
+    const disabled = event.target.closest("button:disabled");
+    if (disabled) return;
+
+    const screen = event.target.closest("[data-screen]");
+    if (screen) {
+      navigateScreen(screen.dataset.screen);
+      return;
+    }
+
+    const tab = event.target.closest("[data-course-tab]");
+    if (tab) {
+      state.courseTab = tab.dataset.courseTab;
+      state.courseView = "list";
+      renderCourses();
+      return;
+    }
+
+    const category = event.target.closest("[data-category]");
+    if (category) {
+      state.courseCategory = category.dataset.category;
+      renderCourses();
+      return;
+    }
+
+    const buy = event.target.closest("[data-buy]");
+    if (buy) {
+      event.stopPropagation();
+      state.purchases.add(buy.dataset.buy);
+      savePurchases();
+      state.courseTab = "purchased";
+      state.courseView = "list";
+      renderAll();
+      showScreen("courses");
+      toast("Course added to Purchased.");
+      return;
+    }
+
+    const start = event.target.closest("[data-start-course]");
+    if (start) {
+      event.stopPropagation();
+      openCourse(start.dataset.startCourse);
+      return;
+    }
+
+    const courseView = event.target.closest("[data-course-view]");
+    if (courseView) {
+      state.courseView = courseView.dataset.courseView;
+      renderCourses();
+      return;
+    }
+
+    const workspaceTab = event.target.closest("[data-workspace-tab]");
+    if (workspaceTab) {
+      state.workspaceTab = workspaceTab.dataset.workspaceTab;
+      state.courseView = "workspace";
+      renderCourses();
+      return;
+    }
+
+    const subject = event.target.closest("[data-open-subject]");
+    if (subject) {
+      state.activeSubjectId = subject.dataset.openSubject;
+      const firstChapter = activeSubject()?.chapters[0];
+      if (firstChapter) state.activeChapterId = firstChapter.id;
+      state.courseView = "subject";
+      renderCourses();
+      return;
+    }
+
+    const chapter = event.target.closest("[data-open-chapter]");
+    if (chapter) {
+      state.activeChapterId = chapter.dataset.openChapter;
+      state.courseView = "chapter";
+      state.chapterTab = "lectures";
+      renderCourses();
+      return;
+    }
+
+    const chapterTab = event.target.closest("[data-chapter-tab]");
+    if (chapterTab) {
+      state.chapterTab = chapterTab.dataset.chapterTab;
+      renderCourses();
+      return;
+    }
+
+    const player = event.target.closest("[data-open-player]");
+    if (player) {
+      const [subjectId, chapterId, lectureId] = player.dataset.openPlayer.split("|");
+      state.activeSubjectId = subjectId;
+      state.activeChapterId = chapterId;
+      state.activeLectureId = lectureId;
+      state.courseView = "player";
+      renderCourses();
+      return;
+    }
+
+    if (event.target.closest("[data-action]")) {
+      toast("Demo action selected.");
+    }
+  });
+
+  content.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    const card = event.target.closest(".clickable");
+    if (!card) return;
+    event.preventDefault();
+    card.click();
+  });
+
+  content.addEventListener("input", (event) => {
+    if (event.target.id !== "courseSearch") return;
+    state.courseQuery = event.target.value;
     renderCourses();
-  }));
-  document.querySelectorAll("[data-action]").forEach((button) => button.addEventListener("click", () => toast("Demo action selected.")));
-  const search = document.getElementById("courseSearch");
-  if (search) search.addEventListener("input", (event) => { state.courseQuery = event.target.value; renderCourses(); });
-  const sort = document.getElementById("courseSort");
-  if (sort) sort.addEventListener("change", (event) => { state.sort = event.target.value; renderCourses(); });
+  });
+
+  content.addEventListener("change", (event) => {
+    if (event.target.id !== "courseSort") return;
+    state.sort = event.target.value;
+    renderCourses();
+  });
 }
 
 function openCourse(courseId) {
