@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EliteCoaching | Student Panel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="student-app">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-row">
+        <a class="brand" href="../home_elitecoaching_institute/code.html">
+          <span class="brand-mark">EC</span>
+          <span><strong>EliteCoaching</strong><small>Student workspace</small></span>
+        </a>
+        <button class="icon-button mobile-only" id="closeSidebar" aria-label="Close menu"><span class="material-symbols-outlined">close</span></button>
+      </div>
+
+      <nav class="nav-list" aria-label="Student navigation">
+        <button class="nav-item active" data-screen="dashboard"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></button>
+        <button class="nav-item" data-screen="courses"><span class="material-symbols-outlined">menu_book</span><span>Courses</span></button>
+        <button class="nav-item" data-screen="live"><span class="material-symbols-outlined">live_tv</span><span>Live Classes</span></button>
+        <button class="nav-item" data-screen="tests"><span class="material-symbols-outlined">quiz</span><span>Tests</span></button>
+        <button class="nav-item" data-screen="materials"><span class="material-symbols-outlined">folder_open</span><span>Study Material</span></button>
+        <button class="nav-item" data-screen="performance"><span class="material-symbols-outlined">monitoring</span><span>Performance</span></button>
+        <button class="nav-item" data-screen="profile"><span class="material-symbols-outlined">account_circle</span><span>Profile</span></button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="logout-btn" id="logoutButton"><span class="material-symbols-outlined">logout</span><span>Logout</span></button>
+      </div>
+    </aside>
+
+    <div class="overlay" id="overlay"></div>
+
+    <div class="main-shell">
+      <header class="topbar">
+        <div class="topbar-left">
+          <button class="icon-button menu-button" id="openSidebar" aria-label="Open menu"><span class="material-symbols-outlined">menu</span></button>
+          <div>
+            <p class="eyebrow" id="screenEyebrow">Student Panel</p>
+            <h1 id="screenTitle">Dashboard</h1>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <label class="search-box">
+            <span class="material-symbols-outlined">search</span>
+            <input id="globalSearch" type="search" placeholder="Search courses, tests, notes..." />
+          </label>
+          <button class="icon-button" id="themeToggle" aria-label="Toggle theme"><span class="material-symbols-outlined">dark_mode</span></button>
+          <button class="profile-chip" data-screen-shortcut="profile"><span id="profileInitials">AS</span><strong id="profileName">Aarav Singh</strong></button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="screen active" id="dashboardScreen"></section>
+        <section class="screen" id="coursesScreen"></section>
+        <section class="screen" id="liveScreen"></section>
+        <section class="screen" id="testsScreen"></section>
+        <section class="screen" id="materialsScreen"></section>
+        <section class="screen" id="performanceScreen"></section>
+        <section class="screen" id="profileScreen"></section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <script src="js/script.js"></script>
+</body>
+</html>

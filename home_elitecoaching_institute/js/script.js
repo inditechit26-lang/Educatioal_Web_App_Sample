@@ -3,8 +3,8 @@ const currentUserKey = 'eliteCoachingCurrentUser';
 const statusBox = document.getElementById('homeAuthStatus');
 const guestAuthActions = document.getElementById('guestAuthActions');
 const studentProfileLink = document.getElementById('studentProfileLink');
-const dashboardUrl = '../student_panel_elitecoaching_institute/code.html';
-const loginUrl = '../auth_elitecoaching_institute/code.html?mode=login';
+const dashboardUrl = '../student_panel_elitecoaching_institute/student panel.html';
+const loginUrl = '../auth_elitecoaching_institute/auth.html?mode=login';
 
 function createLink(label, href) {
     const link = document.createElement('a');
@@ -24,7 +24,7 @@ function showGuestState() {
     if (!statusBox) return;
     statusBox.replaceChildren(
         document.createTextNode('New here? '),
-        createLink('Register now', '../auth_elitecoaching_institute/code.html?mode=register'),
+        createLink('Register now', '../auth_elitecoaching_institute/auth.html?mode=register'),
         document.createTextNode(' or '),
         createLink('login', loginUrl),
         document.createTextNode('.')

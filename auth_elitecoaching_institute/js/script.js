@@ -1,7 +1,7 @@
 const storageKey = 'eliteCoachingUsers';
 const currentUserKey = 'eliteCoachingCurrentUser';
-const studentDashboardUrl = '../student_panel_elitecoaching_institute/code.html';
-const adminDashboardUrl = '../admin_dashboard_elitecoaching_institute/code.html';
+const studentDashboardUrl = '../student_panel_elitecoaching_institute/student panel.html';
+const adminDashboardUrl = '../admin_dashboard_elitecoaching_institute/admin.html';
 const homeUrl = '../home_elitecoaching_institute/code.html';
 
 const tabs = document.querySelectorAll('.tab-btn');

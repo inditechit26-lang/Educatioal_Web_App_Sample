@@ -38,6 +38,11 @@ function send(res, status, body, headers = {}) {
 }
 
 function serveStatic(req, res, url) {
+  if (url.pathname === "/") {
+    send(res, 302, "", { location: "/student_panel_elitecoaching_institute/student%20panel.html" });
+    return true;
+  }
+
   const pathname = decodeURIComponent(url.pathname);
   const segments = pathname.split("/").filter(Boolean);
   const topDir = segments[0];
@@ -52,7 +57,9 @@ function serveStatic(req, res, url) {
 
   let finalPath = filePath;
   if (fs.existsSync(finalPath) && fs.statSync(finalPath).isDirectory()) {
-    finalPath = path.join(finalPath, "code.html");
+    finalPath = resolveHtmlEntry(finalPath);
+  } else if (!fs.existsSync(finalPath) && path.basename(finalPath).toLowerCase() === "code.html") {
+    finalPath = resolveHtmlEntry(path.dirname(finalPath));
   }
 
   fs.readFile(finalPath, (error, data) => {
@@ -69,6 +76,19 @@ function serveStatic(req, res, url) {
   });
 
   return true;
+}
+
+function resolveHtmlEntry(dirPath) {
+  const codePath = path.join(dirPath, "code.html");
+  if (fs.existsSync(codePath)) return codePath;
+
+  const htmlFile = fs
+    .readdirSync(dirPath, { withFileTypes: true })
+    .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith(".html"))
+    .map((entry) => entry.name)
+    .sort()[0];
+
+  return htmlFile ? path.join(dirPath, htmlFile) : codePath;
 }
 
 function proxyToNext(req, res) {
