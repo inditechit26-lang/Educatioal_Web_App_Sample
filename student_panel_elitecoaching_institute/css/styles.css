@@ -639,6 +639,117 @@ h2, h3, p { overflow-wrap: anywhere; }
   font-size: 12px;
 }
 
+.teacher-inline-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 10px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.teacher-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.explore-hero {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+  background:
+    radial-gradient(circle at top right, rgba(37, 99, 235, .1), transparent 34%),
+    linear-gradient(135deg, rgba(255, 255, 255, .98), rgba(239, 246, 255, .94));
+}
+
+.explore-hero h3 {
+  margin: 6px 0 0;
+  font-size: 24px;
+}
+
+.explore-hero p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.explore-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.explore-metrics article,
+.highlight-card {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, .84);
+}
+
+.explore-metrics article {
+  padding: 14px 16px;
+}
+
+.explore-metrics strong {
+  display: block;
+  font-size: 28px;
+}
+
+.explore-metrics span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.highlight-card {
+  padding: 16px;
+}
+
+.highlight-card h4 {
+  margin: 14px 0 6px;
+  font-size: 16px;
+}
+
+.highlight-card p,
+.highlight-card small {
+  color: var(--muted);
+}
+
+.highlight-card p {
+  margin: 0 0 6px;
+}
+
+.teacher-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 6px 10px;
+  background: #dbeafe;
+  color: var(--brand);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.teacher-badge.alt {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.empty-highlight {
+  grid-column: span 2;
+}
+
 .compact-module-header {
   display: grid;
   gap: 12px;
@@ -930,6 +1041,7 @@ h2, h3, p { overflow-wrap: anywhere; }
   .four-col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .video-layout { grid-template-columns: 1fr; }
   .playlist { max-height: none; }
+  .highlight-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 1120px) {
@@ -997,4 +1109,7 @@ h2, h3, p { overflow-wrap: anywhere; }
   .course-actions .btn,
   .quick-actions .btn { flex: 1 1 100%; }
   .video-frame { min-height: 300px; }
+  .explore-metrics,
+  .highlight-grid { grid-template-columns: 1fr; }
+  .empty-highlight { grid-column: auto; }
 }

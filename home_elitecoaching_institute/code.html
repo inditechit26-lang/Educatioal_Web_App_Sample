@@ -25,7 +25,7 @@
     <!-- TopNavBar -->
     <header
         class="bg-surface-container-lowest dark:bg-surface-container-lowest shadow-sm dark:shadow-none docked full-width top-0 sticky z-50 glass-header">
-        <nav class="flex justify-between items-center w-full px-margin-desktop py-4 max-w-container-max-width mx-auto">
+        <nav class="mx-auto flex w-full max-w-container-max-width items-center justify-between px-margin-mobile py-4 md:px-margin-desktop">
             <a href="../home_elitecoaching_institute/code.html"
                 class="text-headline-sm font-headline-sm font-extrabold text-primary dark:text-inverse-primary">EliteCoaching</a>
             <!-- Desktop Nav -->
@@ -42,10 +42,14 @@
                         href="../contact_elitecoaching_institute/contact.html">Contact</a></li>
             </ul>
             <div id="guestAuthActions" class="flex items-center gap-4">
+                <button id="mobileMenuButton" class="rounded-lg border border-outline-variant p-2 text-on-surface lg:hidden"
+                    aria-label="Toggle mobile menu">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
                 <a href="../auth_elitecoaching_institute/auth.html?mode=login"
                     class="hidden md:block font-label-md text-label-md px-4 py-2 text-primary hover:bg-primary/5 rounded-lg transition-colors">Log In</a>
                 <a href="../auth_elitecoaching_institute/auth.html?mode=register"
-                    class="bg-primary-container text-on-primary px-6 py-2.5 rounded-full font-label-md text-label-md scale-95 active:scale-90 transition-transform shadow-sm">Sign Up</a>
+                    class="hidden md:inline-flex bg-primary-container text-on-primary px-6 py-2.5 rounded-full font-label-md text-label-md scale-95 active:scale-90 transition-transform shadow-sm">Sign Up</a>
             </div>
             <a id="studentProfileLink" href="../student_panel_elitecoaching_institute/student panel.html"
                 class="hidden items-center gap-3 rounded-full border border-primary/15 bg-primary/5 py-2 pl-2 pr-4 text-primary transition-colors hover:bg-primary/10"
@@ -58,6 +62,26 @@
                 <span class="material-symbols-outlined text-xl">dashboard</span>
             </a>
         </nav>
+        <div id="mobileMenu" class="border-t border-outline-variant/50 bg-surface-container-lowest px-margin-mobile py-4 lg:hidden">
+            <div class="flex flex-col gap-3">
+                <a class="relative inline-flex w-fit font-label-md text-label-md text-primary font-bold after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-100 after:bg-primary"
+                    href="../home_elitecoaching_institute/code.html">Home</a>
+                <a class="relative inline-flex w-fit font-label-md text-label-md text-on-surface-variant transition-all duration-200 hover:text-primary after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-200 hover:after:scale-x-100"
+                    href="../about_us_elitecoaching_institute/about.html">About</a>
+                <a class="relative inline-flex w-fit font-label-md text-label-md text-on-surface-variant transition-all duration-200 hover:text-primary after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-200 hover:after:scale-x-100"
+                    href="../our_courses_elitecoaching_institute/our courses.html">Courses</a>
+                <a class="relative inline-flex w-fit font-label-md text-label-md text-on-surface-variant transition-all duration-200 hover:text-primary after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-200 hover:after:scale-x-100"
+                    href="../faculty_results_elitecoaching_institute/faculty.html">Results</a>
+                <a class="relative inline-flex w-fit font-label-md text-label-md text-on-surface-variant transition-all duration-200 hover:text-primary after:absolute after:left-0 after:-bottom-0.5 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-200 hover:after:scale-x-100"
+                    href="../contact_elitecoaching_institute/contact.html">Contact</a>
+                <div class="mt-3 flex flex-col gap-3 sm:flex-row">
+                    <a href="../auth_elitecoaching_institute/auth.html?mode=login"
+                        class="rounded-xl border border-outline-variant px-4 py-3 text-center font-label-md text-label-md text-primary">Log In</a>
+                    <a href="../auth_elitecoaching_institute/auth.html?mode=register"
+                        class="rounded-xl bg-primary px-4 py-3 text-center font-label-md text-label-md text-white shadow-sm">Sign Up</a>
+                </div>
+            </div>
+        </div>
     </header>
     <main>
         <!-- Hero Section -->
@@ -115,20 +139,20 @@
                                 </div>
                                 <h2 class="text-2xl font-semibold text-slate-900">Premium coaching for confident academic growth</h2>
                                 <div class="mt-6 grid grid-cols-2 gap-4">
-                                    <div class="rounded-2xl bg-slate-50 p-4">
-                                        <p class="text-2xl font-bold text-primary">15K+</p>
+                                    <div class="hero-stat-card rounded-2xl bg-slate-50 p-4">
+                                        <p class="hero-stat-value text-2xl font-bold text-primary" data-count="15" data-suffix="K+">15K+</p>
                                         <p class="text-sm text-slate-500">Students</p>
                                     </div>
-                                    <div class="rounded-2xl bg-slate-50 p-4">
-                                        <p class="text-2xl font-bold text-primary">12+</p>
+                                    <div class="hero-stat-card rounded-2xl bg-slate-50 p-4">
+                                        <p class="hero-stat-value text-2xl font-bold text-primary" data-count="12" data-suffix="+">12+</p>
                                         <p class="text-sm text-slate-500">Years</p>
                                     </div>
-                                    <div class="rounded-2xl bg-slate-50 p-4">
-                                        <p class="text-2xl font-bold text-primary">50+</p>
+                                    <div class="hero-stat-card rounded-2xl bg-slate-50 p-4">
+                                        <p class="hero-stat-value text-2xl font-bold text-primary" data-count="50" data-suffix="+">50+</p>
                                         <p class="text-sm text-slate-500">Faculty</p>
                                     </div>
-                                    <div class="rounded-2xl bg-slate-50 p-4">
-                                        <p class="text-2xl font-bold text-primary">98%</p>
+                                    <div class="hero-stat-card rounded-2xl bg-slate-50 p-4">
+                                        <p class="hero-stat-value text-2xl font-bold text-primary" data-count="98" data-suffix="%">98%</p>
                                         <p class="text-sm text-slate-500">Success</p>
                                     </div>
                                 </div>
@@ -143,24 +167,24 @@
             </div>
         </section>
         <!-- Why Choose Us -->
-        <section class="py-section-padding bg-gradient-to-br from-slate-50 via-white to-primary/5">
-            <div class="max-w-container-max-width mx-auto px-margin-desktop">
-                <div class="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-                    <div class="max-w-2xl space-y-4">
-                        <div class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
+        <section class="section-shell py-section-padding bg-gradient-to-br from-slate-50 via-white to-primary/5">
+            <div class="max-w-container-max-width mx-auto px-margin-mobile md:px-margin-desktop">
+                <div class="section-header">
+                    <div class="space-y-4">
+                        <div class="section-kicker">
                             Why students trust us
                         </div>
-                        <h2 class="font-headline-lg text-headline-lg">Why Choose EliteCoaching?</h2>
-                        <p class="text-on-surface-variant font-body-md">We blend expert mentorship, smart technology, and personal support into one premium learning experience.</p>
+                        <h2 class="section-title font-headline-lg text-headline-lg">Why Choose EliteCoaching?</h2>
+                        <p class="section-copy font-body-md">We blend expert mentorship, smart technology, and personal support into one premium learning experience.</p>
                     </div>
-                    <div class="rounded-2xl border border-primary/10 bg-white/80 px-5 py-4 shadow-sm backdrop-blur">
+                    <div class="surface-card-soft rounded-2xl px-5 py-4">
                         <p class="text-sm font-semibold text-on-surface">Trusted by 10k+ learners</p>
                         <p class="text-sm text-on-surface-variant">Focused on confidence, consistency, and results.</p>
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
-                    <div class="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white p-7 shadow-[0_12px_40px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
+                    <div class="surface-card interactive-lift group relative overflow-hidden rounded-[28px] p-7">
                         <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary to-sky-500"></div>
                         <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
                             <span class="material-symbols-outlined">school</span>
@@ -169,7 +193,7 @@
                         <p class="text-sm leading-6 text-on-surface-variant">Learn from mentors and subject experts with deep academic and competitive exam experience.</p>
                     </div>
 
-                    <div class="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white p-7 shadow-[0_12px_40px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
+                    <div class="surface-card interactive-lift group relative overflow-hidden rounded-[28px] p-7">
                         <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary to-cyan-500"></div>
                         <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
                             <span class="material-symbols-outlined">devices</span>
@@ -178,7 +202,7 @@
                         <p class="text-sm leading-6 text-on-surface-variant">Switch seamlessly between classroom learning and live digital sessions without losing momentum.</p>
                     </div>
 
-                    <div class="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white p-7 shadow-[0_12px_40px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
+                    <div class="surface-card interactive-lift group relative overflow-hidden rounded-[28px] p-7">
                         <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary to-blue-500"></div>
                         <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
                             <span class="material-symbols-outlined">groups</span>
@@ -187,7 +211,7 @@
                         <p class="text-sm leading-6 text-on-surface-variant">Enjoy focused attention in a controlled environment with a strong student-teacher connection.</p>
                     </div>
 
-                    <div class="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white p-7 shadow-[0_12px_40px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
+                    <div class="surface-card interactive-lift group relative overflow-hidden rounded-[28px] p-7">
                         <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary to-indigo-500"></div>
                         <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
                             <span class="material-symbols-outlined">assignment_turned_in</span>
@@ -196,7 +220,7 @@
                         <p class="text-sm leading-6 text-on-surface-variant">Stay on track with structured assessments that highlight progress and areas to strengthen.</p>
                     </div>
 
-                    <div class="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white p-7 shadow-[0_12px_40px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
+                    <div class="surface-card interactive-lift group relative overflow-hidden rounded-[28px] p-7">
                         <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary to-sky-500"></div>
                         <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
                             <span class="material-symbols-outlined">quiz</span>
@@ -205,7 +229,7 @@
                         <p class="text-sm leading-6 text-on-surface-variant">Resolve confusion quickly with guided support and real-time clarification whenever you need it.</p>
                     </div>
 
-                    <div class="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white p-7 shadow-[0_12px_40px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
+                    <div class="surface-card interactive-lift group relative overflow-hidden rounded-[28px] p-7">
                         <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary to-cyan-500"></div>
                         <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
                             <span class="material-symbols-outlined">play_circle</span>
@@ -214,7 +238,7 @@
                         <p class="text-sm leading-6 text-on-surface-variant">Revisit every lesson anytime with high-quality recordings that support flexible revision.</p>
                     </div>
 
-                    <div class="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white p-7 shadow-[0_12px_40px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
+                    <div class="surface-card interactive-lift group relative overflow-hidden rounded-[28px] p-7">
                         <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary to-blue-500"></div>
                         <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
                             <span class="material-symbols-outlined">analytics</span>
@@ -223,7 +247,7 @@
                         <p class="text-sm leading-6 text-on-surface-variant">Share progress clearly with parents through regular data-backed reports and insights.</p>
                     </div>
 
-                    <div class="group relative overflow-hidden rounded-[28px] border border-slate-200 bg-white p-7 shadow-[0_12px_40px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(15,23,42,0.12)]">
+                    <div class="surface-card interactive-lift group relative overflow-hidden rounded-[28px] p-7">
                         <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary to-indigo-500"></div>
                         <div class="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary transition-all group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
                             <span class="material-symbols-outlined">psychology</span>
@@ -235,22 +259,28 @@
             </div>
         </section>
         <!-- Featured Courses -->
-        <section class="bg-gradient-to-br from-slate-50 via-white to-primary/5 py-section-padding">
-            <div class="mx-auto max-w-container-max-width px-margin-desktop">
-                <div class="mb-12 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-                    <div class="max-w-2xl space-y-4">
-                        <div class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
+        <section class="section-shell bg-gradient-to-br from-slate-50 via-white to-primary/5 py-section-padding">
+            <div class="mx-auto max-w-container-max-width px-margin-mobile md:px-margin-desktop">
+                <div class="section-header">
+                    <div class="space-y-4">
+                        <div class="section-kicker">
                             Our flagship programs
                         </div>
-                        <h2 class="font-headline-lg text-headline-lg">Choose a path built for success</h2>
-                        <p class="text-on-surface-variant font-body-md">Each program is structured to strengthen concepts, confidence, and consistency.</p>
+                        <h2 class="section-title font-headline-lg text-headline-lg">Choose a path built for success</h2>
+                        <p class="section-copy font-body-md">Each program is structured to strengthen concepts, confidence, and consistency.</p>
                     </div>
                     <a href="../our_courses_elitecoaching_institute/our courses.html" class="inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:underline">
                         View all courses <span class="material-symbols-outlined">arrow_forward</span>
                     </a>
                 </div>
+                <div class="mb-8 flex flex-wrap gap-3">
+                    <button class="course-filter-btn is-active rounded-full px-5 py-2.5 text-sm font-semibold" data-course-filter="all" type="button">All Programs</button>
+                    <button class="course-filter-btn rounded-full px-5 py-2.5 text-sm font-semibold" data-course-filter="jee" type="button">Engineering</button>
+                    <button class="course-filter-btn rounded-full px-5 py-2.5 text-sm font-semibold" data-course-filter="neet" type="button">Medical</button>
+                    <button class="course-filter-btn rounded-full px-5 py-2.5 text-sm font-semibold" data-course-filter="foundation" type="button">Foundation</button>
+                </div>
                 <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-                    <div class="group flex h-full flex-col overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-[0_14px_40px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
+                    <div class="surface-card interactive-lift group flex h-full flex-col overflow-hidden rounded-[30px]" data-course-category="jee">
                         <div class="relative h-56 overflow-hidden">
                             <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABliJUPNLsXNNIKxBsI9ck6saKfTdJ6Pro98ILMijK5W2y7NPOL4ItIOP9bT0Z_jfXTqD1tBlnbKxcuhQYjL0XrG4KJDiJcskC2y1XBOCokxl3CiQ4_CTeBFilk_fBWvQA2AnG1xHdsxqLOtDUuWgMF1ytKzV6EWRP9LNyzFalXA7sBkd5P2fBXBkEbRtl7sIKB849QKVkI7AgMlgs5tGXFg3NdLLRNJwDzgwCtmZO3yTSPpjM7ab3OuMZ66j2u-OxTrKJ0vvijg" alt="IIT-JEE preparation materials" />
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/25 to-transparent"></div>
@@ -276,7 +306,7 @@
                         </div>
                     </div>
 
-                    <div class="group flex h-full flex-col overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-[0_14px_40px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
+                    <div class="surface-card interactive-lift group flex h-full flex-col overflow-hidden rounded-[30px]" data-course-category="neet">
                         <div class="relative h-56 overflow-hidden">
                             <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfxEyvETUdFvKw8UqjpSz7D4ZuFh_39Evl2k8ah-5ijreYhU9EJGxtV61doqgioPEkr9yeDTxwMQfhx5N9Ez6VpBBvuiS8j3_Ymb4JdzihFXW8QOPzCTglYJPRlvv2P6r2Pa5ScPr5hHBM4HT-NebnEtaKiIT5ulTNe_IFSi0FvPguVMNb3TkbptwzjTwkQ2KwbbxuMF3tOupFqOg7yQtQZKtSpH7wkbEdl7mh0dvraCUcrJWf-xBotxu7wjcMdO3B0wkQ7PR0hQ" alt="NEET preparation environment" />
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/25 to-transparent"></div>
@@ -302,7 +332,7 @@
                         </div>
                     </div>
 
-                    <div class="group flex h-full flex-col overflow-hidden rounded-[30px] border border-slate-200 bg-white shadow-[0_14px_40px_rgba(15,23,42,0.06)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
+                    <div class="surface-card interactive-lift group flex h-full flex-col overflow-hidden rounded-[30px]" data-course-category="foundation">
                         <div class="relative h-56 overflow-hidden">
                             <img class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPURbimEbayL8s3-_1_3AF2EcJxymhMaRfP0RrmvADMBD8Cr-kZtPoOj_PqkLZFTpMjyNquUWcSOCsMVywRzzNksgHI-Lv3dkd6N0FF3p3mNETfeGxxcTDudF4WLkSvv_f6dVAzuOQBcoX_5tBWhKgbQ0HdaEB96vaP2H9caIE1Ui0Xy9z2Y3YyDLyKW58N2CBlViWl306KYeQC9LiYj7G_8lmO7UBdrrmQQlhL4CVz128x8le8DLRyNPKrdvm2ZqWcMhy87cXRw" alt="Foundation learning setup" />
                             <div class="absolute inset-0 bg-gradient-to-t from-slate-950/25 to-transparent"></div>
@@ -330,24 +360,24 @@
             </div>
         </section>
         <!-- Top Results -->
-        <section class="relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-blue-50 py-section-padding">
+        <section class="section-shell relative overflow-hidden bg-gradient-to-b from-slate-50 via-white to-blue-50 py-section-padding">
             <div class="pointer-events-none absolute -left-32 top-20 h-80 w-80 rounded-full bg-primary/10 blur-3xl"></div>
             <div class="pointer-events-none absolute -right-32 bottom-0 h-96 w-96 rounded-full bg-sky-200/30 blur-3xl"></div>
-            <div class="relative mx-auto max-w-container-max-width px-margin-desktop">
-                <div class="mb-12 flex flex-col gap-6 text-center lg:text-left lg:flex-row lg:items-end lg:justify-between">
+            <div class="relative mx-auto max-w-container-max-width px-margin-mobile md:px-margin-desktop">
+                <div class="section-header text-center lg:text-left">
                     <div class="space-y-4">
-                        <div class="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700">
+                        <div class="section-kicker mx-auto lg:mx-0 !border-amber-200 !bg-amber-50 !text-amber-700">
                             <span class="material-symbols-outlined text-lg">workspace_premium</span> Our proud achievers
                         </div>
-                        <h2 class="font-headline-lg text-headline-lg">Meet our top rankers</h2>
-                        <p class="mx-auto max-w-2xl text-on-surface-variant font-body-md lg:mx-0">Celebrating the students who achieved outstanding ranks in recent examinations.</p>
+                        <h2 class="section-title mx-auto font-headline-lg text-headline-lg lg:mx-0">Meet our top rankers</h2>
+                        <p class="section-copy mx-auto font-body-md lg:mx-0">Celebrating the students who achieved outstanding ranks in recent examinations.</p>
                     </div>
-                    <div class="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4 text-sm text-slate-600 shadow-sm">
+                    <div class="surface-card-soft rounded-2xl px-5 py-4 text-sm text-slate-600">
                         2023-24 results • 98%+ student satisfaction
                     </div>
                 </div>
                 <div class="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-6 [scrollbar-width:thin] [scrollbar-color:#93c5fd_transparent]">
-                    <div class="group w-[260px] shrink-0 snap-start rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)] sm:w-[280px]">
+                    <div class="surface-card interactive-lift group w-[260px] shrink-0 snap-start rounded-[28px] p-6 text-center sm:w-[280px]">
                         <div class="relative mx-auto mb-4 inline-block">
                             <img class="mx-auto h-28 w-28 rounded-full border-4 border-white object-cover shadow-lg md:h-32 md:w-32" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDgBmXEM2lUmOS8CCvLyc0nlDf377FiD1ESN9rC3DEgfh5Nz2j65mFFqXz9tjStTArPRoaxq0QlPIZ-Zge9l-BGPwZld0HyuY-n5q2wT3gBjINWf49XMPxIEtAEZhtxl4p1aH1EKST3Vaiza50PDE9JnC2Y0R6mvSJb0tAbUoUUt6KOZNReCU23LBPX3DPeDrkdq5WDK91E9mMZ9o5WAaeYBR96S78vxPidZ6SWJm9uF3LL84Wan6xmBxz3jtB29CGYVipq5UxHDQ" alt="Top achiever portrait" />
                             <div class="absolute bottom-0 right-0 rounded-full border-2 border-white bg-primary px-2 py-1 text-[10px] font-bold text-white">AIR 12</div>
@@ -356,7 +386,7 @@
                         <p class="mt-1 text-sm text-on-surface-variant">JEE Advanced 2023</p>
                         <p class="mt-3 text-sm font-semibold text-slate-700">99.8 percentile</p>
                     </div>
-                    <div class="group w-[260px] shrink-0 snap-start rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)] sm:w-[280px]">
+                    <div class="surface-card interactive-lift group w-[260px] shrink-0 snap-start rounded-[28px] p-6 text-center sm:w-[280px]">
                         <div class="relative mx-auto mb-4 inline-block">
                             <img class="mx-auto h-28 w-28 rounded-full border-4 border-white object-cover shadow-lg md:h-32 md:w-32" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZ9bLROyCGP-fxexJlGlh267aBr843_IMpf5kYN5IQQ66Ey4WKpHM7YuHTQl-U0rGdgSF6B6Cq8Xy0bXiLJZRL0yZwNLUbO65NEyNaLery-Md7ZHOO3NfAWLxXLorvmtrhXLqWRonZJhJQ-88DT5TzSbgrC3rYF-BQ8Ced4RhAsdBi-SBSJ-Hjjr2UkYAx7i7156MV79xO0fHOhbv-zVJGBQT1uyHUm9xO8Hod56IJJqmg1zcSLpRDxbYq2eZEihG3V6aodHULJg" alt="Top achiever portrait" />
                             <div class="absolute bottom-0 right-0 rounded-full border-2 border-white bg-primary px-2 py-1 text-[10px] font-bold text-white">AIR 45</div>
@@ -365,7 +395,7 @@
                         <p class="mt-1 text-sm text-on-surface-variant">NEET 2023</p>
                         <p class="mt-3 text-sm font-semibold text-slate-700">715 / 720</p>
                     </div>
-                    <div class="group w-[260px] shrink-0 snap-start rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)] sm:w-[280px]">
+                    <div class="surface-card interactive-lift group w-[260px] shrink-0 snap-start rounded-[28px] p-6 text-center sm:w-[280px]">
                         <div class="relative mx-auto mb-4 inline-block">
                             <img class="mx-auto h-28 w-28 rounded-full border-4 border-white object-cover shadow-lg md:h-32 md:w-32" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTwfUZL6igJwHcD41WF6v-02v3FJiKbqA0Jw5EAtLKqDXqdOzhkvPpBg-n2NIoaKD4NkRi1dYUCTjxH-7KqouqsnjIjFUUaJLKr2RRRDClx49tO2fye_ANnL2jDjq4Z7pDHCDmwUfz5HKcqm2rqP4SXOz1ltOv7MxNHwj-oC-RopSqtnbhbdMrclvxbvPclaCe45dG8nXgs0rNmJe09xoU4kkMOquMc0w_WO5gwge1t1Vr5IuZxp8IQgx04V80QB6yAetSRANZMw" alt="Top achiever portrait" />
                             <div class="absolute bottom-0 right-0 rounded-full border-2 border-white bg-primary px-2 py-1 text-[10px] font-bold text-white">AIR 88</div>
@@ -374,7 +404,7 @@
                         <p class="mt-1 text-sm text-on-surface-variant">JEE Main 2024</p>
                         <p class="mt-3 text-sm font-semibold text-slate-700">99.95 percentile</p>
                     </div>
-                    <div class="group w-[260px] shrink-0 snap-start rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)] sm:w-[280px]">
+                    <div class="surface-card interactive-lift group w-[260px] shrink-0 snap-start rounded-[28px] p-6 text-center sm:w-[280px]">
                         <div class="relative mx-auto mb-4 inline-block">
                             <img class="mx-auto h-28 w-28 rounded-full border-4 border-white object-cover shadow-lg md:h-32 md:w-32" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUVDzK24tg7cd1oGzvquQftmBG71ATJQZ7hocJd7dqnj5Gqg541XGDXDE5nbMX6dILksjc6isEVAVBOQ7NQdUtqDlR5PrzB7jfZqFM8tb5VXeurJP0Ha_p2G3wvmyoMLytltHiTqeM68eCTjD3iZRGKd63hzjIO_xEsyCCl3O3Px3PB8zcaNspbc5S-Pbe74bnK81o9MNnHTz5cQ1DotyWe_U6bo6k9a8JJXBcdE0nu5hNUByRoNfyZY6Fx7gsPRFyV-mhHp9EIw" alt="Top achiever portrait" />
                             <div class="absolute bottom-0 right-0 rounded-full border-2 border-white bg-primary px-2 py-1 text-[10px] font-bold text-white">AIR 102</div>
@@ -383,7 +413,7 @@
                         <p class="mt-1 text-sm text-on-surface-variant">NEET 2023</p>
                         <p class="mt-3 text-sm font-semibold text-slate-700">708 / 720</p>
                     </div>
-                    <div class="group w-[260px] shrink-0 snap-start rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_45px_rgba(15,23,42,0.1)] sm:w-[280px]">
+                    <div class="surface-card interactive-lift group w-[260px] shrink-0 snap-start rounded-[28px] p-6 text-center sm:w-[280px]">
                         <div class="relative mx-auto mb-4 inline-block">
                             <img class="mx-auto h-28 w-28 rounded-full border-4 border-white object-cover shadow-lg md:h-32 md:w-32" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9pjW9MzGBYBp_5zLYDZ_pghWkyIkO1pfFA6jTQfBOIqPXBHP7POSdyaxBOzmD3equkMRp42DA9nU05-9sI35tY7dNGqHa4aSa3xscJvc6qBKlDVpur5sWHXzzZVvFOOgSGPo1VI3hjYpBxf88be2dNW2OYLxn8kgXP4eFV6hErsFPv4OdUeJyU4LAtOT9shyKotEWyABEEBAaCUh9tGkODpFU3enyMZAiaUptCJycEDeMr8abACbNU7BXQpAyxPbPtXCE_dQr0g" alt="Top achiever portrait" />
                             <div class="absolute bottom-0 right-0 rounded-full border-2 border-white bg-primary px-2 py-1 text-[10px] font-bold text-white">AIR 156</div>
@@ -490,20 +520,19 @@
                 </div>
             </div>
         </section>
-        </section>
         </template>
         <!-- Testimonials -->
-        <section class="bg-gradient-to-br from-slate-50 via-white to-primary/5 py-section-padding">
-            <div class="mx-auto max-w-container-max-width px-margin-desktop">
+        <section class="section-shell bg-gradient-to-br from-slate-50 via-white to-primary/5 py-section-padding">
+            <div class="mx-auto max-w-container-max-width px-margin-mobile md:px-margin-desktop">
                 <div class="mb-12 text-center">
-                    <div class="mb-4 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
+                    <div class="section-kicker mx-auto mb-4">
                         Community feedback
                     </div>
-                    <h2 class="font-headline-lg text-headline-lg">What our learners and parents say</h2>
-                    <p class="mx-auto mt-4 max-w-2xl text-on-surface-variant font-body-md">Real experiences from students who trusted the process and saw measurable growth.</p>
+                    <h2 class="section-title mx-auto font-headline-lg text-headline-lg">What our learners and parents say</h2>
+                    <p class="section-copy mx-auto mt-4 font-body-md">Real experiences from students who trusted the process and saw measurable growth.</p>
                 </div>
                 <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
-                    <div class="rounded-[28px] border border-slate-200 bg-white p-8 shadow-[0_14px_35px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2">
+                    <div class="surface-card interactive-lift rounded-[28px] p-8">
                         <div class="mb-6 flex gap-1 text-primary">
                             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
                             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -520,7 +549,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="rounded-[28px] border border-slate-200 bg-white p-8 shadow-[0_14px_35px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2">
+                    <div class="surface-card interactive-lift rounded-[28px] p-8">
                         <div class="mb-6 flex gap-1 text-primary">
                             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
                             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -537,7 +566,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="rounded-[28px] border border-slate-200 bg-white p-8 shadow-[0_14px_35px_rgba(15,23,42,0.05)] transition-all duration-300 hover:-translate-y-2">
+                    <div class="surface-card interactive-lift rounded-[28px] p-8">
                         <div class="mb-6 flex gap-1 text-primary">
                             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
                             <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -558,33 +587,33 @@
             </div>
         </section>
         <!-- Admission Process -->
-        <section class="bg-white py-section-padding">
-            <div class="mx-auto max-w-container-max-width px-margin-desktop">
+        <section class="section-shell bg-white py-section-padding">
+            <div class="mx-auto max-w-container-max-width px-margin-mobile md:px-margin-desktop">
                 <div class="mb-12 text-center">
-                    <div class="mb-4 inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
+                    <div class="section-kicker mx-auto mb-4">
                         Easy admission journey
                     </div>
-                    <h2 class="font-headline-lg text-headline-lg">A simple path from inquiry to success</h2>
-                    <p class="mx-auto mt-4 max-w-2xl text-on-surface-variant font-body-md">We keep the admission journey clear, supportive, and tailored to your learner profile.</p>
+                    <h2 class="section-title mx-auto font-headline-lg text-headline-lg">A simple path from inquiry to success</h2>
+                    <p class="section-copy mx-auto mt-4 font-body-md">We keep the admission journey clear, supportive, and tailored to your learner profile.</p>
                 </div>
                 <div class="relative grid grid-cols-1 gap-8 md:grid-cols-4">
                     <div class="hidden md:block absolute left-0 top-12 h-0.5 w-full -z-10 bg-slate-200"></div>
-                    <div class="rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-7 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)]">
+                    <div class="surface-card interactive-lift rounded-[28px] p-7 text-center">
                         <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full border-4 border-primary bg-white text-xl font-bold text-primary">01</div>
                         <h3 class="mb-2 font-headline-sm text-headline-sm">Register</h3>
                         <p class="text-sm leading-6 text-on-surface-variant">Fill out the application form or visit our center to begin the journey.</p>
                     </div>
-                    <div class="rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-7 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)]">
+                    <div class="surface-card interactive-lift rounded-[28px] p-7 text-center">
                         <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full border-4 border-slate-200 bg-white text-xl font-bold text-slate-500">02</div>
                         <h3 class="mb-2 font-headline-sm text-headline-sm">Counseling</h3>
                         <p class="text-sm leading-6 text-on-surface-variant">Meet our experts for guidance on the right course, batch, and learning strategy.</p>
                     </div>
-                    <div class="rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-7 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)]">
+                    <div class="surface-card interactive-lift rounded-[28px] p-7 text-center">
                         <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full border-4 border-slate-200 bg-white text-xl font-bold text-slate-500">03</div>
                         <h3 class="mb-2 font-headline-sm text-headline-sm">Admission</h3>
                         <p class="text-sm leading-6 text-on-surface-variant">Complete the paperwork, choose your batch, and confirm your seat.</p>
                     </div>
-                    <div class="rounded-[28px] border border-slate-200 bg-gradient-to-br from-white to-slate-50 p-7 text-center shadow-[0_12px_30px_rgba(15,23,42,0.05)]">
+                    <div class="surface-card interactive-lift rounded-[28px] p-7 text-center">
                         <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full border-4 border-slate-200 bg-white text-xl font-bold text-slate-500">04</div>
                         <h3 class="mb-2 font-headline-sm text-headline-sm">Start</h3>
                         <p class="text-sm leading-6 text-on-surface-variant">Begin your transformation with structured lessons, testing, and mentorship.</p>
@@ -593,33 +622,33 @@
             </div>
         </section>
         <!-- Contact Preview -->
-        <section class="bg-surface-container-low py-section-padding">
-            <div class="mx-auto max-w-container-max-width px-margin-desktop">
+        <section class="section-shell bg-surface-container-low py-section-padding">
+            <div class="mx-auto max-w-container-max-width px-margin-mobile md:px-margin-desktop">
                 <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
                     <div class="space-y-8">
                         <div class="space-y-4">
-                            <div class="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
+                            <div class="section-kicker">
                                 Visit us or call us
                             </div>
-                            <h2 class="font-headline-lg text-headline-lg">Get in touch with the right mentor</h2>
+                            <h2 class="section-title font-headline-lg text-headline-lg">Get in touch with the right mentor</h2>
                             <p class="max-w-xl text-on-surface-variant font-body-md">Have a question about admissions, batches, or learning options? We’ll help you choose the most suitable path.</p>
                         </div>
                         <div class="space-y-4">
-                            <div class="flex items-start gap-4 rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
+                            <div class="surface-card-soft flex items-start gap-4 rounded-[24px] p-5">
                                 <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary"><span class="material-symbols-outlined">location_on</span></div>
                                 <div>
                                     <h4 class="font-semibold text-slate-900">Main Campus</h4>
                                     <p class="mt-1 text-sm leading-6 text-on-surface-variant">123 Education Drive, Academic Square,<br />New Delhi, 110001</p>
                                 </div>
                             </div>
-                            <div class="flex items-start gap-4 rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
+                            <div class="surface-card-soft flex items-start gap-4 rounded-[24px] p-5">
                                 <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary"><span class="material-symbols-outlined">call</span></div>
                                 <div>
                                     <h4 class="font-semibold text-slate-900">Call Us</h4>
                                     <p class="mt-1 text-sm leading-6 text-on-surface-variant">+91 1800 234 5678 (Toll Free)<br />+91 98765 43210</p>
                                 </div>
                             </div>
-                            <div class="flex items-start gap-4 rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm">
+                            <div class="surface-card-soft flex items-start gap-4 rounded-[24px] p-5">
                                 <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary"><span class="material-symbols-outlined">mail</span></div>
                                 <div>
                                     <h4 class="font-semibold text-slate-900">Email Support</h4>
@@ -627,7 +656,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm">
+                        <div class="surface-card-soft overflow-hidden rounded-[28px]">
                             <div class="relative h-64 w-full bg-slate-200">
                                 <div class="absolute inset-0 opacity-70 grayscale contrast-125" data-location="New Delhi">
                                     <img class="h-full w-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJQ7lWE4t3bzRtnV34RBfC7_LhJyE4wKqykUF4ej0_UZryKbbPkDiKEDHrAcqlQ5tF835GClHd1tbjX792zJULfWbAbndjcFLCC9ZwdW6wPCYQTaJGK2Cs9_AmxdlQEF4n6S9pwZGewNy1tPiRD1uqAVp8mtvEdYkmMHgbj2L2U4gdVyCL_wRCs8Bqsa_NWfPbWVI9WVQzeyfQF2ky5Zr4YGsJS2F_Q1RzlbKhq7itT81Tc_zFl5FYw05gXZkm6_igDGzefyHwZA" alt="Campus map preview" />
@@ -641,7 +670,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="rounded-[32px] border border-slate-200 bg-white p-8 shadow-[0_16px_45px_rgba(15,23,42,0.08)] sm:p-10">
+                    <div class="surface-card rounded-[32px] p-8 sm:p-10">
                         <div class="space-y-6">
                             <div class="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
                                 Free counseling

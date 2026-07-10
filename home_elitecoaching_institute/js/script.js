@@ -5,6 +5,8 @@ const guestAuthActions = document.getElementById('guestAuthActions');
 const studentProfileLink = document.getElementById('studentProfileLink');
 const dashboardUrl = '../student_panel_elitecoaching_institute/student panel.html';
 const loginUrl = '../auth_elitecoaching_institute/auth.html?mode=login';
+const mobileMenuButton = document.getElementById('mobileMenuButton');
+const mobileMenu = document.getElementById('mobileMenu');
 
 function createLink(label, href) {
     const link = document.createElement('a');
@@ -85,6 +87,68 @@ function updateAuthStatus() {
     }
 }
 
+function setupMobileMenu() {
+    if (!mobileMenuButton || !mobileMenu) return;
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('open');
+    });
+}
+
+function setupCounters() {
+    const counters = document.querySelectorAll('[data-count]');
+    if (!counters.length) return;
+
+    const animateCounter = (element) => {
+        const target = Number(element.dataset.count || '0');
+        const suffix = element.dataset.suffix || '';
+        const duration = 1200;
+        const startTime = performance.now();
+
+        const step = (timestamp) => {
+            const progress = Math.min((timestamp - startTime) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const value = Math.round(target * eased);
+            element.textContent = `${value}${suffix}`;
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            }
+        };
+
+        requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            animateCounter(entry.target);
+            observer.unobserve(entry.target);
+        });
+    }, { threshold: 0.6 });
+
+    counters.forEach((counter) => observer.observe(counter));
+}
+
+function setupCourseFilters() {
+    const buttons = document.querySelectorAll('[data-course-filter]');
+    const cards = document.querySelectorAll('[data-course-category]');
+    if (!buttons.length || !cards.length) return;
+
+    const applyFilter = (filter) => {
+        buttons.forEach((button) => {
+            button.classList.toggle('is-active', button.dataset.courseFilter === filter);
+        });
+
+        cards.forEach((card) => {
+            const matches = filter === 'all' || card.dataset.courseCategory === filter;
+            card.classList.toggle('course-card-hidden', !matches);
+        });
+    };
+
+    buttons.forEach((button) => {
+        button.addEventListener('click', () => applyFilter(button.dataset.courseFilter || 'all'));
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const observerOptions = { threshold: 0.1 };
     const observer = new IntersectionObserver((entries) => {
@@ -101,5 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(section);
     });
 
+    setupMobileMenu();
+    setupCounters();
+    setupCourseFilters();
     updateAuthStatus();
 });

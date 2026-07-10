@@ -1,5 +1,6 @@
 const currentUserKey = "eliteCoachingCurrentUser";
 const purchaseKey = "eliteCoachingStaticPurchasedCourses";
+const teacherStudioKey = "eliteCoachingCourseStudioState";
 
 const screens = {
   dashboard: { title: "Dashboard", eyebrow: "Student Panel" },
@@ -341,6 +342,12 @@ function bindShellEvents() {
     navigateScreen("courses");
     renderCourses();
   });
+  window.addEventListener("storage", (event) => {
+    if (event.key !== teacherStudioKey && event.key !== purchaseKey) return;
+    if (event.key === purchaseKey) loadPurchases();
+    renderAll();
+    if (state.activeScreen === "courses") renderCourses();
+  });
 }
 
 function navigateScreen(screen) {
@@ -389,8 +396,149 @@ function renderAll() {
   renderProfile();
 }
 
+function loadTeacherStudioState() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(teacherStudioKey) || "{}");
+    return {
+      courses: Array.isArray(parsed.courses) ? parsed.courses : [],
+      batches: Array.isArray(parsed.batches) ? parsed.batches : [],
+    };
+  } catch {
+    return { courses: [], batches: [] };
+  }
+}
+
+function formatDateLabel(value) {
+  if (!value) return "Date not set";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return value;
+  return date.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" });
+}
+
+function durationToMinutes(value) {
+  if (!value) return 0;
+  const hourMatch = value.match(/(\d+)\s*h/i);
+  const minuteMatch = value.match(/(\d+)\s*m/i);
+  return (hourMatch ? Number(hourMatch[1]) * 60 : 0) + (minuteMatch ? Number(minuteMatch[1]) : 0);
+}
+
+function minutesToDuration(totalMinutes) {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  if (!hours && !minutes) return "0h 00m";
+  return `${hours}h ${String(minutes).padStart(2, "0")}m`;
+}
+
+function thumbnailForCourse(category) {
+  const key = String(category || "").toLowerCase();
+  if (key.includes("bio")) return "genetics";
+  if (key.includes("chem")) return "biotech";
+  if (key.includes("math") || key.includes("jee")) return "functions";
+  if (key.includes("foundation") || key.includes("class")) return "school";
+  return "menu_book";
+}
+
+function dynamicSubjectName(course) {
+  if (course.category) return course.category;
+  return "Course Modules";
+}
+
+function buildTeacherCourseCurriculum(course) {
+  const chapters = (course.modules || []).map((module, index) => ({
+    id: module.id,
+    name: module.name || `Module ${index + 1}`,
+    duration: minutesToDuration(module.lectures.reduce((total, lecture) => total + durationToMinutes(lecture.duration), 0)),
+    progress: 0,
+    lectures: (module.lectures || []).map((lecture, lectureIndex) => ({
+      id: lecture.id || `${module.id}-lecture-${lectureIndex + 1}`,
+      title: lecture.title || `Lecture ${lectureIndex + 1}`,
+      duration: lecture.duration || "Recorded lecture",
+      progress: 0,
+      current: index === 0 && lectureIndex === 0,
+      pdf: Boolean((module.sources || []).length),
+      completed: false,
+      locked: false,
+    })),
+  }));
+
+  return [
+    {
+      id: `${course.id}-subject`,
+      name: dynamicSubjectName(course),
+      icon: thumbnailForCourse(course.category),
+      progress: 0,
+      lastStudied: "Orientation",
+      chapters: chapters.length ? chapters : [{
+        id: `${course.id}-chapter-1`,
+        name: `${course.title} Orientation`,
+        duration: "0h 00m",
+        progress: 0,
+        lectures: [
+          { id: `${course.id}-lecture-1`, title: "Course Roadmap", duration: "20 min", progress: 0, current: true, pdf: false, completed: false, locked: false },
+        ],
+      }],
+    },
+  ];
+}
+
+function teacherPublishedCourses() {
+  const studioState = loadTeacherStudioState();
+  return studioState.courses
+    .filter((course) => course.status === "Published")
+    .map((course, index) => {
+      const batch = studioState.batches.find((item) => item.id === course.batchId);
+      const lectures = (course.modules || []).reduce((total, module) => total + (module.lectures || []).length, 0);
+      const minutes = (course.modules || []).reduce((total, module) => total + (module.lectures || []).reduce((sum, lecture) => sum + durationToMinutes(lecture.duration), 0), 0);
+      return {
+        id: course.id,
+        title: course.title,
+        faculty: course.faculty || "Elite Coaching Faculty",
+        category: course.category || "Elite Course",
+        access: "Premium",
+        language: "English",
+        duration: minutesToDuration(minutes),
+        price: 0,
+        rating: 4.9,
+        students: "New",
+        enrolled: false,
+        progress: 0,
+        batchStart: formatDateLabel(batch?.startDate),
+        batchEnd: "To be announced",
+        validTill: "Active",
+        enrollmentDate: "Today",
+        status: "Published",
+        watchTime: "0h 00m",
+        estimatedRemaining: minutesToDuration(minutes),
+        lastDownloaded: "Module resources pending",
+        lastAssignment: "No assignment yet",
+        thumbnail: thumbnailForCourse(course.category),
+        subjects: buildTeacherCourseCurriculum(course),
+        sourceOrigin: "teacher",
+        batchName: batch?.name || "Independent course",
+        description: course.description || "Published by the teacher studio.",
+        lectureCount: lectures,
+        sourceCount: (course.modules || []).reduce((total, module) => total + (module.sources || []).length, 0),
+        sortRank: 1000 - index,
+      };
+    });
+}
+
+function teacherPublishedBatches() {
+  const studioState = loadTeacherStudioState();
+  return studioState.batches
+    .filter((batch) => batch.status === "Open" || batch.status === "Upcoming")
+    .map((batch) => ({
+      id: batch.id,
+      name: batch.name,
+      year: batch.year,
+      status: batch.status,
+      startDate: formatDateLabel(batch.startDate),
+      courseCount: studioState.courses.filter((course) => course.batchId === batch.id && course.status === "Published").length,
+    }));
+}
+
 function courses() {
-  return courseCatalog.map((course) => {
+  const staticCourses = courseCatalog.map((course, index) => {
     const enrolled = course.enrolled || state.purchases.has(course.id);
     return {
       ...course,
@@ -405,8 +553,14 @@ function courses() {
       estimatedRemaining: course.estimatedRemaining || course.duration,
       lastDownloaded: course.lastDownloaded || "Orientation Notes",
       lastAssignment: course.lastAssignment || "Not submitted yet",
+      sortRank: 500 - index,
     };
   });
+
+  return [...teacherPublishedCourses(), ...staticCourses].map((course) => ({
+    ...course,
+    enrolled: course.enrolled || state.purchases.has(course.id),
+  }));
 }
 
 function buildStarterCurriculum(course) {
@@ -473,7 +627,7 @@ function courseStats(course) {
 function renderDashboard() {
   const enrolled = purchasedCourses();
   const avgProgress = Math.round(enrolled.reduce((sum, course) => sum + course.progress, 0) / Math.max(enrolled.length, 1));
-  const nextCourse = enrolled[0];
+  const nextCourse = enrolled[0] || courses()[0];
   document.getElementById("dashboardScreen").innerHTML = `
     <div class="page-head compact-head">
       <div>
@@ -504,11 +658,14 @@ function renderCourses() {
 }
 
 function renderCourseList(root) {
-  const categories = ["All", "NEET", "JEE", "Foundation", "Class 11", "Class 12", "Crash Course", "Premium", "Free"];
+  const teacherCourses = teacherPublishedCourses();
+  const teacherBatches = teacherPublishedBatches();
+  const dynamicCategories = [...new Set(teacherCourses.map((course) => course.category).filter(Boolean))];
+  const categories = ["All", "NEET", "JEE", "Foundation", "Class 11", "Class 12", "Crash Course", "Premium", "Free", ...dynamicCategories.filter((category) => !["NEET", "JEE", "Foundation", "Class 11", "Class 12", "Crash Course", "Premium", "Free"].includes(category))];
   const source = state.courseTab === "purchased" ? purchasedCourses() : exploreCourses();
   const filtered = sortCourses(source.filter((course) => {
     const categoryMatch = state.courseCategory === "All" || course.category === state.courseCategory || course.access === state.courseCategory;
-    const text = `${course.title} ${course.faculty} ${course.category} ${course.access} ${course.subjects.map((subject) => subject.name).join(" ")}`.toLowerCase();
+    const text = `${course.title} ${course.faculty} ${course.category} ${course.access} ${course.batchName || ""} ${course.subjects.map((subject) => subject.name).join(" ")}`.toLowerCase();
     return categoryMatch && text.includes(state.courseQuery.toLowerCase());
   }));
   root.innerHTML = `
@@ -536,6 +693,7 @@ function renderCourseList(root) {
         <button class="${state.courseTab === "purchased" ? "active" : ""}" data-course-tab="purchased">Purchased</button>
         <button class="${state.courseTab === "explore" ? "active" : ""}" data-course-tab="explore">Explore</button>
       </div>
+      ${state.courseTab === "explore" ? exploreHighlights(teacherCourses, teacherBatches) : ""}
       ${filtered.length ? `<div class="grid course-grid lms-course-grid">${filtered.map(state.courseTab === "purchased" ? purchasedCourseCard : exploreCourseCard).join("")}</div>` : emptyState("No courses found", "Try another search, category, or tab.")}
     </div>
   `;
@@ -547,8 +705,47 @@ function sortCourses(items) {
     if (state.sort === "progress") return b.progress - a.progress;
     if (state.sort === "az") return a.title.localeCompare(b.title);
     if (state.sort === "rating") return b.rating - a.rating;
-    return Number(b.enrolled) - Number(a.enrolled);
+    return (b.sortRank || Number(b.enrolled)) - (a.sortRank || Number(a.enrolled));
   });
+}
+
+function exploreHighlights(coursesList, batchList) {
+  const publishedCourses = coursesList.length;
+  const liveBatches = batchList.length;
+  const latestCourses = coursesList.slice(0, 3);
+  const latestBatches = batchList.slice(0, 2);
+
+  return `
+    <section class="card explore-hero">
+      <div>
+        <p class="eyebrow">Teacher Releases</p>
+        <h3>Freshly published from the teacher dashboard</h3>
+        <p>Whenever a teacher publishes a new course or opens a new batch, it appears here for students to discover in Explore.</p>
+      </div>
+      <div class="explore-metrics">
+        <article><strong>${publishedCourses}</strong><span>Published courses</span></article>
+        <article><strong>${liveBatches}</strong><span>Visible batches</span></article>
+      </div>
+      <div class="highlight-grid">
+        ${latestCourses.map((course) => `
+          <article class="highlight-card">
+            <span class="teacher-badge">New Course</span>
+            <h4>${course.title}</h4>
+            <p>${course.faculty} • ${course.batchName}</p>
+            <small>${course.lectureCount} lectures • ${course.sourceCount} resources</small>
+          </article>
+        `).join("") || `<article class="highlight-card empty-highlight"><h4>No teacher course published yet</h4><p>Publish a course from the teacher studio to show it here.</p></article>`}
+        ${latestBatches.map((batch) => `
+          <article class="highlight-card">
+            <span class="teacher-badge alt">Batch</span>
+            <h4>${batch.name}</h4>
+            <p>${batch.status} • Starts ${batch.startDate}</p>
+            <small>${batch.courseCount} published courses attached</small>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+  `;
 }
 
 function purchasedCourseCard(course) {
@@ -564,6 +761,7 @@ function purchasedCourseCard(course) {
         <div class="course-facts">
           <span>${stats.subjects} subjects</span><span>${stats.chapters} chapters</span><span>${stats.lectures} lectures</span>
         </div>
+        ${course.batchName ? `<div class="teacher-inline-meta"><span class="material-symbols-outlined">groups</span><span>${course.batchName}</span></div>` : ""}
         <div class="progress-line"><span>Progress</span><strong>${course.progress}%</strong></div>
         <div class="progress"><span style="width:${course.progress}%"></span></div>
         <div class="learning-meta">
@@ -587,9 +785,11 @@ function exploreCourseCard(course) {
         <div class="course-facts">
           <span>${course.duration}</span><span>${course.rating} rating</span><span>${course.students} students</span>
         </div>
+        ${course.batchName ? `<div class="teacher-inline-meta"><span class="material-symbols-outlined">groups</span><span>${course.batchName}</span></div>` : ""}
+        ${course.sourceOrigin === "teacher" ? `<p class="teacher-note">${course.description}</p>` : ""}
         <div class="price-row"><strong>${course.price ? `Rs. ${course.price.toLocaleString("en-IN")}` : "Free"}</strong><span>${course.language}</span></div>
         <div class="course-actions">
-          <button class="btn" data-buy="${course.id}">Buy Now</button>
+          <button class="btn" data-buy="${course.id}">${course.price ? "Buy Now" : "Unlock Course"}</button>
           <button class="btn outline" data-action="details">View Details</button>
         </div>
       </div>

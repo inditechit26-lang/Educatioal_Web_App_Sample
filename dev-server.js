@@ -9,6 +9,7 @@ const staticDirs = new Set([
   "admin_dashboard_elitecoaching_institute",
   "auth_elitecoaching_institute",
   "contact_elitecoaching_institute",
+  "course_management_studio_eduverse",
   "faculty_results_elitecoaching_institute",
   "home_elitecoaching_institute",
   "our_courses_elitecoaching_institute",
@@ -125,5 +126,6 @@ http
   })
   .listen(port, "127.0.0.1", () => {
     console.log(`Website home: http://127.0.0.1:${port}/home_elitecoaching_institute/code.html`);
+    console.log(`Elite Coaching studio: http://127.0.0.1:${port}/course_management_studio_eduverse/studio.html`);
     console.log(`Student workspace: http://127.0.0.1:${port}/`);
   });

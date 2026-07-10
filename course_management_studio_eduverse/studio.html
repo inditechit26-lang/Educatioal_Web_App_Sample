@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Elite Coaching | Teacher Course Studio</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script src="js/tailwind.config.js"></script>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="bg-background text-ink">
+  <div class="app-shell lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
+    <aside id="sidebarDrawer" class="sidebar-drawer fixed inset-y-0 left-0 z-50 flex w-[280px] flex-col border-r border-border bg-surface px-5 py-6 shadow-panel lg:static lg:shadow-none">
+      <div class="mb-8 flex items-center gap-3">
+        <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-white shadow-soft">E</div>
+        <div>
+          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-muted">Elite Coaching</p>
+          <h1 class="text-lg font-semibold">Teacher Course Studio</h1>
+        </div>
+      </div>
+
+      <div class="mb-6 rounded-panel border border-border bg-slate-50 p-4">
+        <p class="text-sm font-semibold text-ink">Teacher Workflow</p>
+        <p class="mt-2 text-sm leading-6 text-muted">Create a course from scratch, assign it to batches like NEEV Batch 2026, design modules, add video lectures, and attach PDF, PPT, or link sources per module.</p>
+      </div>
+
+      <nav class="space-y-2">
+        <a class="sidebar-link is-active flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
+          <span class="material-symbols-outlined text-[20px]">space_dashboard</span>Dashboard
+        </a>
+        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
+          <span class="material-symbols-outlined text-[20px]">library_books</span>Courses
+        </a>
+        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
+          <span class="material-symbols-outlined text-[20px]">inventory_2</span>Content Library
+        </a>
+        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
+          <span class="material-symbols-outlined text-[20px]">perm_media</span>Media Library
+        </a>
+        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
+          <span class="material-symbols-outlined text-[20px]">assignment</span>Assignments
+        </a>
+        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
+          <span class="material-symbols-outlined text-[20px]">quiz</span>Tests
+        </a>
+        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
+          <span class="material-symbols-outlined text-[20px]">groups</span>Students
+        </a>
+        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
+          <span class="material-symbols-outlined text-[20px]">campaign</span>Announcements
+        </a>
+        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
+          <span class="material-symbols-outlined text-[20px]">monitoring</span>Analytics
+        </a>
+        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
+          <span class="material-symbols-outlined text-[20px]">settings</span>Settings
+        </a>
+      </nav>
+
+      <div class="mt-auto rounded-panel border border-border bg-slate-50 p-4">
+        <p class="text-sm font-semibold text-ink">Studio Status</p>
+        <p class="mt-2 text-sm leading-6 text-muted">Course creation, module design, lecture linking, and batch planning are organized into one teacher-friendly workspace.</p>
+        <button class="mt-4 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm font-semibold text-ink">Logout</button>
+      </div>
+    </aside>
+
+    <main class="min-w-0">
+      <header class="sticky top-0 z-40 border-b border-border bg-white/90 backdrop-blur">
+        <div class="mx-auto flex max-w-studio items-center gap-3 px-4 py-4 sm:px-6 lg:px-8">
+          <button id="sidebarToggle" class="rounded-xl border border-border p-2 lg:hidden" type="button" aria-label="Toggle sidebar">
+            <span class="material-symbols-outlined">menu</span>
+          </button>
+          <div class="relative min-w-0 flex-1">
+            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-muted">search</span>
+            <input class="w-full rounded-2xl border border-border bg-slate-50 py-3 pl-12 pr-4 text-sm outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/10" type="search" placeholder="Search courses, batches, modules, lectures, PDFs, PPTs, and links..." />
+          </div>
+          <div class="hidden items-center gap-3 md:flex">
+            <span id="studioAutosave" class="autosave-pill is-saved rounded-full px-3 py-1.5 text-xs font-semibold">Saved</span>
+            <div class="flex items-center gap-3 rounded-2xl border border-border bg-white px-3 py-2.5">
+              <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary-soft text-sm font-bold text-primary">AS</div>
+              <div class="leading-tight">
+                <p class="text-sm font-semibold">Akash Sharma</p>
+                <p class="text-xs text-muted">Teacher Admin</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="studio-scroll h-[calc(100vh-81px)] overflow-y-auto">
+        <div class="mx-auto max-w-studio space-y-8 px-4 py-6 sm:px-6 lg:px-8">
+          <section class="studio-hero workspace-shell rounded-panel p-6">
+            <div class="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
+              <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary">Teacher Authoring Workspace</div>
+                <h2 class="mt-4 text-3xl font-semibold tracking-tight">Fully functional course and batch creation for Elite Coaching teachers.</h2>
+                <p class="mt-4 text-sm leading-7 text-muted">This workspace is split into two sections so teachers can manage a specific course and create new batches separately. Courses, modules, lectures, and sources are editable and saved locally inside the browser.</p>
+                <div class="mt-5 flex flex-wrap gap-3 text-sm text-muted">
+                  <span class="rounded-full border border-border bg-white px-3 py-2">Create courses from scratch</span>
+                  <span class="rounded-full border border-border bg-white px-3 py-2">Assign batches like NEEV Batch 2026</span>
+                  <span class="rounded-full border border-border bg-white px-3 py-2">Add videos, PDFs, PPTs, and links</span>
+                </div>
+              </div>
+              <div class="space-y-4">
+                <div class="grid gap-3 sm:grid-cols-3">
+                  <div class="metric-card rounded-2xl p-4">
+                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Courses</p>
+                    <p class="mt-2 text-2xl font-semibold">Create</p>
+                    <p class="mt-1 text-sm text-muted">Build and edit one specific course at a time.</p>
+                  </div>
+                  <div class="metric-card rounded-2xl p-4">
+                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Modules</p>
+                    <p class="mt-2 text-2xl font-semibold">Design</p>
+                    <p class="mt-1 text-sm text-muted">Organize modules, lectures, and source bundles.</p>
+                  </div>
+                  <div class="metric-card rounded-2xl p-4">
+                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Batches</p>
+                    <p class="mt-2 text-2xl font-semibold">Assign</p>
+                    <p class="mt-1 text-sm text-muted">Attach courses to yearly teaching cohorts.</p>
+                  </div>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                  <button class="is-active rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-white" data-workspace-tab="courses" type="button">Course Creator</button>
+                  <button class="rounded-full border border-border bg-white px-4 py-2.5 text-sm font-semibold text-muted" data-workspace-tab="batches" type="button">Batch Manager</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="workspace-shell rounded-panel p-6">
+            <div class="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
+              <div class="xl:max-w-3xl">
+                <p class="text-sm font-semibold text-primary">Studio Overview</p>
+                <h3 class="mt-1 text-2xl font-semibold">Track what is ready to publish and what still needs structure.</h3>
+                <p class="mt-2 text-sm leading-7 text-muted">This dashboard keeps teachers oriented while building courses. It summarizes course count, live batches, module volume, lecture uploads, and the current publishing state.</p>
+                <div id="studioOverviewStats" class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4"></div>
+              </div>
+              <div class="overview-feed rounded-panel border border-border bg-slate-50 p-5 xl:w-[360px]">
+                <p class="text-sm font-semibold text-primary">Publishing Board</p>
+                <h4 class="mt-1 text-lg font-semibold">Recent teaching structure</h4>
+                <div id="studioOverviewFeed" class="mt-4 space-y-3"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="workspace-section is-active space-y-8" data-workspace-section="courses">
+            <div class="grid gap-8 xl:grid-cols-[420px_minmax(0,1fr)]">
+              <div class="section-stack">
+                <section class="workspace-shell rounded-panel p-6">
+                  <div class="flex items-center justify-between gap-3">
+                    <div>
+                      <p class="text-sm font-semibold text-primary">Course Creator</p>
+                      <h3 id="courseFormTitle" class="mt-1 text-2xl font-semibold">Create a new course</h3>
+                      <p class="mt-2 text-sm text-muted">Define the specific course first, then continue into module and lecture design on the right.</p>
+                    </div>
+                    <button id="addNewCourseButton" class="rounded-xl border border-border px-4 py-2.5 text-sm font-semibold" type="button">New</button>
+                  </div>
+
+                  <form id="courseForm" class="mt-6 space-y-4">
+                    <input id="courseId" type="hidden" />
+                    <div class="field-group rounded-2xl p-4">
+                      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Core Details</p>
+                      <label class="space-y-2 text-sm font-medium text-ink">
+                        Course Title
+                        <input id="courseTitle" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="NEET Biology Masterclass" required />
+                      </label>
+                      <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                        <label class="space-y-2 text-sm font-medium text-ink">
+                          Batch
+                          <select id="courseBatch" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"></select>
+                        </label>
+                        <label class="space-y-2 text-sm font-medium text-ink">
+                          Status
+                          <select id="courseStatus" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10">
+                            <option>Draft</option>
+                            <option>Published</option>
+                            <option>Archived</option>
+                          </select>
+                        </label>
+                      </div>
+                    </div>
+                    <div class="field-group rounded-2xl p-4">
+                      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Teaching Metadata</p>
+                      <div class="grid gap-4 sm:grid-cols-2">
+                        <label class="space-y-2 text-sm font-medium text-ink">
+                          Faculty
+                          <input id="courseFaculty" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Dr. Kavya Singh" />
+                        </label>
+                        <label class="space-y-2 text-sm font-medium text-ink">
+                          Category
+                          <input id="courseCategory" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="NEET / JEE / Foundation" />
+                        </label>
+                      </div>
+                    </div>
+                    <div class="field-group rounded-2xl p-4">
+                      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Course Positioning</p>
+                      <label class="space-y-2 text-sm font-medium text-ink">
+                        Description
+                        <textarea id="courseDescription" data-autosave-field class="h-28 w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Add the teaching approach, outcome, and curriculum style."></textarea>
+                      </label>
+                    </div>
+                    <button class="w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white shadow-soft" type="submit">Save Course</button>
+                  </form>
+                </section>
+
+                <section class="workspace-shell rounded-panel p-6">
+                  <div class="flex items-center justify-between">
+                    <div>
+                      <p class="text-sm font-semibold text-primary">Course Library</p>
+                      <h3 class="mt-1 text-xl font-semibold">Created courses</h3>
+                      <p class="mt-2 text-sm text-muted">Open any existing course to continue editing its structure.</p>
+                    </div>
+                  </div>
+                  <div id="courseList" class="mt-6 space-y-4"></div>
+                </section>
+              </div>
+
+              <div class="section-stack">
+                <section class="workspace-shell rounded-panel p-6">
+                  <p class="text-sm font-semibold text-primary">Selected Course Snapshot</p>
+                  <h3 class="mt-1 text-xl font-semibold">Live overview of the course you are editing</h3>
+                  <div id="courseSummary" class="mt-5 grid gap-4 md:grid-cols-2"></div>
+                </section>
+
+                <section class="workspace-shell rounded-panel p-6">
+                  <div id="builderEmpty" class="rounded-panel border border-dashed border-border bg-slate-50 p-8 text-center">
+                    <p class="text-lg font-semibold text-ink">No course selected</p>
+                    <p class="mt-2 text-sm text-muted">Create a course or open one from the course list to start building modules, lectures, and sources.</p>
+                  </div>
+
+                  <div id="builderContent" class="hidden space-y-8">
+                    <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                      <div>
+                        <p class="text-sm font-semibold text-primary">Teacher Dashboard Panel</p>
+                        <h3 id="builderCourseTitle" class="mt-1 text-2xl font-semibold"></h3>
+                        <p id="builderCourseMeta" class="mt-2 text-sm text-muted"></p>
+                      </div>
+                    </div>
+
+                    <div class="grid gap-8 xl:grid-cols-[320px_minmax(0,1fr)]">
+                      <div class="space-y-6 xl:sticky xl:top-6 xl:self-start">
+                        <div class="panel-muted rounded-panel border border-border p-5">
+                          <div class="flex items-center justify-between gap-3">
+                            <div>
+                              <p class="text-sm font-semibold text-ink">Modules</p>
+                              <p class="mt-1 text-xs text-muted">Add, select, and delete modules for the selected course.</p>
+                            </div>
+                          </div>
+                          <div id="moduleList" class="mt-4 space-y-3"></div>
+                        </div>
+
+                        <form id="moduleForm" class="panel-muted rounded-panel border border-border p-5 space-y-4">
+                          <div class="flex items-center justify-between gap-3">
+                            <div>
+                              <p class="text-sm font-semibold text-primary">Module Designer</p>
+                              <h4 id="moduleFormTitle" class="mt-1 text-lg font-semibold">Create a new module</h4>
+                            </div>
+                            <button id="clearModuleButton" class="rounded-xl border border-border px-3 py-2 text-sm font-semibold" type="button">Clear</button>
+                          </div>
+                          <input id="moduleId" type="hidden" />
+                          <label class="space-y-2 text-sm font-medium">
+                            Module Name
+                            <input id="moduleName" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Module: Cell Biology" required />
+                          </label>
+                          <label class="space-y-2 text-sm font-medium">
+                            Learning Objective
+                            <input id="moduleObjective" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Explain core outcomes for this module" />
+                          </label>
+                          <label class="space-y-2 text-sm font-medium">
+                            Module Design Notes
+                            <textarea id="moduleDesign" data-autosave-field class="h-24 w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="How should this module be taught, sequenced, and designed?"></textarea>
+                          </label>
+                          <label class="space-y-2 text-sm font-medium">
+                            Status
+                            <select id="moduleStatus" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10">
+                              <option>Draft</option>
+                              <option>Published</option>
+                            </select>
+                          </label>
+                          <button class="w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white" type="submit">Save Module</button>
+                        </form>
+                      </div>
+
+                      <div class="space-y-6">
+                        <section class="panel-muted rounded-panel border border-border p-5">
+                          <div class="flex items-center justify-between gap-3">
+                            <div>
+                              <p class="text-sm font-semibold text-primary">Video Lectures</p>
+                              <h4 class="mt-1 text-xl font-semibold">Add lecture videos to the selected module</h4>
+                            </div>
+                          </div>
+                          <form id="lectureForm" class="mt-5 grid gap-4 lg:grid-cols-[1fr_1fr_180px_auto]">
+                            <input id="lectureId" type="hidden" />
+                            <input id="lectureTitle" data-autosave-field class="rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Lecture title" required />
+                            <input id="lectureUrl" data-autosave-field class="rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Video URL or Cloudinary public URL" required />
+                            <input id="lectureDuration" data-autosave-field class="rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="38m" />
+                            <button id="lectureSubmitButton" class="rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white" type="submit">Add Lecture</button>
+                          </form>
+                          <div class="mt-3 flex justify-end">
+                            <button id="clearLectureButton" class="rounded-xl border border-border px-4 py-2 text-sm font-semibold" type="button">Clear lecture form</button>
+                          </div>
+                          <div id="lectureList" class="mt-5 space-y-3"></div>
+                        </section>
+
+                        <section class="panel-muted rounded-panel border border-border p-5">
+                          <div class="flex items-center justify-between gap-3">
+                            <div>
+                              <p class="text-sm font-semibold text-primary">Module Sources</p>
+                              <h4 class="mt-1 text-xl font-semibold">Attach PDF, PPT, and links to the selected module</h4>
+                            </div>
+                          </div>
+                          <form id="sourceForm" class="mt-5 grid gap-4 lg:grid-cols-[1fr_180px_1fr_auto]">
+                            <input id="sourceId" type="hidden" />
+                            <input id="sourceTitle" data-autosave-field class="rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Source title" required />
+                            <select id="sourceType" data-autosave-field class="rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10">
+                              <option>PDF</option>
+                              <option>PPT</option>
+                              <option>Link</option>
+                            </select>
+                            <input id="sourceUrl" data-autosave-field class="rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="File URL or external link" required />
+                            <button id="sourceSubmitButton" class="rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white" type="submit">Add Source</button>
+                          </form>
+                          <div class="mt-3 flex justify-end">
+                            <button id="clearSourceButton" class="rounded-xl border border-border px-4 py-2 text-sm font-semibold" type="button">Clear source form</button>
+                          </div>
+                          <div id="sourceList" class="mt-5 space-y-3"></div>
+                        </section>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </section>
+
+          <section class="workspace-section space-y-8" data-workspace-section="batches">
+            <div class="grid gap-8 xl:grid-cols-[420px_minmax(0,1fr)]">
+              <section class="workspace-shell rounded-panel p-6">
+                <div class="flex items-center justify-between gap-3">
+                  <div>
+                    <p class="text-sm font-semibold text-primary">Batch Manager</p>
+                    <h3 id="batchFormTitle" class="mt-1 text-2xl font-semibold">Create a new batch</h3>
+                    <p class="mt-2 text-sm text-muted">Maintain yearly teaching batches and reuse them while creating courses.</p>
+                  </div>
+                  <button id="addNewBatchButton" class="rounded-xl border border-border px-4 py-2.5 text-sm font-semibold" type="button">New</button>
+                </div>
+
+                <form id="batchForm" class="mt-6 space-y-4">
+                  <input id="batchId" type="hidden" />
+                  <div class="field-group rounded-2xl p-4">
+                    <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Batch Identity</p>
+                    <label class="space-y-2 text-sm font-medium">
+                      Batch Name
+                      <input id="batchName" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="NEEV Batch 2026" required />
+                    </label>
+                    <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                      <label class="space-y-2 text-sm font-medium">
+                        Academic Year
+                        <input id="batchYear" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="2026" required />
+                      </label>
+                      <label class="space-y-2 text-sm font-medium">
+                        Status
+                        <select id="batchStatus" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10">
+                          <option>Open</option>
+                          <option>Upcoming</option>
+                          <option>Closed</option>
+                        </select>
+                      </label>
+                    </div>
+                    <label class="mt-4 block space-y-2 text-sm font-medium">
+                      Start Date
+                      <input id="batchStart" data-autosave-field type="date" class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
+                    </label>
+                  </div>
+                  <button class="w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white shadow-soft" type="submit">Save Batch</button>
+                </form>
+              </section>
+
+              <section class="workspace-shell rounded-panel p-6">
+                <div>
+                  <p class="text-sm font-semibold text-primary">Available Batches</p>
+                  <h3 class="mt-1 text-2xl font-semibold">Assign courses to specific teaching batches</h3>
+                  <p class="mt-2 text-sm text-muted">Teachers can create and edit batches here, then assign any course to that batch from the course creator panel.</p>
+                </div>
+                <div id="batchList" class="mt-6 grid gap-4 md:grid-cols-2"></div>
+              </section>
+            </div>
+          </section>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
