@@ -176,27 +176,10 @@ function renderDashboard() {
       ${metric("fact_check", "92%", "Attendance")}
       ${metric("local_fire_department", "7 days", "Learning streak")}
     </div>
-    <div class="grid two-col" style="margin-top:16px">
-      <article class="card hero-card">
-        <div class="course-art"><span class="material-symbols-outlined">science</span></div>
-        <div class="hero-body">
-          <span class="pill blue">Continue learning</span>
-          <h2 style="margin-top:14px">Gauss law - intuition and proof</h2>
-          <p class="muted">Physics - Electric Charges and Fields - paused at 24:18</p>
-          <div class="progress" style="margin:22px 0 14px"><span style="width:68%"></span></div>
-          <div class="button-row">
-            <button class="btn" data-action="continue">Continue Lecture</button>
-            <button class="btn outline" data-open-course="neet-master">Open Curriculum</button>
-          </div>
-        </div>
-      </article>
-      <article class="card panel">
-        <div class="section-title-row" style="margin-top:0"><div><h2>Today</h2><p>Live classes and tasks</p></div></div>
-        ${liveClasses.map((item) => compactList(item.status === "Live" ? "radio_button_checked" : "schedule", item.subject, `${item.time} - ${item.teacher}`, item.status === "Live" ? "Join" : "View", "live")).join("")}
-      </article>
-    </div>
     <div class="section-title-row"><div><h2>Courses</h2><p>Your current learning library</p></div><button class="btn outline" data-screen="courses">View all</button></div>
     <div class="grid course-grid">${courses.slice(0, 3).map(courseCard).join("")}</div>
+    <div class="section-title-row"><div><h2>Today</h2><p>Live classes and tasks</p></div></div>
+    <div class="grid">${liveClasses.map((item) => compactList(item.status === "Live" ? "radio_button_checked" : "schedule", item.subject, `${item.time} - ${item.teacher}`, item.status === "Live" ? "Join" : "View", "live")).join("")}</div>
   `;
   bindDynamicActions();
 }

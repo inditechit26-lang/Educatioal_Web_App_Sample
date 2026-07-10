@@ -338,38 +338,10 @@ body.dark .topbar {
   color: var(--muted);
 }
 
-.hero-card {
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
-}
-
-.course-art {
-  min-height: 240px;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, #dbeafe, #eef2ff);
-  color: var(--brand);
-}
-
-.course-art .material-symbols-outlined {
-  font-size: 86px;
-}
-
-.hero-body {
-  padding: 28px;
-}
-
-.hero-body h2,
 .section-title,
 .course-card h3,
 .list-card h3 {
   margin: 0;
-}
-
-.hero-body h2 {
-  font-size: 26px;
-  letter-spacing: -.03em;
 }
 
 .button-row,
@@ -676,7 +648,6 @@ th {
   .three-col,
   .two-col,
   .profile-grid,
-  .hero-card { grid-template-columns: 1fr; }
   .topbar { align-items: flex-start; flex-direction: column; }
   .topbar-actions { width: 100%; justify-content: space-between; }
   .search-box { width: 100%; }
