@@ -297,7 +297,7 @@ function loadUser() {
   let user = null;
   try { user = JSON.parse(localStorage.getItem(currentUserKey)); } catch { user = null; }
   if (user && user.role === "teacher") {
-    window.location.href = "../admin_dashboard_elitecoaching_institute/admin.html";
+    window.location.href = "../course_management_studio_eduverse/studio.html";
     return;
   }
   const name = user?.name || "Aarav Singh";
@@ -481,25 +481,52 @@ function buildTeacherCourseCurriculum(course) {
   ];
 }
 
+function buildTeacherBatchCurriculum(batch, linkedCourses) {
+  return linkedCourses.map((course, subjectIndex) => ({
+    id: `${batch.id}-subject-${subjectIndex + 1}`,
+    name: course.title,
+    icon: thumbnailForCourse(course.category),
+    progress: 0,
+    lastStudied: "Batch roadmap",
+    chapters: (course.modules || []).map((module, chapterIndex) => ({
+      id: `${batch.id}-${module.id || `chapter-${chapterIndex + 1}`}`,
+      name: module.name || `Chapter ${chapterIndex + 1}`,
+      duration: minutesToDuration((module.lectures || []).reduce((total, lecture) => total + durationToMinutes(lecture.duration), 0)),
+      progress: 0,
+      lectures: (module.lectures || []).map((lecture, lectureIndex) => ({
+        id: lecture.id || `${module.id}-lecture-${lectureIndex + 1}`,
+        title: lecture.title || `Lecture ${lectureIndex + 1}`,
+        duration: lecture.duration || "Recorded lecture",
+        progress: 0,
+        current: subjectIndex === 0 && chapterIndex === 0 && lectureIndex === 0,
+        pdf: Boolean((module.sources || []).length),
+        completed: false,
+        locked: false,
+      })),
+    })),
+  }));
+}
+
 function teacherPublishedCourses() {
   const studioState = loadTeacherStudioState();
-  return studioState.courses
-    .filter((course) => course.status === "Published")
-    .map((course, index) => {
-      const batch = studioState.batches.find((item) => item.id === course.batchId);
-      const lectures = (course.modules || []).reduce((total, module) => total + (module.lectures || []).length, 0);
-      const minutes = (course.modules || []).reduce((total, module) => total + (module.lectures || []).reduce((sum, lecture) => sum + durationToMinutes(lecture.duration), 0), 0);
+  return studioState.batches
+    .filter((batch) => batch.status === "Published")
+    .map((batch, index) => {
+      const linkedCourses = (batch.courseIds || []).map((id) => studioState.courses.find((course) => course.id === id)).filter(Boolean);
+      const firstCourse = linkedCourses[0];
+      const lectures = linkedCourses.reduce((total, course) => total + (course.modules || []).reduce((sum, module) => sum + (module.lectures || []).length, 0), 0);
+      const minutes = linkedCourses.reduce((total, course) => total + (course.modules || []).reduce((sum, module) => sum + (module.lectures || []).reduce((inner, lecture) => inner + durationToMinutes(lecture.duration), 0), 0), 0);
       return {
-        id: course.id,
-        title: course.title,
-        faculty: course.faculty || "Elite Coaching Faculty",
-        category: course.category || "Elite Course",
+        id: batch.id,
+        title: batch.name,
+        faculty: firstCourse?.faculty || "Elite Coaching Faculty",
+        category: batch.type || firstCourse?.category || "Elite Batch",
         access: "Premium",
         language: "English",
         duration: minutesToDuration(minutes),
-        price: 0,
+        price: Number(String(firstCourse?.price || "0").replace(/[^\d.]/g, "")) || 0,
         rating: 4.9,
-        students: "New",
+        students: batch.capacity || "New",
         enrolled: false,
         progress: 0,
         batchStart: formatDateLabel(batch?.startDate),
@@ -509,15 +536,15 @@ function teacherPublishedCourses() {
         status: "Published",
         watchTime: "0h 00m",
         estimatedRemaining: minutesToDuration(minutes),
-        lastDownloaded: "Module resources pending",
+        lastDownloaded: "Batch resources pending",
         lastAssignment: "No assignment yet",
-        thumbnail: thumbnailForCourse(course.category),
-        subjects: buildTeacherCourseCurriculum(course),
+        thumbnail: thumbnailForCourse(batch.type || firstCourse?.category),
+        subjects: buildTeacherBatchCurriculum(batch, linkedCourses),
         sourceOrigin: "teacher",
-        batchName: batch?.name || "Independent course",
-        description: course.description || "Published by the teacher studio.",
+        batchName: batch.name || "Independent batch",
+        description: batch.notes || "Published from the batch builder.",
         lectureCount: lectures,
-        sourceCount: (course.modules || []).reduce((total, module) => total + (module.sources || []).length, 0),
+        sourceCount: linkedCourses.reduce((total, course) => total + (course.modules || []).reduce((sum, module) => sum + (module.sources || []).length, 0), 0),
         sortRank: 1000 - index,
       };
     });
@@ -533,7 +560,7 @@ function teacherPublishedBatches() {
       year: batch.year,
       status: batch.status,
       startDate: formatDateLabel(batch.startDate),
-      courseCount: studioState.courses.filter((course) => course.batchId === batch.id && course.status === "Published").length,
+      courseCount: Array.isArray(batch.courseIds) ? batch.courseIds.length : 0,
     }));
 }
 

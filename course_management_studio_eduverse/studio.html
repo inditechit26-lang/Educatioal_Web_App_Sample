@@ -1,397 +1,748 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<!doctype html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Elite Coaching | Teacher Course Studio</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EduVerse LMS | Teacher Panel</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
   <script src="js/tailwind.config.js"></script>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body class="bg-background text-ink">
-  <div class="app-shell lg:grid lg:grid-cols-[280px_minmax(0,1fr)]">
-    <aside id="sidebarDrawer" class="sidebar-drawer fixed inset-y-0 left-0 z-50 flex w-[280px] flex-col border-r border-border bg-surface px-5 py-6 shadow-panel lg:static lg:shadow-none">
-      <div class="mb-8 flex items-center gap-3">
-        <div class="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary text-white shadow-soft">E</div>
-        <div>
-          <p class="text-xs font-semibold uppercase tracking-[0.24em] text-muted">Elite Coaching</p>
-          <h1 class="text-lg font-semibold">Teacher Course Studio</h1>
-        </div>
+<body>
+  <div class="teacher-app">
+    <aside class="teacher-sidebar" id="sidebarDrawer">
+      <div class="sidebar-brand">
+        <a class="brand-link" href="../home_elitecoaching_institute/code.html">
+          <span class="brand-mark">EV</span>
+          <span>
+            <strong>EduVerse LMS</strong>
+            <small>Teacher Panel</small>
+          </span>
+        </a>
+        <button class="icon-button mobile-only" id="sidebarToggle" type="button" aria-label="Toggle sidebar">
+          <span class="material-symbols-outlined">close</span>
+        </button>
       </div>
 
-      <div class="mb-6 rounded-panel border border-border bg-slate-50 p-4">
-        <p class="text-sm font-semibold text-ink">Teacher Workflow</p>
-        <p class="mt-2 text-sm leading-6 text-muted">Create a course from scratch, assign it to batches like NEEV Batch 2026, design modules, add video lectures, and attach PDF, PPT, or link sources per module.</p>
-      </div>
-
-      <nav class="space-y-2">
-        <a class="sidebar-link is-active flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
-          <span class="material-symbols-outlined text-[20px]">space_dashboard</span>Dashboard
-        </a>
-        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
-          <span class="material-symbols-outlined text-[20px]">library_books</span>Courses
-        </a>
-        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
-          <span class="material-symbols-outlined text-[20px]">inventory_2</span>Content Library
-        </a>
-        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
-          <span class="material-symbols-outlined text-[20px]">perm_media</span>Media Library
-        </a>
-        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
-          <span class="material-symbols-outlined text-[20px]">assignment</span>Assignments
-        </a>
-        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
-          <span class="material-symbols-outlined text-[20px]">quiz</span>Tests
-        </a>
-        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
-          <span class="material-symbols-outlined text-[20px]">groups</span>Students
-        </a>
-        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
-          <span class="material-symbols-outlined text-[20px]">campaign</span>Announcements
-        </a>
-        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
-          <span class="material-symbols-outlined text-[20px]">monitoring</span>Analytics
-        </a>
-        <a class="sidebar-link flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3 text-sm font-medium text-muted" href="#">
-          <span class="material-symbols-outlined text-[20px]">settings</span>Settings
-        </a>
+      <nav class="sidebar-nav" aria-label="Teacher navigation">
+        <button class="sidebar-link is-active" data-sidebar-tab="overview" type="button">
+          <span class="material-symbols-outlined">dashboard</span>
+          <span>Dashboard</span>
+        </button>
+        <button class="sidebar-link" data-sidebar-tab="courses" type="button">
+          <span class="material-symbols-outlined">menu_book</span>
+          <span>My Courses</span>
+        </button>
+        <button class="sidebar-link" data-sidebar-tab="live-classes" type="button">
+          <span class="material-symbols-outlined">live_tv</span>
+          <span>Live Classes</span>
+        </button>
+        <button class="sidebar-link" data-sidebar-tab="assignments" type="button">
+          <span class="material-symbols-outlined">assignment</span>
+          <span>Assignments</span>
+        </button>
+        <button class="sidebar-link" data-sidebar-tab="student-performance" type="button">
+          <span class="material-symbols-outlined">monitoring</span>
+          <span>Student Performance</span>
+        </button>
+        <button class="sidebar-link" data-sidebar-tab="announcements" type="button">
+          <span class="material-symbols-outlined">campaign</span>
+          <span>Announcements</span>
+        </button>
+        <button class="sidebar-link" data-sidebar-tab="messages" type="button">
+          <span class="material-symbols-outlined">forum</span>
+          <span>Messages</span>
+        </button>
+        <button class="sidebar-link" data-sidebar-tab="profile" type="button">
+          <span class="material-symbols-outlined">account_circle</span>
+          <span>Profile</span>
+        </button>
+        <button class="sidebar-link" data-sidebar-tab="settings" type="button">
+          <span class="material-symbols-outlined">settings</span>
+          <span>Settings</span>
+        </button>
       </nav>
 
-      <div class="mt-auto rounded-panel border border-border bg-slate-50 p-4">
-        <p class="text-sm font-semibold text-ink">Studio Status</p>
-        <p class="mt-2 text-sm leading-6 text-muted">Course creation, module design, lecture linking, and batch planning are organized into one teacher-friendly workspace.</p>
-        <button class="mt-4 w-full rounded-xl border border-border bg-white px-4 py-3 text-sm font-semibold text-ink">Logout</button>
+      <div class="sidebar-footer">
+        <div class="teacher-chip">
+          <span class="teacher-chip__avatar" id="teacherInitials">TS</span>
+          <div>
+            <strong id="teacherProfileName">Teacher</strong>
+            <small id="teacherProfileMeta">Teaching workspace</small>
+          </div>
+        </div>
+        <button class="logout-button" id="teacherLogoutButton" type="button">
+          <span class="material-symbols-outlined">logout</span>
+          <span>Logout</span>
+        </button>
       </div>
     </aside>
 
-    <main class="min-w-0">
-      <header class="sticky top-0 z-40 border-b border-border bg-white/90 backdrop-blur">
-        <div class="mx-auto flex max-w-studio items-center gap-3 px-4 py-4 sm:px-6 lg:px-8">
-          <button id="sidebarToggle" class="rounded-xl border border-border p-2 lg:hidden" type="button" aria-label="Toggle sidebar">
+    <div class="sidebar-scrim" id="sidebarScrim"></div>
+
+    <div class="teacher-main">
+      <header class="teacher-topbar">
+        <div class="topbar-left">
+          <button class="icon-button desktop-hidden" id="sidebarOpenButton" type="button" aria-label="Open sidebar">
             <span class="material-symbols-outlined">menu</span>
           </button>
-          <div class="relative min-w-0 flex-1">
-            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-muted">search</span>
-            <input class="w-full rounded-2xl border border-border bg-slate-50 py-3 pl-12 pr-4 text-sm outline-none transition focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/10" type="search" placeholder="Search courses, batches, modules, lectures, PDFs, PPTs, and links..." />
+          <div>
+            <p class="eyebrow">Enterprise LMS</p>
+            <h1>Teacher Dashboard</h1>
           </div>
-          <div class="hidden items-center gap-3 md:flex">
-            <span id="studioAutosave" class="autosave-pill is-saved rounded-full px-3 py-1.5 text-xs font-semibold">Saved</span>
-            <div class="flex items-center gap-3 rounded-2xl border border-border bg-white px-3 py-2.5">
-              <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary-soft text-sm font-bold text-primary">AS</div>
-              <div class="leading-tight">
-                <p class="text-sm font-semibold">Akash Sharma</p>
-                <p class="text-xs text-muted">Teacher Admin</p>
-              </div>
-            </div>
+        </div>
+
+        <div class="topbar-center">
+          <label class="search-shell" for="studioSearch">
+            <span class="material-symbols-outlined">search</span>
+            <input id="studioSearch" type="search" placeholder="Search courses, subjects, chapters, lectures..." />
+          </label>
+        </div>
+
+        <div class="topbar-right">
+          <div class="meta-pill">
+            <span class="meta-label">Institute</span>
+            <strong>EduVerse LMS</strong>
           </div>
+          <div class="meta-pill">
+            <span class="meta-label">Current Batch</span>
+            <strong>NEEV 2026</strong>
+          </div>
+          <button class="icon-button" type="button" aria-label="Notifications">
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <button class="icon-button" type="button" aria-label="Messages">
+            <span class="material-symbols-outlined">mail</span>
+          </button>
+          <span class="autosave-pill is-saved" id="studioAutosave">Saved</span>
         </div>
       </header>
 
-      <div class="studio-scroll h-[calc(100vh-81px)] overflow-y-auto">
-        <div class="mx-auto max-w-studio space-y-8 px-4 py-6 sm:px-6 lg:px-8">
-          <section class="studio-hero workspace-shell rounded-panel p-6">
-            <div class="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
-              <div class="max-w-3xl">
-                <div class="inline-flex items-center gap-2 rounded-full bg-primary-soft px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-primary">Teacher Authoring Workspace</div>
-                <h2 class="mt-4 text-3xl font-semibold tracking-tight">Fully functional course and batch creation for Elite Coaching teachers.</h2>
-                <p class="mt-4 text-sm leading-7 text-muted">This workspace is split into two sections so teachers can manage a specific course and create new batches separately. Courses, modules, lectures, and sources are editable and saved locally inside the browser.</p>
-                <div class="mt-5 flex flex-wrap gap-3 text-sm text-muted">
-                  <span class="rounded-full border border-border bg-white px-3 py-2">Create courses from scratch</span>
-                  <span class="rounded-full border border-border bg-white px-3 py-2">Assign batches like NEEV Batch 2026</span>
-                  <span class="rounded-full border border-border bg-white px-3 py-2">Add videos, PDFs, PPTs, and links</span>
+      <main class="teacher-content">
+        <div class="workspace-switcher">
+          <button class="switcher-pill is-active" data-workspace-tab="overview" type="button">Dashboard</button>
+          <button class="switcher-pill" data-workspace-tab="courses" type="button">My Courses</button>
+          <button class="switcher-pill" data-workspace-tab="batches" type="button">Batch Setup</button>
+        </div>
+
+        <section class="workspace-section is-active" data-workspace-section="overview">
+          <div class="hero-grid">
+            <article class="hero-card hero-card--primary">
+              <p class="eyebrow">Assigned Workflow</p>
+              <h2>Upload faster with fewer clicks</h2>
+              <p>Admin assigns teacher -> Teacher builds course -> Submit for review -> Approve & publish -> Student sees it in Explore and can purchase.</p>
+              <div class="hero-actions">
+                <button class="action-button primary" data-sidebar-tab="courses" type="button">Open My Courses</button>
+                <button class="action-button secondary" data-sidebar-tab="batches" type="button">Review Batches</button>
+              </div>
+            </article>
+
+            <article class="hero-card">
+              <div class="hero-heading">
+                <div>
+                  <p class="eyebrow">Quick Actions</p>
+                  <h3>Start teaching work</h3>
                 </div>
               </div>
-              <div class="space-y-4">
-                <div class="grid gap-3 sm:grid-cols-3">
-                  <div class="metric-card rounded-2xl p-4">
-                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Courses</p>
-                    <p class="mt-2 text-2xl font-semibold">Create</p>
-                    <p class="mt-1 text-sm text-muted">Build and edit one specific course at a time.</p>
-                  </div>
-                  <div class="metric-card rounded-2xl p-4">
-                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Modules</p>
-                    <p class="mt-2 text-2xl font-semibold">Design</p>
-                    <p class="mt-1 text-sm text-muted">Organize modules, lectures, and source bundles.</p>
-                  </div>
-                  <div class="metric-card rounded-2xl p-4">
-                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Batches</p>
-                    <p class="mt-2 text-2xl font-semibold">Assign</p>
-                    <p class="mt-1 text-sm text-muted">Attach courses to yearly teaching cohorts.</p>
-                  </div>
-                </div>
-                <div class="flex flex-wrap gap-2">
-                  <button class="is-active rounded-full bg-primary px-4 py-2.5 text-sm font-semibold text-white" data-workspace-tab="courses" type="button">Course Creator</button>
-                  <button class="rounded-full border border-border bg-white px-4 py-2.5 text-sm font-semibold text-muted" data-workspace-tab="batches" type="button">Batch Manager</button>
-                </div>
+              <div class="quick-action-grid">
+                <button class="quick-action" data-sidebar-tab="courses" type="button">
+                  <span class="material-symbols-outlined">video_call</span>
+                  <strong>Create Live Class</strong>
+                  <small>Schedule today's session</small>
+                </button>
+                <button class="quick-action" data-sidebar-tab="courses" type="button">
+                  <span class="material-symbols-outlined">upload_file</span>
+                  <strong>Upload Lecture</strong>
+                  <small>Add recorded content</small>
+                </button>
+                <button class="quick-action" data-sidebar-tab="courses" type="button">
+                  <span class="material-symbols-outlined">description</span>
+                  <strong>Upload Notes</strong>
+                  <small>Attach chapter PDFs</small>
+                </button>
+                <button class="quick-action" data-sidebar-tab="assignments" type="button">
+                  <span class="material-symbols-outlined">assignment_add</span>
+                  <strong>Create Assignment</strong>
+                  <small>Send practice work</small>
+                </button>
+                <button class="quick-action" data-sidebar-tab="courses" type="button">
+                  <span class="material-symbols-outlined">quiz</span>
+                  <strong>Create DPP</strong>
+                  <small>Build practice sets</small>
+                </button>
+                <button class="quick-action" data-sidebar-tab="courses" type="button">
+                  <span class="material-symbols-outlined">approval</span>
+                  <strong>Submit For Review</strong>
+                  <small>Send course for approval</small>
+                </button>
+                <button class="quick-action" data-sidebar-tab="announcements" type="button">
+                  <span class="material-symbols-outlined">campaign</span>
+                  <strong>Send Announcement</strong>
+                  <small>Notify the batch</small>
+                </button>
+              </div>
+            </article>
+          </div>
+
+          <div class="section-block">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Overview</p>
+                <h3>Teaching snapshot</h3>
               </div>
             </div>
-          </section>
+            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4" id="studioOverviewStats"></div>
+          </div>
 
-          <section class="workspace-shell rounded-panel p-6">
-            <div class="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
-              <div class="xl:max-w-3xl">
-                <p class="text-sm font-semibold text-primary">Studio Overview</p>
-                <h3 class="mt-1 text-2xl font-semibold">Track what is ready to publish and what still needs structure.</h3>
-                <p class="mt-2 text-sm leading-7 text-muted">This dashboard keeps teachers oriented while building courses. It summarizes course count, live batches, module volume, lecture uploads, and the current publishing state.</p>
-                <div id="studioOverviewStats" class="mt-5 grid gap-4 md:grid-cols-2 xl:grid-cols-4"></div>
+          <div class="content-grid">
+            <article class="panel-card">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Today</p>
+                  <h3>Classroom focus</h3>
+                </div>
               </div>
-              <div class="overview-feed rounded-panel border border-border bg-slate-50 p-5 xl:w-[360px]">
-                <p class="text-sm font-semibold text-primary">Publishing Board</p>
-                <h4 class="mt-1 text-lg font-semibold">Recent teaching structure</h4>
-                <div id="studioOverviewFeed" class="mt-4 space-y-3"></div>
+              <div class="static-list">
+                <div class="static-row">
+                  <strong>Today's Live Classes</strong>
+                  <span>3 classes scheduled</span>
+                </div>
+                <div class="static-row">
+                  <strong>Upcoming Classes</strong>
+                  <span>Physics at 4:00 PM</span>
+                </div>
+                <div class="static-row">
+                  <strong>Courses Assigned</strong>
+                  <span>6 active courses</span>
+                </div>
+                <div class="static-row">
+                  <strong>Pending Assignments To Review</strong>
+                  <span>14 submissions</span>
+                </div>
+                <div class="static-row">
+                  <strong>Recent Student Questions</strong>
+                  <span>5 unanswered doubts</span>
+                </div>
+                <div class="static-row">
+                  <strong>Recent Uploaded Lectures</strong>
+                  <span>2 assets pending approval</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel-card">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Recent Activity</p>
+                  <h3>Published content feed</h3>
+                </div>
+              </div>
+              <div class="grid gap-3" id="studioOverviewFeed"></div>
+            </article>
+          </div>
+        </section>
+
+        <section class="workspace-section" data-workspace-section="courses">
+          <div class="page-stack">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">My Courses</p>
+                <h2>Course workspace</h2>
+                <p class="section-copy">Build reusable subject courses once, then reuse them across many batches like JEE Morning, JEE Evening, NEET, and Foundation.</p>
               </div>
             </div>
-          </section>
 
-          <section class="workspace-section is-active space-y-8" data-workspace-section="courses">
-            <div class="grid gap-8 xl:grid-cols-[420px_minmax(0,1fr)]">
-              <div class="section-stack">
-                <section class="workspace-shell rounded-panel p-6">
-                  <div class="flex items-center justify-between gap-3">
-                    <div>
-                      <p class="text-sm font-semibold text-primary">Course Creator</p>
-                      <h3 id="courseFormTitle" class="mt-1 text-2xl font-semibold">Create a new course</h3>
-                      <p class="mt-2 text-sm text-muted">Define the specific course first, then continue into module and lecture design on the right.</p>
+            <div class="content-grid content-grid--wide">
+              <article class="panel-card">
+                <div class="card-head">
+                  <div>
+                    <p class="eyebrow">Reusable Library</p>
+                    <h3>My course library</h3>
+                  </div>
+                  <button class="action-button secondary" id="addNewCourseButton" type="button">New Course</button>
+                </div>
+                <div class="grid gap-4" id="courseList"></div>
+              </article>
+
+              <article class="panel-card">
+                <div class="card-head">
+                  <div>
+                    <p class="eyebrow">Library Course Setup</p>
+                    <h3 id="courseFormTitle">Create a new course</h3>
+                  </div>
+                </div>
+
+                <form class="form-stack" id="courseForm">
+                  <input id="courseId" type="hidden" />
+
+                  <div class="form-grid">
+                    <label class="field">
+                      <span>Course Name</span>
+                      <input id="courseTitle" data-autosave-field type="text" placeholder="NEET 2027 Rankers Batch" />
+                    </label>
+                    <label class="field">
+                      <span>Library Type</span>
+                      <select id="courseBatch" data-autosave-field></select>
+                    </label>
+                  </div>
+
+                  <div class="form-grid">
+                    <label class="field">
+                      <span>Faculty Name</span>
+                      <input id="courseFaculty" data-autosave-field type="text" placeholder="Dr. Kavya Sharma" />
+                    </label>
+                    <label class="field">
+                      <span>Primary Subject</span>
+                      <input id="courseCategory" data-autosave-field type="text" placeholder="Physics" />
+                    </label>
+                  </div>
+
+                  <div class="form-grid form-grid--triple">
+                    <label class="field">
+                      <span>Status</span>
+                      <select id="courseStatus" data-autosave-field>
+                        <option>Draft</option>
+                        <option>In Review</option>
+                        <option>Approved</option>
+                        <option>Published</option>
+                        <option>Archived</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span>Mode</span>
+                      <select id="courseMode" data-autosave-field>
+                        <option>Online</option>
+                        <option>Offline</option>
+                        <option>Hybrid</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span>Level</span>
+                      <select id="courseLevel" data-autosave-field>
+                        <option>Beginner</option>
+                        <option>Intermediate</option>
+                        <option>Advanced</option>
+                      </select>
+                    </label>
+                  </div>
+
+                  <div class="form-grid form-grid--triple">
+                    <label class="field">
+                      <span>Visibility</span>
+                      <select id="courseVisibility" data-autosave-field>
+                        <option>Premium</option>
+                        <option>Public</option>
+                        <option>Private</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span>Approval Flow</span>
+                      <select id="courseApprovalMode" data-autosave-field>
+                        <option>Admin Approval Required</option>
+                        <option>Direct Publish</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span>Students Enrolled</span>
+                      <input id="courseStudents" data-autosave-field type="text" placeholder="0" />
+                    </label>
+                  </div>
+
+                  <div class="form-grid">
+                    <label class="field">
+                      <span>Duration</span>
+                      <input id="courseDuration" data-autosave-field type="text" placeholder="16 weeks" />
+                    </label>
+                    <label class="field">
+                      <span>Fee</span>
+                      <input id="coursePrice" data-autosave-field type="text" placeholder="Rs 12,000" />
+                    </label>
+                  </div>
+
+                  <label class="field">
+                    <span>Course Description</span>
+                    <textarea id="courseDescription" data-autosave-field rows="4" placeholder="Describe the course, teaching plan, and delivery expectations."></textarea>
+                  </label>
+
+                  <label class="field">
+                    <span>Learning Outcomes</span>
+                    <textarea id="courseOutcomes" data-autosave-field rows="3" placeholder="List the learning outcomes students should achieve."></textarea>
+                  </label>
+
+                  <div class="form-actions">
+                    <button class="action-button primary" type="submit">Save Course</button>
+                    <button class="action-button secondary" type="button" data-workspace-tab="batches">Manage Batch</button>
+                  </div>
+                </form>
+              </article>
+            </div>
+
+            <article class="panel-card">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Approval Workflow</p>
+                  <h3>Role boundaries</h3>
+                </div>
+              </div>
+              <div class="static-list">
+                <div class="static-row">
+                  <strong>Admin</strong>
+                  <span>Creates batch, assigns teacher, optionally approves course</span>
+                </div>
+                <div class="static-row">
+                  <strong>Teacher</strong>
+                  <span>Creates subjects, chapters, lectures, notes, DPP, tests, and submits for review</span>
+                </div>
+                <div class="static-row">
+                  <strong>Student</strong>
+                  <span>Sees only approved and published courses in Explore, then purchases to access learning</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="panel-card">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Library Snapshot</p>
+                  <h3>Selected reusable course</h3>
+                </div>
+              </div>
+              <div class="grid gap-4 lg:grid-cols-2" id="courseSummary"></div>
+            </article>
+
+            <article class="panel-card builder-shell">
+              <div class="section-heading">
+                <div>
+                  <p class="eyebrow">Course -> Chapter</p>
+                  <h3>Library content workspace</h3>
+                <p class="section-copy">Pick a reusable course, build chapters, upload lecture content, and keep it ready to plug into multiple batches.</p>
+              </div>
+            </div>
+
+              <div class="empty-panel" id="builderEmpty">
+                <span class="material-symbols-outlined">menu_book</span>
+                <h4>Select a course to start</h4>
+                <p>Your chapter upload workspace appears here after you open a course from My Courses.</p>
+              </div>
+
+              <div class="hidden" id="builderContent">
+                <div class="builder-header">
+                  <div>
+                    <p class="eyebrow">Course Workspace</p>
+                    <h3 id="builderCourseTitle">Selected course</h3>
+                    <p id="builderCourseMeta">Course metadata</p>
+                  </div>
+                </div>
+
+                <div class="builder-grid builder-grid--explorer">
+                  <div class="stack-card">
+                    <div class="card-head">
+                      <div>
+                        <p class="eyebrow">Chapters</p>
+                        <h4 id="moduleFormTitle">Create a new chapter</h4>
+                      </div>
+                      <button class="action-button secondary" id="clearModuleButton" type="button">Clear</button>
                     </div>
-                    <button id="addNewCourseButton" class="rounded-xl border border-border px-4 py-2.5 text-sm font-semibold" type="button">New</button>
+
+                    <div class="stack-list" id="moduleList"></div>
+
+                    <form class="form-stack" id="moduleForm">
+                      <input id="moduleId" type="hidden" />
+                      <label class="field">
+                        <span>Chapter Name</span>
+                        <input id="moduleName" data-autosave-field type="text" placeholder="Electrostatics" />
+                      </label>
+                      <label class="field">
+                        <span>Teaching Objective</span>
+                        <textarea id="moduleObjective" data-autosave-field rows="3" placeholder="What should students understand in this chapter?"></textarea>
+                      </label>
+                      <label class="field">
+                        <span>Class Plan</span>
+                        <textarea id="moduleDesign" data-autosave-field rows="3" placeholder="Lecture flow, notes, DPP plan, and resources."></textarea>
+                      </label>
+                      <label class="field">
+                        <span>Status</span>
+                        <select id="moduleStatus" data-autosave-field>
+                          <option>Draft</option>
+                          <option>In Review</option>
+                          <option>Published</option>
+                        </select>
+                      </label>
+                      <button class="action-button primary" type="submit">Save Chapter</button>
+                    </form>
                   </div>
 
-                  <form id="courseForm" class="mt-6 space-y-4">
-                    <input id="courseId" type="hidden" />
-                    <div class="field-group rounded-2xl p-4">
-                      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Core Details</p>
-                      <label class="space-y-2 text-sm font-medium text-ink">
-                        Course Title
-                        <input id="courseTitle" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="NEET Biology Masterclass" required />
+                  <div class="stack-card">
+                    <div class="card-head">
+                      <div>
+                        <p class="eyebrow">Lectures</p>
+                        <h4>Upload lecture</h4>
+                      </div>
+                      <button class="action-button secondary" id="clearLectureButton" type="button">Clear</button>
+                    </div>
+
+                    <div class="stack-list" id="lectureList"></div>
+
+                    <form class="form-stack" id="lectureForm">
+                      <input id="lectureId" type="hidden" />
+                      <label class="field">
+                        <span>Lecture Title</span>
+                        <input id="lectureTitle" data-autosave-field type="text" placeholder="Lecture 1 - Coulomb's Law" />
                       </label>
-                      <div class="mt-4 grid gap-4 sm:grid-cols-2">
-                        <label class="space-y-2 text-sm font-medium text-ink">
-                          Batch
-                          <select id="courseBatch" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10"></select>
+                      <div class="form-grid">
+                        <label class="field">
+                          <span>Source Type</span>
+                          <select id="lectureSourceKind" data-autosave-field>
+                            <option value="link">Hosted Link</option>
+                            <option value="upload">Upload Video</option>
+                          </select>
                         </label>
-                        <label class="space-y-2 text-sm font-medium text-ink">
-                          Status
-                          <select id="courseStatus" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10">
-                            <option>Draft</option>
-                            <option>Published</option>
-                            <option>Archived</option>
+                        <label class="field">
+                          <span>Duration</span>
+                          <input id="lectureDuration" data-autosave-field type="text" placeholder="42 min" />
+                        </label>
+                      </div>
+                      <label class="field">
+                        <span>Lecture Link</span>
+                        <input id="lectureUrl" data-autosave-field type="url" placeholder="https://example.com/video" />
+                      </label>
+                      <label class="field">
+                        <span>Upload Video</span>
+                        <input id="lectureFile" type="file" accept="video/*" />
+                        <small id="lectureFileMeta" class="helper-text">Attach a hosted lecture link such as YouTube, Drive, or your media CDN.</small>
+                      </label>
+                      <button class="action-button primary" id="lectureSubmitButton" type="submit">Add Lecture</button>
+                    </form>
+                  </div>
+
+                  <div class="stack-card">
+                    <div class="card-head">
+                      <div>
+                        <p class="eyebrow">Notes / DPP / Resources</p>
+                        <h4>Upload notes or attachments</h4>
+                      </div>
+                      <button class="action-button secondary" id="clearSourceButton" type="button">Clear</button>
+                    </div>
+
+                    <div class="stack-list" id="sourceList"></div>
+
+                    <form class="form-stack" id="sourceForm">
+                      <input id="sourceId" type="hidden" />
+                      <label class="field">
+                        <span>Title</span>
+                        <input id="sourceTitle" data-autosave-field type="text" placeholder="Electrostatics Notes PDF" />
+                      </label>
+                      <div class="form-grid">
+                        <label class="field">
+                          <span>Type</span>
+                          <select id="sourceType" data-autosave-field>
+                            <option>PDF Notes</option>
+                            <option>DPP</option>
+                            <option>Worksheet</option>
+                            <option>Formula Sheet</option>
+                            <option>Reference PDF</option>
+                            <option>External Link</option>
+                          </select>
+                        </label>
+                        <label class="field">
+                          <span>Source Mode</span>
+                          <select id="sourceMode" data-autosave-field>
+                            <option value="link">Hosted Link</option>
+                            <option value="upload">Upload File</option>
                           </select>
                         </label>
                       </div>
-                    </div>
-                    <div class="field-group rounded-2xl p-4">
-                      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Teaching Metadata</p>
-                      <div class="grid gap-4 sm:grid-cols-2">
-                        <label class="space-y-2 text-sm font-medium text-ink">
-                          Faculty
-                          <input id="courseFaculty" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Dr. Kavya Singh" />
-                        </label>
-                        <label class="space-y-2 text-sm font-medium text-ink">
-                          Category
-                          <input id="courseCategory" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="NEET / JEE / Foundation" />
-                        </label>
-                      </div>
-                    </div>
-                    <div class="field-group rounded-2xl p-4">
-                      <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Course Positioning</p>
-                      <label class="space-y-2 text-sm font-medium text-ink">
-                        Description
-                        <textarea id="courseDescription" data-autosave-field class="h-28 w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Add the teaching approach, outcome, and curriculum style."></textarea>
+                      <label class="field">
+                        <span>Resource Link</span>
+                        <input id="sourceUrl" data-autosave-field type="url" placeholder="https://example.com/resource" />
                       </label>
-                    </div>
-                    <button class="w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white shadow-soft" type="submit">Save Course</button>
-                  </form>
-                </section>
-
-                <section class="workspace-shell rounded-panel p-6">
-                  <div class="flex items-center justify-between">
-                    <div>
-                      <p class="text-sm font-semibold text-primary">Course Library</p>
-                      <h3 class="mt-1 text-xl font-semibold">Created courses</h3>
-                      <p class="mt-2 text-sm text-muted">Open any existing course to continue editing its structure.</p>
-                    </div>
-                  </div>
-                  <div id="courseList" class="mt-6 space-y-4"></div>
-                </section>
-              </div>
-
-              <div class="section-stack">
-                <section class="workspace-shell rounded-panel p-6">
-                  <p class="text-sm font-semibold text-primary">Selected Course Snapshot</p>
-                  <h3 class="mt-1 text-xl font-semibold">Live overview of the course you are editing</h3>
-                  <div id="courseSummary" class="mt-5 grid gap-4 md:grid-cols-2"></div>
-                </section>
-
-                <section class="workspace-shell rounded-panel p-6">
-                  <div id="builderEmpty" class="rounded-panel border border-dashed border-border bg-slate-50 p-8 text-center">
-                    <p class="text-lg font-semibold text-ink">No course selected</p>
-                    <p class="mt-2 text-sm text-muted">Create a course or open one from the course list to start building modules, lectures, and sources.</p>
+                      <label class="field">
+                        <span>Upload File</span>
+                        <input id="sourceFile" type="file" />
+                        <small id="sourceFileMeta" class="helper-text">Paste a shareable document or resource link for students and teachers.</small>
+                      </label>
+                      <button class="action-button primary" id="sourceSubmitButton" type="submit">Add Source</button>
+                    </form>
                   </div>
 
-                  <div id="builderContent" class="hidden space-y-8">
-                    <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+                  <aside class="stack-card structure-card">
+                    <div class="card-head">
                       <div>
-                        <p class="text-sm font-semibold text-primary">Teacher Dashboard Panel</p>
-                        <h3 id="builderCourseTitle" class="mt-1 text-2xl font-semibold"></h3>
-                        <p id="builderCourseMeta" class="mt-2 text-sm text-muted"></p>
+                        <p class="eyebrow">Live Structure</p>
+                        <h4>Course preview tree</h4>
                       </div>
+                      <button class="action-button secondary" id="addNewCourseButton" type="button">Add Subject</button>
                     </div>
 
-                    <div class="grid gap-8 xl:grid-cols-[320px_minmax(0,1fr)]">
-                      <div class="space-y-6 xl:sticky xl:top-6 xl:self-start">
-                        <div class="panel-muted rounded-panel border border-border p-5">
-                          <div class="flex items-center justify-between gap-3">
-                            <div>
-                              <p class="text-sm font-semibold text-ink">Modules</p>
-                              <p class="mt-1 text-xs text-muted">Add, select, and delete modules for the selected course.</p>
-                            </div>
-                          </div>
-                          <div id="moduleList" class="mt-4 space-y-3"></div>
-                        </div>
+                    <div class="structure-tree" id="courseStructureTree"></div>
 
-                        <form id="moduleForm" class="panel-muted rounded-panel border border-border p-5 space-y-4">
-                          <div class="flex items-center justify-between gap-3">
-                            <div>
-                              <p class="text-sm font-semibold text-primary">Module Designer</p>
-                              <h4 id="moduleFormTitle" class="mt-1 text-lg font-semibold">Create a new module</h4>
-                            </div>
-                            <button id="clearModuleButton" class="rounded-xl border border-border px-3 py-2 text-sm font-semibold" type="button">Clear</button>
-                          </div>
-                          <input id="moduleId" type="hidden" />
-                          <label class="space-y-2 text-sm font-medium">
-                            Module Name
-                            <input id="moduleName" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Module: Cell Biology" required />
-                          </label>
-                          <label class="space-y-2 text-sm font-medium">
-                            Learning Objective
-                            <input id="moduleObjective" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Explain core outcomes for this module" />
-                          </label>
-                          <label class="space-y-2 text-sm font-medium">
-                            Module Design Notes
-                            <textarea id="moduleDesign" data-autosave-field class="h-24 w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="How should this module be taught, sequenced, and designed?"></textarea>
-                          </label>
-                          <label class="space-y-2 text-sm font-medium">
-                            Status
-                            <select id="moduleStatus" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10">
-                              <option>Draft</option>
-                              <option>Published</option>
-                            </select>
-                          </label>
-                          <button class="w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white" type="submit">Save Module</button>
-                        </form>
-                      </div>
+                    <div class="divider-line"></div>
 
-                      <div class="space-y-6">
-                        <section class="panel-muted rounded-panel border border-border p-5">
-                          <div class="flex items-center justify-between gap-3">
-                            <div>
-                              <p class="text-sm font-semibold text-primary">Video Lectures</p>
-                              <h4 class="mt-1 text-xl font-semibold">Add lecture videos to the selected module</h4>
-                            </div>
-                          </div>
-                          <form id="lectureForm" class="mt-5 grid gap-4 lg:grid-cols-[1fr_1fr_180px_auto]">
-                            <input id="lectureId" type="hidden" />
-                            <input id="lectureTitle" data-autosave-field class="rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Lecture title" required />
-                            <input id="lectureUrl" data-autosave-field class="rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Video URL or Cloudinary public URL" required />
-                            <input id="lectureDuration" data-autosave-field class="rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="38m" />
-                            <button id="lectureSubmitButton" class="rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white" type="submit">Add Lecture</button>
-                          </form>
-                          <div class="mt-3 flex justify-end">
-                            <button id="clearLectureButton" class="rounded-xl border border-border px-4 py-2 text-sm font-semibold" type="button">Clear lecture form</button>
-                          </div>
-                          <div id="lectureList" class="mt-5 space-y-3"></div>
-                        </section>
-
-                        <section class="panel-muted rounded-panel border border-border p-5">
-                          <div class="flex items-center justify-between gap-3">
-                            <div>
-                              <p class="text-sm font-semibold text-primary">Module Sources</p>
-                              <h4 class="mt-1 text-xl font-semibold">Attach PDF, PPT, and links to the selected module</h4>
-                            </div>
-                          </div>
-                          <form id="sourceForm" class="mt-5 grid gap-4 lg:grid-cols-[1fr_180px_1fr_auto]">
-                            <input id="sourceId" type="hidden" />
-                            <input id="sourceTitle" data-autosave-field class="rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="Source title" required />
-                            <select id="sourceType" data-autosave-field class="rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10">
-                              <option>PDF</option>
-                              <option>PPT</option>
-                              <option>Link</option>
-                            </select>
-                            <input id="sourceUrl" data-autosave-field class="rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="File URL or external link" required />
-                            <button id="sourceSubmitButton" class="rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white" type="submit">Add Source</button>
-                          </form>
-                          <div class="mt-3 flex justify-end">
-                            <button id="clearSourceButton" class="rounded-xl border border-border px-4 py-2 text-sm font-semibold" type="button">Clear source form</button>
-                          </div>
-                          <div id="sourceList" class="mt-5 space-y-3"></div>
-                        </section>
+                    <div class="card-head">
+                      <div>
+                        <p class="eyebrow">Validation</p>
+                        <h4>Publish checklist</h4>
                       </div>
                     </div>
-                  </div>
-                </section>
+                    <div class="validation-list" id="courseValidationList"></div>
+                  </aside>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="workspace-section" data-workspace-section="batches">
+          <div class="page-stack">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">Batch Setup</p>
+                <h2>Course publishing context</h2>
+                <p class="section-copy">Create a complete batch by combining existing reusable courses like Physics, Chemistry, Mathematics, Biology, mock tests, and study material.</p>
               </div>
             </div>
-          </section>
 
-          <section class="workspace-section space-y-8" data-workspace-section="batches">
-            <div class="grid gap-8 xl:grid-cols-[420px_minmax(0,1fr)]">
-              <section class="workspace-shell rounded-panel p-6">
-                <div class="flex items-center justify-between gap-3">
+            <div class="content-grid content-grid--wide">
+              <article class="panel-card">
+                <div class="card-head">
                   <div>
-                    <p class="text-sm font-semibold text-primary">Batch Manager</p>
-                    <h3 id="batchFormTitle" class="mt-1 text-2xl font-semibold">Create a new batch</h3>
-                    <p class="mt-2 text-sm text-muted">Maintain yearly teaching batches and reuse them while creating courses.</p>
+                    <p class="eyebrow">Batch Builder</p>
+                    <h3>Batch library</h3>
                   </div>
-                  <button id="addNewBatchButton" class="rounded-xl border border-border px-4 py-2.5 text-sm font-semibold" type="button">New</button>
+                  <button class="action-button secondary" id="addNewBatchButton" type="button">New Batch</button>
+                </div>
+                <div class="grid gap-4" id="batchList"></div>
+              </article>
+
+              <article class="panel-card">
+                <div class="card-head">
+                  <div>
+                    <p class="eyebrow">Batch Composition</p>
+                    <h3 id="batchFormTitle">Create a new batch</h3>
+                  </div>
                 </div>
 
-                <form id="batchForm" class="mt-6 space-y-4">
+                <form class="form-stack" id="batchForm">
                   <input id="batchId" type="hidden" />
-                  <div class="field-group rounded-2xl p-4">
-                    <p class="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Batch Identity</p>
-                    <label class="space-y-2 text-sm font-medium">
-                      Batch Name
-                      <input id="batchName" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="NEEV Batch 2026" required />
+
+                  <div class="form-grid">
+                    <label class="field">
+                      <span>Batch Name</span>
+                      <input id="batchName" data-autosave-field type="text" placeholder="NEEV Batch 2026" />
                     </label>
-                    <div class="mt-4 grid gap-4 sm:grid-cols-2">
-                      <label class="space-y-2 text-sm font-medium">
-                        Academic Year
-                        <input id="batchYear" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" placeholder="2026" required />
-                      </label>
-                      <label class="space-y-2 text-sm font-medium">
-                        Status
-                        <select id="batchStatus" data-autosave-field class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10">
-                          <option>Open</option>
-                          <option>Upcoming</option>
-                          <option>Closed</option>
-                        </select>
-                      </label>
-                    </div>
-                    <label class="mt-4 block space-y-2 text-sm font-medium">
-                      Start Date
-                      <input id="batchStart" data-autosave-field type="date" class="w-full rounded-2xl border border-border bg-white px-4 py-3 outline-none focus:border-primary focus:ring-2 focus:ring-primary/10" />
+                    <label class="field">
+                      <span>Batch Code</span>
+                      <input id="batchYear" data-autosave-field type="text" placeholder="JEE-M-2027" />
                     </label>
                   </div>
-                  <button class="w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white shadow-soft" type="submit">Save Batch</button>
-                </form>
-              </section>
 
-              <section class="workspace-shell rounded-panel p-6">
-                <div>
-                  <p class="text-sm font-semibold text-primary">Available Batches</p>
-                  <h3 class="mt-1 text-2xl font-semibold">Assign courses to specific teaching batches</h3>
-                  <p class="mt-2 text-sm text-muted">Teachers can create and edit batches here, then assign any course to that batch from the course creator panel.</p>
-                </div>
-                <div id="batchList" class="mt-6 grid gap-4 md:grid-cols-2"></div>
-              </section>
+                  <div class="form-grid form-grid--triple">
+                    <label class="field">
+                      <span>Start Date</span>
+                      <input id="batchStart" data-autosave-field type="date" />
+                    </label>
+                    <label class="field">
+                      <span>Status</span>
+                      <select id="batchStatus" data-autosave-field>
+                        <option>Open</option>
+                        <option>Upcoming</option>
+                        <option>Closed</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span>Course Type</span>
+                      <select id="batchType" data-autosave-field>
+                        <option>JEE</option>
+                        <option>NEET</option>
+                        <option>Foundation</option>
+                        <option>Class 11</option>
+                        <option>Class 12</option>
+                      </select>
+                    </label>
+                  </div>
+
+                  <div class="field">
+                    <span>Add Existing Courses</span>
+                    <div class="selection-grid" id="batchCoursePicker"></div>
+                  </div>
+
+                  <label class="field">
+                    <span>Capacity</span>
+                    <input id="batchCapacity" data-autosave-field type="text" placeholder="60 students" />
+                  </label>
+
+                  <label class="field">
+                    <span>Notes</span>
+                    <textarea id="batchNotes" data-autosave-field rows="4" placeholder="Describe the reusable courses, mock tests, study material, and learner experience included in this batch."></textarea>
+                  </label>
+
+                  <button class="action-button primary" type="submit">Save Batch</button>
+                </form>
+              </article>
             </div>
-          </section>
-        </div>
-      </div>
-    </main>
+          </div>
+        </section>
+
+        <section class="workspace-section" data-workspace-section="live-classes">
+          <article class="placeholder-card">
+            <p class="eyebrow">Live Classes</p>
+            <h2>Schedule, edit, and notify</h2>
+            <p>Use this space for live class scheduling, meeting links, attendance, and recording links.</p>
+          </article>
+        </section>
+
+        <section class="workspace-section" data-workspace-section="assignments">
+          <article class="placeholder-card">
+            <p class="eyebrow">Assignments</p>
+            <h2>Create and review student work</h2>
+            <p>Teachers can create assignments, set due dates, track submissions, evaluate responses, and return feedback here.</p>
+          </article>
+        </section>
+
+        <section class="workspace-section" data-workspace-section="student-performance">
+          <article class="placeholder-card">
+            <p class="eyebrow">Student Performance</p>
+            <h2>Track progress without admin clutter</h2>
+            <p>Attendance, lecture completion, assignment scores, and weak subjects belong here in a focused teacher view.</p>
+          </article>
+        </section>
+
+        <section class="workspace-section" data-workspace-section="announcements">
+          <article class="placeholder-card">
+            <p class="eyebrow">Announcements</p>
+            <h2>Notify the right learners</h2>
+            <p>Announcements can target the entire batch, selected students, or selected courses from a single clean composer.</p>
+          </article>
+        </section>
+
+        <section class="workspace-section" data-workspace-section="messages">
+          <article class="placeholder-card">
+            <p class="eyebrow">Messages</p>
+            <h2>Keep student communication focused</h2>
+            <p>Teacher messaging with students, parents, and admins can live here with search, read receipts, and file sharing.</p>
+          </article>
+        </section>
+
+        <section class="workspace-section" data-workspace-section="profile">
+          <article class="placeholder-card">
+            <p class="eyebrow">Profile</p>
+            <h2>Teacher profile and preferences</h2>
+            <p>Photo, qualifications, subjects, password, and notification preferences belong here.</p>
+          </article>
+        </section>
+
+        <section class="workspace-section" data-workspace-section="settings">
+          <article class="placeholder-card">
+            <p class="eyebrow">Settings</p>
+            <h2>Lightweight workspace settings</h2>
+            <p>Theme, language, and email or mobile notification preferences can be managed here.</p>
+          </article>
+        </section>
+      </main>
+    </div>
   </div>
 
   <script src="js/script.js"></script>

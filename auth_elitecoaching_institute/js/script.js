@@ -1,7 +1,7 @@
 const storageKey = 'eliteCoachingUsers';
 const currentUserKey = 'eliteCoachingCurrentUser';
 const studentDashboardUrl = '../student_panel_elitecoaching_institute/student panel.html';
-const adminDashboardUrl = '../admin_dashboard_elitecoaching_institute/admin.html';
+const teacherDashboardUrl = '../course_management_studio_eduverse/studio.html';
 const homeUrl = '../home_elitecoaching_institute/code.html';
 
 const tabs = document.querySelectorAll('.tab-btn');
@@ -47,7 +47,7 @@ function saveSession(user) {
 }
 
 function redirectForRole(role) {
-  window.location.href = role === 'teacher' ? adminDashboardUrl : studentDashboardUrl;
+  window.location.href = role === 'teacher' ? teacherDashboardUrl : studentDashboardUrl;
 }
 
 function getQueryMode() {
