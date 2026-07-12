@@ -1,6 +1,7 @@
 const currentUserKey = "eliteCoachingCurrentUser";
 const purchaseKey = "eliteCoachingStaticPurchasedCourses";
 const teacherStudioKey = "eliteCoachingCourseStudioState";
+const lectureProgressKey = "eliteCoachingLectureProgress";
 
 const screens = {
   dashboard: { title: "Dashboard", eyebrow: "Student Panel" },
@@ -274,19 +275,59 @@ const state = {
   courseQuery: "",
   sort: "recent",
   courseView: "list",
-  activeCourseId: "neet-2027",
+  activeCourseId: "",
   workspaceTab: "overview",
-  activeSubjectId: "physics",
-  activeChapterId: "electric-charges",
+  activeSubjectId: "",
+  activeChapterId: "",
   chapterTab: "lectures",
-  activeLectureId: "lec-3",
+  activeLectureId: "",
   purchases: new Set(),
+  lectureProgress: {},
   dynamicBound: false,
 };
+
+function setButtonLoading(button, isLoading, success = false) {
+  if (!button) return;
+  if (!button.dataset.originalLabel) button.dataset.originalLabel = button.innerHTML;
+  button.classList.toggle("is-loading", isLoading);
+  button.classList.toggle("is-success", success);
+  button.disabled = isLoading;
+  document.body.classList.toggle("motion-busy", isLoading);
+  if (isLoading) {
+    button.innerHTML = "<span>Working</span>";
+    return;
+  }
+  button.innerHTML = success ? `<span class="material-symbols-outlined">check</span><span>Done</span>` : button.dataset.originalLabel;
+  if (success) {
+    window.setTimeout(() => {
+      button.classList.remove("is-success");
+      button.innerHTML = button.dataset.originalLabel;
+    }, 900);
+  }
+}
+
+function skeletonGrid(count = 3) {
+  return `
+    <div class="skeleton-shell">
+      <div class="grid course-grid">
+        ${Array.from({ length: count }, () => `<article class="skeleton-card"></article>`).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function showScreenSkeleton(screen) {
+  const root = document.getElementById(`${screen}Screen`);
+  if (!root) return;
+  if (screen === "courses" || screen === "dashboard" || screen === "materials" || screen === "tests") {
+    root.innerHTML = skeletonGrid(screen === "dashboard" ? 4 : 3);
+  }
+}
 
 function init() {
   loadUser();
   loadPurchases();
+  loadLectureProgress();
   bindShellEvents();
   renderAll();
   showScreen("dashboard");
@@ -319,6 +360,18 @@ function savePurchases() {
   localStorage.setItem(purchaseKey, JSON.stringify([...state.purchases]));
 }
 
+function loadLectureProgress() {
+  try {
+    state.lectureProgress = JSON.parse(localStorage.getItem(lectureProgressKey) || "{}");
+  } catch {
+    state.lectureProgress = {};
+  }
+}
+
+function saveLectureProgress() {
+  localStorage.setItem(lectureProgressKey, JSON.stringify(state.lectureProgress));
+}
+
 function bindShellEvents() {
   document.querySelectorAll("[data-screen]").forEach((button) => {
     button.addEventListener("click", () => navigateScreen(button.dataset.screen));
@@ -343,21 +396,32 @@ function bindShellEvents() {
     renderCourses();
   });
   window.addEventListener("storage", (event) => {
-    if (event.key !== teacherStudioKey && event.key !== purchaseKey) return;
+    if (event.key !== teacherStudioKey && event.key !== purchaseKey && event.key !== lectureProgressKey) return;
     if (event.key === purchaseKey) loadPurchases();
+    if (event.key === lectureProgressKey) loadLectureProgress();
     renderAll();
     if (state.activeScreen === "courses") renderCourses();
   });
 }
 
 function navigateScreen(screen) {
+  showScreenSkeleton(screen);
   if (screen === "courses") {
     state.courseView = "list";
   }
   showScreen(screen);
-  if (screen === "courses") {
-    renderCourses();
-  }
+  window.requestAnimationFrame(() => {
+    if (screen === "courses") {
+      renderCourses();
+      return;
+    }
+    if (screen === "dashboard") renderDashboard();
+    if (screen === "tests") renderTests();
+    if (screen === "materials") renderMaterials();
+    if (screen === "performance") renderPerformance();
+    if (screen === "profile") renderProfile();
+    if (screen === "live") renderLive();
+  });
 }
 
 function applyTheme(theme) {
@@ -443,6 +507,161 @@ function dynamicSubjectName(course) {
   return "Course Modules";
 }
 
+function lectureProgressRecord(lectureId) {
+  const record = state.lectureProgress?.[lectureId] || {};
+  const percent = Math.max(0, Math.min(100, Number(record.percent) || 0));
+  return {
+    percent,
+    completed: Boolean(record.completed) || percent >= 100,
+    updatedAt: record.updatedAt || "",
+  };
+}
+
+function updateLectureProgress(lectureId, percent) {
+  const nextPercent = Math.max(0, Math.min(100, Number(percent) || 0));
+  state.lectureProgress[lectureId] = {
+    percent: nextPercent,
+    completed: nextPercent >= 100,
+    updatedAt: new Date().toISOString(),
+  };
+  saveLectureProgress();
+}
+
+function sourceKindMeta(type) {
+  const key = String(type || "").toLowerCase();
+  if (key.includes("note") || key.includes("pdf")) return { bucket: "notes", icon: "description", primary: "Preview", secondary: "Download" };
+  if (key.includes("dpp") || key.includes("worksheet") || key.includes("practice")) return { bucket: "dpps", icon: "assignment", primary: "Attempt", secondary: "Solutions" };
+  if (key.includes("assignment")) return { bucket: "assignments", icon: "assignment_turned_in", primary: "Open", secondary: "Submit" };
+  if (key.includes("test") || key.includes("quiz")) return { bucket: "assignments", icon: "quiz", primary: "Start", secondary: "Syllabus" };
+  return { bucket: "resources", icon: key.includes("link") ? "link" : "folder_open", primary: "Open", secondary: "Download" };
+}
+
+function formatSourceItem(source, fallbackTitle, context) {
+  const meta = sourceKindMeta(source?.type);
+  return {
+    id: source?.id || `${context.chapterId}-${meta.bucket}-${context.index + 1}`,
+    title: source?.title || fallbackTitle,
+    type: source?.type || "Resource",
+    icon: meta.icon,
+    primaryAction: meta.primary,
+    secondaryAction: meta.secondary,
+    fileName: source?.fileName || "",
+    fileType: source?.fileType || source?.type || "File",
+    fileSize: source?.fileSize || "File attached",
+    updatedAt: formatDateLabel(source?.updatedAt || source?.createdAt || context.updatedAt),
+    url: source?.fileData || source?.url || "",
+    bucket: meta.bucket,
+  };
+}
+
+function buildTeacherChapter(batch, course, module, subjectIndex, chapterIndex) {
+  const chapterId = `${batch.id}-${course.id}-${module.id || `chapter-${chapterIndex + 1}`}`;
+  const sources = (module.sources || []).map((source, index) => formatSourceItem(source, `${module.name || `Chapter ${chapterIndex + 1}`} Resource ${index + 1}`, {
+    chapterId,
+    index,
+    updatedAt: course.updatedAt || course.createdAt || batch.updatedAt || batch.createdAt,
+  }));
+  const notes = sources.filter((item) => item.bucket === "notes");
+  const dpps = sources.filter((item) => item.bucket === "dpps");
+  const resources = sources.filter((item) => item.bucket === "resources");
+  const assignments = sources.filter((item) => item.bucket === "assignments");
+  const lectures = (module.lectures || []).map((lecture, lectureIndex) => ({
+    id: `${chapterId}-lecture-${lecture.id || lectureIndex + 1}`,
+    title: lecture.title || `Lecture ${lectureIndex + 1}`,
+    duration: lecture.duration || "Recorded lecture",
+    progress: 0,
+    completed: false,
+    current: false,
+    locked: false,
+    pdf: Boolean(notes.length),
+    teacherName: course.faculty || "Elite Coaching Faculty",
+    description: module.objective || module.design || `Lecture from ${module.name || `Chapter ${chapterIndex + 1}`}.`,
+    videoSrc: lecture.fileData || lecture.videoUrl || "",
+    uploadDate: formatDateLabel(lecture.updatedAt || lecture.createdAt || course.updatedAt || course.createdAt),
+  }));
+
+  return {
+    id: chapterId,
+    name: module.name || `Chapter ${chapterIndex + 1}`,
+    description: module.objective || module.design || "Chapter content published from the teacher studio.",
+    duration: minutesToDuration(lectures.reduce((total, lecture) => total + durationToMinutes(lecture.duration), 0)),
+    progress: 0,
+    notes,
+    dpps,
+    resources,
+    assignments,
+    lectures,
+    subjectOrder: subjectIndex,
+    chapterOrder: chapterIndex,
+  };
+}
+
+function applyProgressToCourse(course) {
+  let firstIncompleteId = "";
+  const subjects = (course.subjects || []).map((subject) => {
+    const chapters = (subject.chapters || []).map((chapter) => {
+      const lectures = (chapter.lectures || []).map((lecture) => {
+        const record = lectureProgressRecord(lecture.id);
+        if (!firstIncompleteId && !record.completed && !lecture.locked) firstIncompleteId = lecture.id;
+        return {
+          ...lecture,
+          progress: record.percent,
+          completed: record.completed,
+          current: false,
+        };
+      });
+      const lectureCount = lectures.length || 1;
+      return {
+        ...chapter,
+        lectures,
+        progress: Math.round(lectures.reduce((sum, lecture) => sum + lecture.progress, 0) / lectureCount),
+      };
+    });
+
+    const chapterCount = chapters.length || 1;
+    const activeChapter = chapters.find((chapter) => chapter.lectures.some((lecture) => lecture.id === firstIncompleteId)) || chapters.find((chapter) => chapter.lectures.some((lecture) => lecture.completed)) || chapters[0];
+    return {
+      ...subject,
+      chapters,
+      progress: Math.round(chapters.reduce((sum, chapter) => sum + chapter.progress, 0) / chapterCount),
+      lastStudied: activeChapter?.name || "Not started",
+    };
+  });
+
+  const allLectures = subjects.flatMap((subject) => subject.chapters.flatMap((chapter) => chapter.lectures));
+  const allNotes = subjects.flatMap((subject) => subject.chapters.flatMap((chapter) => chapter.notes || []));
+  const allDpps = subjects.flatMap((subject) => subject.chapters.flatMap((chapter) => chapter.dpps || []));
+  const allResources = subjects.flatMap((subject) => subject.chapters.flatMap((chapter) => chapter.resources || []));
+  const allAssignments = subjects.flatMap((subject) => subject.chapters.flatMap((chapter) => chapter.assignments || []));
+  const totalLectures = allLectures.length || 1;
+  const totalProgress = Math.round(allLectures.reduce((sum, lecture) => sum + lecture.progress, 0) / totalLectures);
+  const currentLectureId = firstIncompleteId || allLectures[0]?.id || "";
+  const markedSubjects = subjects.map((subject) => ({
+    ...subject,
+    chapters: subject.chapters.map((chapter) => ({
+      ...chapter,
+      lectures: chapter.lectures.map((lecture) => ({
+        ...lecture,
+        current: lecture.id === currentLectureId,
+      })),
+    })),
+  }));
+
+  const watchedMinutes = allLectures.reduce((sum, lecture) => sum + Math.round(durationToMinutes(lecture.duration) * (lecture.progress / 100)), 0);
+  const remainingMinutes = allLectures.reduce((sum, lecture) => sum + Math.round(durationToMinutes(lecture.duration) * ((100 - lecture.progress) / 100)), 0);
+
+  return {
+    ...course,
+    subjects: markedSubjects,
+    progress: totalProgress,
+    watchTime: minutesToDuration(watchedMinutes),
+    estimatedRemaining: minutesToDuration(remainingMinutes),
+    lectureCount: allLectures.length,
+    sourceCount: allNotes.length + allDpps.length + allResources.length + allAssignments.length,
+    lastDownloaded: allNotes[0]?.title || allResources[0]?.title || "No resources yet",
+    lastAssignment: allAssignments[0]?.title || allDpps[0]?.title || "No practice uploaded yet",
+  };
+}
 function buildTeacherCourseCurriculum(course) {
   const chapters = (course.modules || []).map((module, index) => ({
     id: module.id,
@@ -482,41 +701,38 @@ function buildTeacherCourseCurriculum(course) {
 }
 
 function buildTeacherBatchCurriculum(batch, linkedCourses) {
-  return linkedCourses.map((course, subjectIndex) => ({
-    id: `${batch.id}-subject-${subjectIndex + 1}`,
-    name: course.title,
-    icon: thumbnailForCourse(course.category),
-    progress: 0,
-    lastStudied: "Batch roadmap",
-    chapters: (course.modules || []).map((module, chapterIndex) => ({
-      id: `${batch.id}-${module.id || `chapter-${chapterIndex + 1}`}`,
-      name: module.name || `Chapter ${chapterIndex + 1}`,
-      duration: minutesToDuration((module.lectures || []).reduce((total, lecture) => total + durationToMinutes(lecture.duration), 0)),
+  return linkedCourses.map((course, subjectIndex) => {
+    const chapters = (course.modules || []).map((module, chapterIndex) => buildTeacherChapter(batch, course, module, subjectIndex, chapterIndex));
+    return {
+      id: `${batch.id}-${course.id}-subject`,
+      name: course.title,
+      icon: thumbnailForCourse(course.category),
       progress: 0,
-      lectures: (module.lectures || []).map((lecture, lectureIndex) => ({
-        id: lecture.id || `${module.id}-lecture-${lectureIndex + 1}`,
-        title: lecture.title || `Lecture ${lectureIndex + 1}`,
-        duration: lecture.duration || "Recorded lecture",
+      lastStudied: "Batch roadmap",
+      chapters: chapters.length ? chapters : [{
+        id: `${batch.id}-${course.id}-orientation`,
+        name: `${course.title} Orientation`,
+        description: "The teacher has created the course shell. Content will appear here after upload and publish.",
+        duration: "0h 00m",
         progress: 0,
-        current: subjectIndex === 0 && chapterIndex === 0 && lectureIndex === 0,
-        pdf: Boolean((module.sources || []).length),
-        completed: false,
-        locked: false,
-      })),
-    })),
-  }));
+        notes: [],
+        dpps: [],
+        resources: [],
+        assignments: [],
+        lectures: [],
+      }],
+    };
+  });
 }
-
 function teacherPublishedCourses() {
   const studioState = loadTeacherStudioState();
-  return studioState.batches
+  const publishedBatches = studioState.batches
     .filter((batch) => batch.status === "Published")
     .map((batch, index) => {
       const linkedCourses = (batch.courseIds || []).map((id) => studioState.courses.find((course) => course.id === id)).filter(Boolean);
       const firstCourse = linkedCourses[0];
-      const lectures = linkedCourses.reduce((total, course) => total + (course.modules || []).reduce((sum, module) => sum + (module.lectures || []).length, 0), 0);
       const minutes = linkedCourses.reduce((total, course) => total + (course.modules || []).reduce((sum, module) => sum + (module.lectures || []).reduce((inner, lecture) => inner + durationToMinutes(lecture.duration), 0), 0), 0);
-      return {
+      return applyProgressToCourse({
         id: batch.id,
         title: batch.name,
         faculty: firstCourse?.faculty || "Elite Coaching Faculty",
@@ -536,24 +752,68 @@ function teacherPublishedCourses() {
         status: "Published",
         watchTime: "0h 00m",
         estimatedRemaining: minutesToDuration(minutes),
-        lastDownloaded: "Batch resources pending",
-        lastAssignment: "No assignment yet",
+        lastDownloaded: "No resources yet",
+        lastAssignment: "No practice uploaded yet",
         thumbnail: thumbnailForCourse(batch.type || firstCourse?.category),
         subjects: buildTeacherBatchCurriculum(batch, linkedCourses),
         sourceOrigin: "teacher",
         batchName: batch.name || "Independent batch",
         description: batch.notes || "Published from the batch builder.",
-        lectureCount: lectures,
-        sourceCount: linkedCourses.reduce((total, course) => total + (course.modules || []).reduce((sum, module) => sum + (module.sources || []).length, 0), 0),
+        lectureCount: 0,
+        sourceCount: 0,
         sortRank: 1000 - index,
-      };
+      });
     });
-}
 
+  const publishedBatchCourseIds = new Set(
+    studioState.batches
+      .filter((batch) => batch.status === "Published")
+      .flatMap((batch) => batch.courseIds || [])
+  );
+
+  const standalonePublishedCourses = studioState.courses
+    .filter((course) => course.status === "Published" && course.visibility !== "Private" && !publishedBatchCourseIds.has(course.id))
+    .map((course, index) => {
+      const minutes = (course.modules || []).reduce((sum, module) => sum + (module.lectures || []).reduce((inner, lecture) => inner + durationToMinutes(lecture.duration), 0), 0);
+      return applyProgressToCourse({
+        id: course.id,
+        title: course.title,
+        faculty: course.faculty || "Elite Coaching Faculty",
+        category: course.category || "Course",
+        access: "Premium",
+        language: course.language || "English",
+        duration: minutesToDuration(minutes),
+        price: Number(String(course.price || "0").replace(/[^\d.]/g, "")) || 0,
+        rating: 4.9,
+        students: course.studentCount || "New",
+        enrolled: false,
+        progress: 0,
+        batchStart: "Available now",
+        batchEnd: "Self-paced",
+        validTill: "Active",
+        enrollmentDate: "Today",
+        status: "Published",
+        watchTime: "0h 00m",
+        estimatedRemaining: minutesToDuration(minutes),
+        lastDownloaded: "No resources yet",
+        lastAssignment: "No practice uploaded yet",
+        thumbnail: thumbnailForCourse(course.category),
+        subjects: buildTeacherCourseCurriculum(course),
+        sourceOrigin: "teacher",
+        batchName: course.batchId && course.batchId !== "Reusable Library" ? course.batchId : "Teacher Library",
+        description: course.description || "Published directly from the teacher content library.",
+        lectureCount: 0,
+        sourceCount: 0,
+        sortRank: 800 - index,
+      });
+    });
+
+  return [...publishedBatches, ...standalonePublishedCourses];
+}
 function teacherPublishedBatches() {
   const studioState = loadTeacherStudioState();
   return studioState.batches
-    .filter((batch) => batch.status === "Open" || batch.status === "Upcoming")
+    .filter((batch) => batch.status === "Published")
     .map((batch) => ({
       id: batch.id,
       name: batch.name,
@@ -565,57 +825,11 @@ function teacherPublishedBatches() {
 }
 
 function courses() {
-  const staticCourses = courseCatalog.map((course, index) => {
-    const enrolled = course.enrolled || state.purchases.has(course.id);
-    return {
-      ...course,
-      enrolled,
-      subjects: course.subjects.length ? course.subjects : buildStarterCurriculum(course),
-      batchStart: course.batchStart || "01 Jul 2026",
-      batchEnd: course.batchEnd || "31 Jan 2027",
-      validTill: course.validTill || "31 Mar 2027",
-      enrollmentDate: course.enrollmentDate || "Today",
-      status: course.status || (enrolled ? "Active" : "Preview"),
-      watchTime: course.watchTime || "0h 00m",
-      estimatedRemaining: course.estimatedRemaining || course.duration,
-      lastDownloaded: course.lastDownloaded || "Orientation Notes",
-      lastAssignment: course.lastAssignment || "Not submitted yet",
-      sortRank: 500 - index,
-    };
-  });
-
-  return [...teacherPublishedCourses(), ...staticCourses].map((course) => ({
+  return teacherPublishedCourses().map((course) => ({
     ...course,
     enrolled: course.enrolled || state.purchases.has(course.id),
   }));
 }
-
-function buildStarterCurriculum(course) {
-  const subjectName = course.category.includes("Class") ? course.category : course.category === "Crash Course" ? "Revision" : course.category;
-  return [
-    {
-      id: `${course.id}-subject`,
-      name: subjectName,
-      icon: course.thumbnail || "menu_book",
-      progress: course.progress || 0,
-      lastStudied: "Orientation",
-      chapters: [
-        {
-          id: `${course.id}-chapter-1`,
-          name: `${course.title} Orientation`,
-          duration: course.duration,
-          progress: course.progress || 0,
-          lectures: [
-            { id: "lec-1", title: "Course Roadmap", duration: "32 min", progress: course.progress ? 100 : 0, completed: Boolean(course.progress), pdf: true },
-            { id: "lec-2", title: "Study Plan and Resources", duration: "38 min", progress: 0, current: true, pdf: true },
-            { id: "lec-3", title: "First Practice Session", duration: "45 min", progress: 0, pdf: false },
-          ],
-        },
-      ],
-    },
-  ];
-}
-
 function purchasedCourses() {
   return courses().filter((course) => course.enrolled);
 }
@@ -625,56 +839,72 @@ function exploreCourses() {
 }
 
 function activeCourse() {
-  return courses().find((course) => course.id === state.activeCourseId) || purchasedCourses()[0] || courses()[0];
+  return courses().find((course) => course.id === state.activeCourseId) || purchasedCourses()[0] || courses()[0] || null;
 }
 
 function activeSubject() {
   const course = activeCourse();
-  return course.subjects.find((subject) => subject.id === state.activeSubjectId) || course.subjects[0];
+  return course?.subjects.find((subject) => subject.id === state.activeSubjectId) || course?.subjects[0] || null;
 }
 
 function activeChapter() {
   const subject = activeSubject();
-  return subject?.chapters.find((chapter) => chapter.id === state.activeChapterId) || subject?.chapters[0];
+  return subject?.chapters.find((chapter) => chapter.id === state.activeChapterId) || subject?.chapters[0] || null;
 }
 
 function activeLecture() {
   const chapter = activeChapter();
-  return chapter?.lectures.find((lecture) => lecture.id === state.activeLectureId) || chapter?.lectures[0];
+  return chapter?.lectures.find((lecture) => lecture.id === state.activeLectureId) || chapter?.lectures[0] || null;
 }
 
 function courseStats(course) {
+  if (!course) return { subjects: 0, chapters: 0, lectures: 0, completedLectures: 0, pendingLectures: 0, notes: 0, dpps: 0, resources: 0, assignments: 0 };
   const subjects = course.subjects.length;
   const chapters = course.subjects.reduce((sum, subject) => sum + subject.chapters.length, 0);
   const lectures = course.subjects.reduce((sum, subject) => sum + subject.chapters.reduce((total, chapter) => total + chapter.lectures.length, 0), 0);
   const completedLectures = course.subjects.reduce((sum, subject) => sum + subject.chapters.reduce((total, chapter) => total + chapter.lectures.filter((lecture) => lecture.completed || lecture.progress === 100).length, 0), 0);
-  return { subjects, chapters, lectures, completedLectures, pendingLectures: Math.max(lectures - completedLectures, 0) };
+  const notes = course.subjects.reduce((sum, subject) => sum + subject.chapters.reduce((total, chapter) => total + (chapter.notes || []).length, 0), 0);
+  const dpps = course.subjects.reduce((sum, subject) => sum + subject.chapters.reduce((total, chapter) => total + (chapter.dpps || []).length, 0), 0);
+  const resources = course.subjects.reduce((sum, subject) => sum + subject.chapters.reduce((total, chapter) => total + (chapter.resources || []).length, 0), 0);
+  const assignments = course.subjects.reduce((sum, subject) => sum + subject.chapters.reduce((total, chapter) => total + (chapter.assignments || []).length, 0), 0);
+  return { subjects, chapters, lectures, completedLectures, pendingLectures: Math.max(lectures - completedLectures, 0), notes, dpps, resources, assignments };
 }
-
 function renderDashboard() {
   const enrolled = purchasedCourses();
   const avgProgress = Math.round(enrolled.reduce((sum, course) => sum + course.progress, 0) / Math.max(enrolled.length, 1));
-  const nextCourse = enrolled[0] || courses()[0];
+  const nextCourse = enrolled[0] || courses()[0] || null;
+  const nextStats = courseStats(nextCourse);
   document.getElementById("dashboardScreen").innerHTML = `
     <div class="page-head compact-head">
       <div>
         <h2>Welcome back, ${window.demoUser.name.split(" ")[0]}</h2>
-        <p>Continue from your purchased courses and move through subjects, chapters, and lectures without distraction.</p>
+        <p>Continue with the latest teacher-published lectures, notes, DPPs, and assignments.</p>
       </div>
       <button class="btn outline" data-screen="courses"><span class="material-symbols-outlined">menu_book</span>Open Courses</button>
     </div>
     <div class="grid metrics-grid">
       ${metric("school", enrolled.length, "Purchased courses")}
       ${metric("monitoring", `${avgProgress}%`, "Average progress")}
-      ${metric("play_circle", courseStats(nextCourse).pendingLectures, "Pending lectures")}
-      ${metric("schedule", nextCourse.estimatedRemaining, "Remaining time")}
+      ${metric("play_circle", nextStats.pendingLectures, "Pending lectures")}
+      ${metric("schedule", nextCourse?.estimatedRemaining || "0h 00m", "Remaining time")}
     </div>
+    ${nextCourse ? `
+      <article class="card panel ${nextCourse.progress === 100 ? "course-complete" : ""}">
+        <div class="progress-line"><strong>Current Position</strong><span>${nextCourse.title}</span></div>
+        <div class="grid" style="grid-template-columns:auto minmax(0,1fr);align-items:center;">
+          <div class="progress-ring" style="--progress:${Math.round(nextCourse.progress * 3.6)}deg"><strong>${nextCourse.progress}%</strong></div>
+          <div>
+            <p class="muted" style="margin:0;">Subject -> ${findCurrentTrail(nextCourse).subject.name} -> ${findCurrentTrail(nextCourse).chapter.name} -> ${findCurrentTrail(nextCourse).lecture.title}</p>
+            <p style="margin:8px 0 0;font-weight:700;">Next recommended: ${findNextLectureLabel(nextCourse)}</p>
+          </div>
+        </div>
+      </article>
+    ` : ""}
     <div class="section-title-row"><div><h2>Courses</h2><p>Your active learning library</p></div><button class="btn outline" data-screen="courses">View all</button></div>
-    <div class="grid course-grid">${enrolled.map(purchasedCourseCard).join("")}</div>
+    ${enrolled.length ? `<div class="grid course-grid">${enrolled.map(purchasedCourseCard).join("")}</div>` : emptyState("No purchased courses yet", "Published batches appear in Explore. Unlock one there to start learning.")}
   `;
   bindDynamicActions();
 }
-
 function renderCourses() {
   const root = document.getElementById("coursesScreen");
   if (state.courseView === "workspace") return renderCourseWorkspace(root);
@@ -826,6 +1056,11 @@ function exploreCourseCard(course) {
 
 function renderCourseWorkspace(root) {
   const course = activeCourse();
+  if (!course) {
+    root.innerHTML = `<div class="module-page">${emptyState("No course available", "Publish a batch from the teacher studio to populate the student workspace.")}</div>`;
+    bindDynamicActions();
+    return;
+  }
   const stats = courseStats(course);
   root.innerHTML = `
     <div class="module-page">
@@ -836,7 +1071,6 @@ function renderCourseWorkspace(root) {
   `;
   bindDynamicActions();
 }
-
 function courseHeader(course, backLabel, backView) {
   return `
     <div class="compact-module-header">
@@ -865,9 +1099,9 @@ function workspaceTabs() {
 
 function workspaceTabContent(course, stats) {
   if (state.workspaceTab === "classes") return classesTab(course);
-  if (state.workspaceTab === "tests") return testsPanel();
-  if (state.workspaceTab === "study material") return materialsPanel();
-  if (state.workspaceTab === "assignments") return assignmentsPanel();
+  if (state.workspaceTab === "tests") return testsPanel(course);
+  if (state.workspaceTab === "study material") return materialsPanel(course);
+  if (state.workspaceTab === "assignments") return assignmentsPanel(course);
   const current = findCurrentTrail(course);
   return `
     <div class="overview-grid">
@@ -882,8 +1116,8 @@ function workspaceTabContent(course, stats) {
         ${infoRows([["Completed Subjects", `${Math.floor(stats.subjects * course.progress / 100)} of ${stats.subjects}`], ["Completed Chapters", `${Math.floor(stats.chapters * course.progress / 100)} of ${stats.chapters}`], ["Completed Lectures", `${stats.completedLectures} of ${stats.lectures}`], ["Pending Lectures", stats.pendingLectures], ["Current Subject", current.subject.name], ["Current Chapter", current.chapter.name], ["Current Lecture", current.lecture.title], ["Watch Time", course.watchTime], ["Estimated Remaining Time", course.estimatedRemaining]])}
       </article>
       <article class="card panel">
-        <h3>Recent Activity</h3>
-        ${activityList([["play_circle", "Recently Watched Lecture", current.lecture.title], ["description", "Last Downloaded Notes", course.lastDownloaded], ["assignment_turned_in", "Last Assignment Submitted", course.lastAssignment]])}
+        <h3>Content Snapshot</h3>
+        ${activityList([["play_circle", "Current Lecture", current.lecture.title], ["description", "Latest Notes", course.lastDownloaded], ["assignment_turned_in", "Latest Practice", course.lastAssignment], ["folder_open", "Library Assets", `${stats.notes + stats.resources} files available`]])}
       </article>
       <article class="card panel">
         <h3>Quick Actions</h3>
@@ -896,18 +1130,17 @@ function workspaceTabContent(course, stats) {
         </div>
       </article>
       <article class="card panel full-span">
-        <h3>Upcoming Activities</h3>
+        <h3>Workspace Overview</h3>
         <div class="grid four-col">
-          ${metric("live_tv", "3", "Upcoming live classes")}
-          ${metric("quiz", "2", "Upcoming tests")}
-          ${metric("pending_actions", "4", "Pending assignments")}
-          ${metric("fiber_new", "6", "Recently uploaded lectures")}
+          ${metric("video_library", stats.lectures, "Published lectures")}
+          ${metric("description", stats.notes, "Notes")}
+          ${metric("quiz", stats.dpps, "DPP / tests")}
+          ${metric("assignment", stats.assignments, "Assignments")}
         </div>
       </article>
     </div>
   `;
 }
-
 function classesTab(course) {
   return `
     <div class="grid subject-grid">
@@ -980,7 +1213,7 @@ function renderChapterWorkspace(root) {
         </div>
       </div>
       <div class="underline-tabs">
-        ${["lectures", "notes", "dpp", "resources"].map((tab) => `<button class="${state.chapterTab === tab ? "active" : ""}" data-chapter-tab="${tab}">${tab === "dpp" ? "DPP" : titleCase(tab)}</button>`).join("")}
+        ${["lectures", "notes", "dpp", "resources", "assignments"].map((tab) => `<button class="${state.chapterTab === tab ? "active" : ""}" data-chapter-tab="${tab}">${tab === "dpp" ? "DPP" : titleCase(tab)}</button>`).join("")}
       </div>
       ${chapterTabContent(subject, chapter)}
     </div>
@@ -992,6 +1225,8 @@ function chapterTabContent(subject, chapter) {
   if (state.chapterTab === "notes") return notesPanel(chapter);
   if (state.chapterTab === "dpp") return dppPanel(chapter);
   if (state.chapterTab === "resources") return resourcesPanel(chapter);
+  if (state.chapterTab === "assignments") return chapterAssignmentsPanel(chapter);
+  if (!chapter.lectures.length) return emptyState("No lectures yet", "The teacher has not published any lectures inside this chapter yet.");
   return `
     <div class="lecture-list">
       ${chapter.lectures.map((lecture, index) => `
@@ -1009,28 +1244,25 @@ function chapterTabContent(subject, chapter) {
   `;
 }
 
+function chapterResourceGrid(items, emptyTitle, emptyDetail) {
+  if (!items.length) return emptyState(emptyTitle, emptyDetail);
+  return `<div class="grid resource-grid">${items.map((item) => resourceCard(item.icon, item.title, item.fileSize || item.fileType, item.updatedAt, item.primaryAction, item.secondaryAction)).join("")}</div>`;
+}
+
 function notesPanel(chapter) {
-  return `
-    <label class="module-search inline-note-search"><span class="material-symbols-outlined">search</span><input placeholder="Search notes" /></label>
-    <div class="grid resource-grid">
-      ${["Concept Notes", "Formula Sheet", "Solved Examples", "Revision Notes"].map((title, index) => resourceCard("picture_as_pdf", `${chapter.name} ${title}`, `${1.4 + index}.2 MB`, "Updated today", "Preview", "Download")).join("")}
-    </div>
-  `;
+  return chapterResourceGrid(chapter.notes || [], "No notes uploaded", "Notes will appear here once the teacher uploads chapter PDFs or study material.");
 }
 
 function dppPanel(chapter) {
-  return `<div class="grid resource-grid">${["DPP 01", "DPP 02", "Mixed Practice", "Advanced Drill"].map((title, index) => `
-    <article class="card resource-card">
-      <span class="resource-icon"><span class="material-symbols-outlined">assignment</span></span>
-      <h3>${chapter.name} ${title}</h3>
-      <p>${20 + index * 5} questions · ${80 + index * 10} marks · ${35 + index * 5} min</p>
-      <div class="course-actions"><button class="btn">Attempt</button><button class="btn outline">View Solution</button></div>
-      ${badge(index === 0 ? "Attempted" : "Pending", index === 0 ? "green" : "amber")}
-    </article>`).join("")}</div>`;
+  return chapterResourceGrid(chapter.dpps || [], "No DPP uploaded", "Daily practice sheets will appear here after the teacher publishes them.");
 }
 
 function resourcesPanel(chapter) {
-  return `<div class="grid resource-grid">${["Formula Sheets", "Worksheets", "Reference PDFs", "Practice Material", "Downloads"].map((title) => resourceCard("folder_open", `${chapter.name} ${title}`, "2.8 MB", "Updated this week", "Open", "Download")).join("")}</div>`;
+  return chapterResourceGrid(chapter.resources || [], "No resources uploaded", "Extra resources, links, and reference files will appear here.");
+}
+
+function chapterAssignmentsPanel(chapter) {
+  return chapterResourceGrid(chapter.assignments || [], "No assignments uploaded", "Assignments and chapter tests will appear here after publication.");
 }
 
 function renderVideoPlayer(root) {
@@ -1038,31 +1270,40 @@ function renderVideoPlayer(root) {
   const subject = activeSubject();
   const chapter = activeChapter();
   const lecture = activeLecture();
+  if (!course || !subject || !chapter || !lecture) {
+    root.innerHTML = `<div class="module-page">${emptyState("No lecture selected", "Open a published lecture from the chapter workspace to continue.")}</div>`;
+    bindDynamicActions();
+    return;
+  }
+  if (!lecture.progress) updateLectureProgress(lecture.id, 15);
+  const notes = chapter.notes || [];
+  const resources = chapter.resources || [];
+  const practice = [...(chapter.dpps || []), ...(chapter.assignments || [])];
   root.innerHTML = `
     <div class="module-page player-page">
       <div class="video-layout">
         <div>
           <div class="video-frame">
-            <span class="material-symbols-outlined">play_circle</span>
-            <strong>${lecture.title}</strong>
-            <p>Resume playback · ${lecture.progress}% watched</p>
+            ${lecture.videoSrc ? `<video class="video-player" controls src="${lecture.videoSrc}"></video>` : `<><span class="material-symbols-outlined">play_circle</span><strong>${lecture.title}</strong><p>Resume playback | ${lecture.progress}% watched</p></>`}
             <div class="video-controls">
-              <button>1x</button><button>1080p</button><button>Fullscreen</button><button>PiP</button><button>Bookmark</button>
+              <button data-mark-progress="${lecture.id}|25">+25%</button><button data-mark-progress="${lecture.id}|100">Mark Complete</button><button data-course-view="chapter">Back to Chapter</button>
             </div>
           </div>
           <div class="lecture-detail">
             <h2>${lecture.title}</h2>
-            <p>${course.faculty}</p>
-            <p class="breadcrumb">${course.title} &gt; ${subject.name} &gt; ${chapter.name} &gt; ${lecture.title}</p>
-            <p class="muted">A focused lecture workspace with resume playback, auto next, bookmarks, timestamp notes, keyboard shortcuts, and progress tracking placeholders.</p>
+            <p>${lecture.teacherName}</p>
+            <p class="breadcrumb">${course.title} > ${subject.name} > ${chapter.name} > ${lecture.title}</p>
+            <p class="muted">${lecture.description}</p>
             <div class="course-actions">
-              <button class="btn outline" data-action="previous">Previous Lecture</button>
-              <button class="btn" data-action="next">Next Lecture</button>
+              <button class="btn outline" data-player-nav="previous">Previous Lecture</button>
+              <button class="btn" data-player-nav="next">Next Lecture</button>
               <button class="btn outline" data-course-view="chapter">Back to Chapter</button>
             </div>
           </div>
-          <div class="underline-tabs">
-            ${["Overview", "Notes", "Resources", "Discussion", "Assignments"].map((tab, index) => `<button class="${index === 0 ? "active" : ""}">${tab}</button>`).join("")}
+          <div class="grid resource-grid">
+            ${notes.slice(0, 2).map((item) => resourceCard(item.icon, item.title, item.fileSize || item.fileType, item.updatedAt, item.primaryAction, item.secondaryAction)).join("")}
+            ${resources.slice(0, 1).map((item) => resourceCard(item.icon, item.title, item.fileSize || item.fileType, item.updatedAt, item.primaryAction, item.secondaryAction)).join("")}
+            ${practice.slice(0, 1).map((item) => resourceCard(item.icon, item.title, item.fileSize || item.fileType, item.updatedAt, item.primaryAction, item.secondaryAction)).join("")}
           </div>
         </div>
         <aside class="card playlist">
@@ -1085,18 +1326,22 @@ function renderVideoPlayer(root) {
   bindDynamicActions();
 }
 
-function testsPanel() {
-  return `<div class="grid resource-grid">${["Chapter Test", "Minor Test", "Full Syllabus Mock"].map((title, index) => resourceCard("quiz", title, `${100 + index * 80} marks`, `${45 + index * 30} min`, "Start", "Syllabus")).join("")}</div>`;
+function aggregateCourseItems(course, key) {
+  if (!course) return [];
+  return course.subjects.flatMap((subject) => subject.chapters.flatMap((chapter) => chapter[key] || []));
 }
 
-function materialsPanel() {
-  return `<div class="grid resource-grid">${["Master Notes", "PYQ Bank", "Class Slides", "Revision Pack"].map((title, index) => resourceCard("description", title, `${2 + index}.4 MB`, "Updated recently", "Preview", "Download")).join("")}</div>`;
+function testsPanel(course = activeCourse()) {
+  return chapterResourceGrid(aggregateCourseItems(course, "dpps"), "No DPP or tests available", "Practice items will appear here as soon as the teacher publishes them.");
 }
 
-function assignmentsPanel() {
-  return `<div class="grid resource-grid">${["Weekly Assignment", "NCERT Drill", "Numerical Practice"].map((title, index) => resourceCard("assignment", title, `${30 + index * 10} questions`, index === 0 ? "Pending" : "Submitted", "Open", "Submit")).join("")}</div>`;
+function materialsPanel(course = activeCourse()) {
+  return chapterResourceGrid([...aggregateCourseItems(course, "notes"), ...aggregateCourseItems(course, "resources")], "No study material available", "Notes and study resources will appear here after teacher upload.");
 }
 
+function assignmentsPanel(course = activeCourse()) {
+  return chapterResourceGrid(aggregateCourseItems(course, "assignments"), "No assignments available", "Assignments will appear here after the teacher publishes them.");
+}
 function renderLive() {
   document.getElementById("liveScreen").innerHTML = `<div class="page-head"><div><h2>Live Classes</h2><p>Join live sessions and review today's class plan.</p></div></div>${testsPanel()}`;
 }
@@ -1160,13 +1405,17 @@ function bindDynamicActions() {
     const buy = event.target.closest("[data-buy]");
     if (buy) {
       event.stopPropagation();
+      setButtonLoading(buy, true);
       state.purchases.add(buy.dataset.buy);
       savePurchases();
       state.courseTab = "purchased";
       state.courseView = "list";
-      renderAll();
-      showScreen("courses");
-      toast("Course added to Purchased.");
+      window.setTimeout(() => {
+        renderAll();
+        showScreen("courses");
+        setButtonLoading(buy, false, true);
+        toast("Course added to Purchased.", "success");
+      }, 220);
       return;
     }
 
@@ -1224,13 +1473,51 @@ function bindDynamicActions() {
       state.activeSubjectId = subjectId;
       state.activeChapterId = chapterId;
       state.activeLectureId = lectureId;
+      updateLectureProgress(lectureId, Math.max(lectureProgressRecord(lectureId).percent, 15));
       state.courseView = "player";
       renderCourses();
       return;
     }
 
+    const markProgress = event.target.closest("[data-mark-progress]");
+    if (markProgress) {
+      const [lectureId, percent] = markProgress.dataset.markProgress.split("|");
+      const next = percent === "100" ? 100 : Math.min(100, lectureProgressRecord(lectureId).percent + Number(percent));
+      updateLectureProgress(lectureId, next);
+      renderAll();
+      renderCourses();
+      if (next >= 100) {
+        toast("Lecture completed successfully.", "success");
+        const course = activeCourse();
+        if (course?.progress === 100) {
+          toast("Course completed. Certificate ready.", "info");
+        }
+      } else {
+        toast(`Progress updated to ${next}%.`, "info");
+      }
+      return;
+    }
+
+    const playerNav = event.target.closest("[data-player-nav]");
+    if (playerNav) {
+      const course = activeCourse();
+      const playlist = course.subjects.flatMap((subject) => subject.chapters.flatMap((chapter) => chapter.lectures.map((lecture) => ({ subjectId: subject.id, chapterId: chapter.id, lectureId: lecture.id }))));
+      const currentIndex = playlist.findIndex((item) => item.lectureId === state.activeLectureId);
+      const offset = playerNav.dataset.playerNav === "previous" ? -1 : 1;
+      const nextItem = playlist[currentIndex + offset];
+      if (nextItem) {
+        state.activeSubjectId = nextItem.subjectId;
+        state.activeChapterId = nextItem.chapterId;
+        state.activeLectureId = nextItem.lectureId;
+        updateLectureProgress(nextItem.lectureId, Math.max(lectureProgressRecord(nextItem.lectureId).percent, 15));
+        state.courseView = "player";
+        renderCourses();
+      }
+      return;
+    }
+
     if (event.target.closest("[data-action]")) {
-      toast("Demo action selected.");
+      toast("Action captured.", "info");
     }
   });
 
@@ -1275,7 +1562,12 @@ function findCurrentTrail(course) {
       if (lecture) return { subject, chapter, lecture };
     }
   }
-  return { subject: course.subjects[0], chapter: course.subjects[0].chapters[0], lecture: course.subjects[0].chapters[0].lectures[0] };
+  return course?.subjects?.[0]?.chapters?.[0]?.lectures?.[0] ? { subject: course.subjects[0], chapter: course.subjects[0].chapters[0], lecture: course.subjects[0].chapters[0].lectures[0] } : { subject: { id: "", name: "No subject" }, chapter: { id: "", name: "No chapter" }, lecture: { id: "", title: "No lecture" } };
+}
+
+function findNextLectureLabel(course) {
+  const playlist = course.subjects.flatMap((subject) => subject.chapters.flatMap((chapter) => chapter.lectures));
+  return playlist.find((lecture) => !lecture.completed && !lecture.current && !lecture.locked)?.title || "Course completion in progress";
 }
 
 function metric(icon, value, label) {
@@ -1323,12 +1615,18 @@ function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[char]));
 }
 
-function toast(message) {
+function toast(message, tone = "success") {
   const element = document.getElementById("toast");
   element.textContent = message;
+  element.className = `toast is-${tone}`;
   element.classList.add("show");
   clearTimeout(window.toastTimer);
-  window.toastTimer = setTimeout(() => element.classList.remove("show"), 2200);
+  window.toastTimer = setTimeout(() => {
+    element.classList.remove("show");
+    window.setTimeout(() => { element.className = "toast"; }, 220);
+  }, 4000);
 }
 
 init();
+
+

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EduVerse LMS | Teacher Panel</title>
+  <title>EduVerse | Teacher Panel</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
@@ -18,7 +18,7 @@
         <a class="brand-link" href="../home_elitecoaching_institute/code.html">
           <span class="brand-mark">EV</span>
           <span>
-            <strong>EduVerse LMS</strong>
+            <strong>EduVerse</strong>
             <small>Teacher Panel</small>
           </span>
         </a>
@@ -34,7 +34,11 @@
         </button>
         <button class="sidebar-link" data-sidebar-tab="courses" type="button">
           <span class="material-symbols-outlined">menu_book</span>
-          <span>My Courses</span>
+          <span>Content Studio</span>
+        </button>
+        <button class="sidebar-link" data-sidebar-tab="batches" type="button">
+          <span class="material-symbols-outlined">account_tree</span>
+          <span>Batch Composer</span>
         </button>
         <button class="sidebar-link" data-sidebar-tab="live-classes" type="button">
           <span class="material-symbols-outlined">live_tv</span>
@@ -45,20 +49,16 @@
           <span>Assignments</span>
         </button>
         <button class="sidebar-link" data-sidebar-tab="student-performance" type="button">
-          <span class="material-symbols-outlined">monitoring</span>
-          <span>Student Performance</span>
+          <span class="material-symbols-outlined">groups</span>
+          <span>Students</span>
         </button>
-        <button class="sidebar-link" data-sidebar-tab="announcements" type="button">
-          <span class="material-symbols-outlined">campaign</span>
-          <span>Announcements</span>
+        <button class="sidebar-link" data-sidebar-tab="analytics" type="button">
+          <span class="material-symbols-outlined">monitoring</span>
+          <span>Analytics</span>
         </button>
         <button class="sidebar-link" data-sidebar-tab="messages" type="button">
           <span class="material-symbols-outlined">forum</span>
           <span>Messages</span>
-        </button>
-        <button class="sidebar-link" data-sidebar-tab="profile" type="button">
-          <span class="material-symbols-outlined">account_circle</span>
-          <span>Profile</span>
         </button>
         <button class="sidebar-link" data-sidebar-tab="settings" type="button">
           <span class="material-symbols-outlined">settings</span>
@@ -124,65 +124,74 @@
       <main class="teacher-content">
         <div class="workspace-switcher">
           <button class="switcher-pill is-active" data-workspace-tab="overview" type="button">Dashboard</button>
-          <button class="switcher-pill" data-workspace-tab="courses" type="button">My Courses</button>
-          <button class="switcher-pill" data-workspace-tab="batches" type="button">Batch Setup</button>
+          <button class="switcher-pill" data-workspace-tab="courses" type="button">Content Studio</button>
+          <button class="switcher-pill" data-workspace-tab="batches" type="button">Batch Composer</button>
         </div>
 
         <section class="workspace-section is-active" data-workspace-section="overview">
-          <div class="hero-grid">
-            <article class="hero-card hero-card--primary">
-              <p class="eyebrow">Assigned Workflow</p>
-              <h2>Upload faster with fewer clicks</h2>
-              <p>Admin assigns teacher -> Teacher builds course -> Submit for review -> Approve & publish -> Student sees it in Explore and can purchase.</p>
-              <div class="hero-actions">
-                <button class="action-button primary" data-sidebar-tab="courses" type="button">Open My Courses</button>
-                <button class="action-button secondary" data-sidebar-tab="batches" type="button">Review Batches</button>
+          <div class="dashboard-grid">
+            <article class="hero-card hero-card--primary dashboard-welcome">
+              <div>
+                <p class="eyebrow">Teacher Workspace</p>
+                <h2 id="welcomeGreeting">Good Morning, Teacher</h2>
+                <p class="dashboard-date" id="welcomeDate">Today's teaching plan</p>
+              </div>
+                <button class="action-button primary" data-sidebar-tab="courses" type="button">Create New Lecture</button>
+            </article>
+
+            <article class="panel-card schedule-focus">
+              <div class="card-head">
+                <div>
+                  <p class="eyebrow">Next Live Class</p>
+                  <h3>Your next live class starts in 25 minutes</h3>
+                </div>
+              </div>
+              <div class="schedule-highlight">
+                <div>
+                  <strong>Physics - JEE 2027</strong>
+                  <small>09:00 AM</small>
+                </div>
+                <button class="action-button primary" data-sidebar-tab="live-classes" type="button">Join Class</button>
+              </div>
+            </article>
+          </div>
+
+          <div class="dashboard-task-grid">
+            <article class="panel-card task-stack">
+              <div class="card-head">
+                <div>
+                  <p class="eyebrow">Today's Priorities</p>
+                  <h3>What needs attention now</h3>
+                </div>
+              </div>
+              <div class="priority-list">
+                <div class="priority-row">
+                  <strong>8 Assignments need review</strong>
+                  <button class="action-button secondary" data-sidebar-tab="assignments" type="button">Open</button>
+                </div>
+                <div class="priority-row">
+                  <strong>Upload today's Chemistry lecture</strong>
+                <button class="action-button secondary" data-sidebar-tab="courses" type="button">Open Studio</button>
+                </div>
+                <div class="priority-row">
+                  <strong>2 DPPs scheduled for today</strong>
+                <button class="action-button secondary" data-sidebar-tab="courses" type="button">Open Studio</button>
+                </div>
               </div>
             </article>
 
-            <article class="hero-card">
-              <div class="hero-heading">
+            <article class="panel-card completion-card">
+              <div class="card-head">
                 <div>
-                  <p class="eyebrow">Quick Actions</p>
-                  <h3>Start teaching work</h3>
+                  <p class="eyebrow">Completed Class</p>
+                  <h3>Live Class Completed</h3>
                 </div>
               </div>
-              <div class="quick-action-grid">
-                <button class="quick-action" data-sidebar-tab="courses" type="button">
-                  <span class="material-symbols-outlined">video_call</span>
-                  <strong>Create Live Class</strong>
-                  <small>Schedule today's session</small>
-                </button>
-                <button class="quick-action" data-sidebar-tab="courses" type="button">
-                  <span class="material-symbols-outlined">upload_file</span>
-                  <strong>Upload Lecture</strong>
-                  <small>Add recorded content</small>
-                </button>
-                <button class="quick-action" data-sidebar-tab="courses" type="button">
-                  <span class="material-symbols-outlined">description</span>
-                  <strong>Upload Notes</strong>
-                  <small>Attach chapter PDFs</small>
-                </button>
-                <button class="quick-action" data-sidebar-tab="assignments" type="button">
-                  <span class="material-symbols-outlined">assignment_add</span>
-                  <strong>Create Assignment</strong>
-                  <small>Send practice work</small>
-                </button>
-                <button class="quick-action" data-sidebar-tab="courses" type="button">
-                  <span class="material-symbols-outlined">quiz</span>
-                  <strong>Create DPP</strong>
-                  <small>Build practice sets</small>
-                </button>
-                <button class="quick-action" data-sidebar-tab="courses" type="button">
-                  <span class="material-symbols-outlined">approval</span>
-                  <strong>Submit For Review</strong>
-                  <small>Send course for approval</small>
-                </button>
-                <button class="quick-action" data-sidebar-tab="announcements" type="button">
-                  <span class="material-symbols-outlined">campaign</span>
-                  <strong>Send Announcement</strong>
-                  <small>Notify the batch</small>
-                </button>
+              <div class="completion-status">Attendance Recorded | Recording Uploaded</div>
+              <div class="completion-actions">
+                <button class="action-button secondary" data-sidebar-tab="courses" type="button">Send Notes</button>
+                <button class="action-button secondary" data-sidebar-tab="assignments" type="button">Upload Assignment</button>
+                <button class="action-button primary" data-sidebar-tab="courses" type="button">Create DPP</button>
               </div>
             </article>
           </div>
@@ -190,7 +199,7 @@
           <div class="section-block">
             <div class="section-heading">
               <div>
-                <p class="eyebrow">Overview</p>
+                <p class="eyebrow">Daily Snapshot</p>
                 <h3>Teaching snapshot</h3>
               </div>
             </div>
@@ -201,35 +210,41 @@
             <article class="panel-card">
               <div class="section-heading">
                 <div>
-                  <p class="eyebrow">Today</p>
-                  <h3>Classroom focus</h3>
+                  <p class="eyebrow">Quick Actions</p>
+                  <h3>Start teaching work</h3>
                 </div>
               </div>
-              <div class="static-list">
-                <div class="static-row">
-                  <strong>Today's Live Classes</strong>
-                  <span>3 classes scheduled</span>
-                </div>
-                <div class="static-row">
-                  <strong>Upcoming Classes</strong>
-                  <span>Physics at 4:00 PM</span>
-                </div>
-                <div class="static-row">
-                  <strong>Courses Assigned</strong>
-                  <span>6 active courses</span>
-                </div>
-                <div class="static-row">
-                  <strong>Pending Assignments To Review</strong>
-                  <span>14 submissions</span>
-                </div>
-                <div class="static-row">
-                  <strong>Recent Student Questions</strong>
-                  <span>5 unanswered doubts</span>
-                </div>
-                <div class="static-row">
-                  <strong>Recent Uploaded Lectures</strong>
-                  <span>2 assets pending approval</span>
-                </div>
+              <div class="quick-action-grid">
+                <button class="quick-action" data-sidebar-tab="courses" type="button">
+                  <span class="material-symbols-outlined">upload_file</span>
+                  <strong>Upload Lecture</strong>
+                  <small>Add recorded content</small>
+                </button>
+                <button class="quick-action" data-sidebar-tab="courses" type="button">
+                  <span class="material-symbols-outlined">description</span>
+                  <strong>Upload Notes</strong>
+                  <small>Send class support files</small>
+                </button>
+                <button class="quick-action" data-sidebar-tab="courses" type="button">
+                  <span class="material-symbols-outlined">quiz</span>
+                  <strong>Create DPP</strong>
+                  <small>Build practice sets</small>
+                </button>
+                <button class="quick-action" data-sidebar-tab="assignments" type="button">
+                  <span class="material-symbols-outlined">assignment_add</span>
+                  <strong>Create Assignment</strong>
+                  <small>Send follow-up work</small>
+                </button>
+                <button class="quick-action" data-sidebar-tab="live-classes" type="button">
+                  <span class="material-symbols-outlined">video_call</span>
+                  <strong>Schedule Live Class</strong>
+                  <small>Plan today's session</small>
+                </button>
+                <button class="quick-action" data-sidebar-tab="batches" type="button">
+                  <span class="material-symbols-outlined">account_tree</span>
+                  <strong>Batch Composer</strong>
+                  <small>Compose and publish batches</small>
+                </button>
               </div>
             </article>
 
@@ -249,7 +264,7 @@
           <div class="page-stack">
             <div class="section-heading">
               <div>
-                <p class="eyebrow">My Courses</p>
+                <p class="eyebrow">Content Studio</p>
                 <h2>Course workspace</h2>
                 <p class="section-copy">Build reusable subject courses once, then reuse them across many batches like JEE Morning, JEE Evening, NEET, and Foundation.</p>
               </div>
@@ -259,7 +274,7 @@
               <article class="panel-card">
                 <div class="card-head">
                   <div>
-                    <p class="eyebrow">Reusable Library</p>
+                    <p class="eyebrow">Courses</p>
                     <h3>My course library</h3>
                   </div>
                   <button class="action-button secondary" id="addNewCourseButton" type="button">New Course</button>
@@ -398,7 +413,7 @@
                 </div>
                 <div class="static-row">
                   <strong>Student</strong>
-                  <span>Sees only approved and published courses in Explore, then purchases to access learning</span>
+                  <span>Sees only approved and published batches in the student panel</span>
                 </div>
               </div>
             </article>
@@ -425,7 +440,7 @@
               <div class="empty-panel" id="builderEmpty">
                 <span class="material-symbols-outlined">menu_book</span>
                 <h4>Select a course to start</h4>
-                <p>Your chapter upload workspace appears here after you open a course from My Courses.</p>
+                <p>Your chapter upload workspace appears here after you open a course from Content Studio.</p>
               </div>
 
               <div class="hidden" id="builderContent">
@@ -513,6 +528,7 @@
                         <span>Upload Video</span>
                         <input id="lectureFile" type="file" accept="video/*" />
                         <small id="lectureFileMeta" class="helper-text">Attach a hosted lecture link such as YouTube, Drive, or your media CDN.</small>
+                        <div class="upload-progress-shell" id="lectureUploadProgress" aria-live="polite"></div>
                       </label>
                       <button class="action-button primary" id="lectureSubmitButton" type="submit">Add Lecture</button>
                     </form>
@@ -563,6 +579,7 @@
                         <span>Upload File</span>
                         <input id="sourceFile" type="file" />
                         <small id="sourceFileMeta" class="helper-text">Paste a shareable document or resource link for students and teachers.</small>
+                        <div class="upload-progress-shell" id="sourceUploadProgress" aria-live="polite"></div>
                       </label>
                       <button class="action-button primary" id="sourceSubmitButton" type="submit">Add Source</button>
                     </form>
@@ -599,8 +616,8 @@
           <div class="page-stack">
             <div class="section-heading">
               <div>
-                <p class="eyebrow">Batch Setup</p>
-                <h2>Course publishing context</h2>
+                <p class="eyebrow">Batch Composer</p>
+                <h2>Batch builder</h2>
                 <p class="section-copy">Create a complete batch by combining existing reusable courses like Physics, Chemistry, Mathematics, Biology, mock tests, and study material.</p>
               </div>
             </div>
@@ -704,17 +721,17 @@
 
         <section class="workspace-section" data-workspace-section="student-performance">
           <article class="placeholder-card">
-            <p class="eyebrow">Student Performance</p>
-            <h2>Track progress without admin clutter</h2>
-            <p>Attendance, lecture completion, assignment scores, and weak subjects belong here in a focused teacher view.</p>
+            <p class="eyebrow">Students</p>
+            <h2>Attendance, performance, doubts, and reports</h2>
+            <p>Track learner progress, reply to doubts, manage attendance, and review student reports from one focused workspace.</p>
           </article>
         </section>
 
-        <section class="workspace-section" data-workspace-section="announcements">
+        <section class="workspace-section" data-workspace-section="analytics">
           <article class="placeholder-card">
-            <p class="eyebrow">Announcements</p>
-            <h2>Notify the right learners</h2>
-            <p>Announcements can target the entire batch, selected students, or selected courses from a single clean composer.</p>
+            <p class="eyebrow">Analytics</p>
+            <h2>Watch time, course health, and engagement</h2>
+            <p>Keep analytics lightweight and teacher-focused, with course health, student progress, engagement, and completion reports.</p>
           </article>
         </section>
 
@@ -726,24 +743,36 @@
           </article>
         </section>
 
-        <section class="workspace-section" data-workspace-section="profile">
-          <article class="placeholder-card">
-            <p class="eyebrow">Profile</p>
-            <h2>Teacher profile and preferences</h2>
-            <p>Photo, qualifications, subjects, password, and notification preferences belong here.</p>
-          </article>
-        </section>
-
         <section class="workspace-section" data-workspace-section="settings">
           <article class="placeholder-card">
             <p class="eyebrow">Settings</p>
-            <h2>Lightweight workspace settings</h2>
-            <p>Theme, language, and email or mobile notification preferences can be managed here.</p>
+            <h2>Profile, notifications, integrations, and preferences</h2>
+            <p>Manage teacher profile, connected tools, preferences, and notification settings from one clean settings area.</p>
           </article>
         </section>
       </main>
     </div>
   </div>
+
+  <div class="toast-stack" id="teacherToastStack" aria-live="polite" aria-atomic="true"></div>
+  <div class="confirm-shell" id="confirmShell" hidden>
+    <div class="confirm-backdrop" data-confirm-close></div>
+    <div class="confirm-card" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="confirm-icon">
+        <span class="material-symbols-outlined">warning</span>
+      </div>
+      <div>
+        <p class="eyebrow">Confirmation</p>
+        <h3 id="confirmTitle">Are you sure?</h3>
+        <p id="confirmMessage">This action cannot be undone.</p>
+      </div>
+      <div class="confirm-actions">
+        <button class="action-button secondary" id="confirmCancelButton" type="button">Cancel</button>
+        <button class="action-button primary" id="confirmAcceptButton" type="button">Continue</button>
+      </div>
+    </div>
+  </div>
+  <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
 
   <script src="js/script.js"></script>
 </body>

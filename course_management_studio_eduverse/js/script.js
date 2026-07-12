@@ -91,9 +91,20 @@ const autosavePill = document.getElementById("studioAutosave");
 const teacherProfileName = document.getElementById("teacherProfileName");
 const teacherProfileMeta = document.getElementById("teacherProfileMeta");
 const teacherInitials = document.getElementById("teacherInitials");
+const welcomeGreeting = document.getElementById("welcomeGreeting");
+const welcomeDate = document.getElementById("welcomeDate");
 const teacherLogoutButton = document.getElementById("teacherLogoutButton");
 const sidebarOpenButton = document.getElementById("sidebarOpenButton");
 const sidebarScrim = document.getElementById("sidebarScrim");
+const teacherToastStack = document.getElementById("teacherToastStack");
+const confirmShell = document.getElementById("confirmShell");
+const confirmMessage = document.getElementById("confirmMessage");
+const confirmTitle = document.getElementById("confirmTitle");
+const confirmCancelButton = document.getElementById("confirmCancelButton");
+const confirmAcceptButton = document.getElementById("confirmAcceptButton");
+const confettiLayer = document.getElementById("confettiLayer");
+const lectureUploadProgress = document.getElementById("lectureUploadProgress");
+const sourceUploadProgress = document.getElementById("sourceUploadProgress");
 
 const defaultState = {
   activeSection: "overview",
@@ -120,6 +131,7 @@ const defaultState = {
 let state = loadState();
 let pendingLectureFile = null;
 let pendingSourceFile = null;
+let confirmResolver = null;
 
 function createId(prefix) {
   return `${prefix}-${Math.random().toString(36).slice(2, 10)}`;
@@ -188,6 +200,161 @@ function saveState(label = "Saved") {
   autosavePill.classList.add("is-saved");
 }
 
+function showToast(type, title, detail = "") {
+  if (!teacherToastStack) return;
+  const icons = {
+    success: "check_circle",
+    error: "error",
+    warning: "warning",
+    info: "info",
+  };
+  const toast = document.createElement("article");
+  toast.className = `toast-card is-${type}`;
+  toast.innerHTML = `
+    <span class="material-symbols-outlined">${icons[type] || icons.info}</span>
+    <div>
+      <strong>${escapeHtml(title)}</strong>
+      ${detail ? `<small>${escapeHtml(detail)}</small>` : ""}
+    </div>
+  `;
+  teacherToastStack.appendChild(toast);
+  window.setTimeout(() => {
+    toast.style.opacity = "0";
+    toast.style.transform = "translateY(10px)";
+    window.setTimeout(() => toast.remove(), 220);
+  }, 4000);
+}
+
+function shakeField(element) {
+  if (!element) return;
+  element.classList.remove("is-shaking");
+  void element.offsetWidth;
+  element.classList.add("is-shaking");
+  window.setTimeout(() => element.classList.remove("is-shaking"), 360);
+}
+
+function setButtonLoading(button, isLoading, success = false) {
+  if (!button) return;
+  if (!button.dataset.originalLabel) button.dataset.originalLabel = button.innerHTML;
+  button.classList.toggle("is-loading", isLoading);
+  button.classList.toggle("is-success", success);
+  button.disabled = isLoading;
+  if (isLoading) {
+    button.innerHTML = `<span>Processing</span>`;
+    document.body.classList.add("motion-busy");
+    return;
+  }
+  button.innerHTML = success
+    ? `<span class="material-symbols-outlined">check</span><span>Done</span>`
+    : button.dataset.originalLabel;
+  document.body.classList.remove("motion-busy");
+  if (success) {
+    window.setTimeout(() => {
+      button.classList.remove("is-success");
+      button.innerHTML = button.dataset.originalLabel;
+    }, 1200);
+  }
+}
+
+function renderUploadProgress(host, options) {
+  if (!host) return;
+  if (!options) {
+    host.classList.remove("is-visible");
+    host.innerHTML = "";
+    return;
+  }
+  host.classList.add("is-visible");
+  host.innerHTML = `
+    <div class="upload-progress-card">
+      <div class="upload-progress-ring" style="--progress:${Math.round((options.percent || 0) * 3.6)}deg">
+        <strong>${Math.round(options.percent || 0)}%</strong>
+      </div>
+      <div class="upload-progress-copy">
+        <strong>${escapeHtml(options.title)}</strong>
+        <small>${escapeHtml(options.detail)}</small>
+        <div class="upload-progress-meta">
+          <span>${escapeHtml(options.status || "Uploading")}</span>
+          <span>${escapeHtml(options.remaining || "A few seconds left")}</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function simulateUploadProgress(host, file, label) {
+  if (!host || !file) return Promise.resolve();
+  return new Promise((resolve) => {
+    let percent = 0;
+    renderUploadProgress(host, {
+      percent,
+      title: `${label} ready`,
+      detail: `${file.name} selected`,
+      status: "Preparing",
+      remaining: "Estimating time",
+    });
+    const timer = window.setInterval(() => {
+      percent += percent < 78 ? 13 : 7;
+      if (percent >= 100) {
+        percent = 100;
+        renderUploadProgress(host, {
+          percent,
+          title: `${label} uploaded`,
+          detail: file.name,
+          status: "Completed",
+          remaining: "Ready to publish",
+        });
+        window.clearInterval(timer);
+        window.setTimeout(() => {
+          renderUploadProgress(host, null);
+          resolve();
+        }, 900);
+        return;
+      }
+      renderUploadProgress(host, {
+        percent,
+        title: `${label} in progress`,
+        detail: file.name,
+        status: "Uploading",
+        remaining: `${Math.max(1, Math.ceil((100 - percent) / 18))} sec remaining`,
+      });
+    }, 120);
+  });
+}
+
+function celebratePublish() {
+  if (!confettiLayer) return;
+  confettiLayer.innerHTML = "";
+  const colors = ["#2563eb", "#10b981", "#f59e0b", "#7c3aed"];
+  for (let index = 0; index < 18; index += 1) {
+    const piece = document.createElement("span");
+    piece.className = "confetti-piece";
+    piece.style.left = `${45 + Math.random() * 18}%`;
+    piece.style.background = colors[index % colors.length];
+    piece.style.setProperty("--drift", `${(Math.random() - 0.5) * 120}px`);
+    piece.style.animationDelay = `${index * 18}ms`;
+    confettiLayer.appendChild(piece);
+  }
+  window.setTimeout(() => { confettiLayer.innerHTML = ""; }, 1200);
+}
+
+function confirmAction({ title, message, destructive = false }) {
+  if (!confirmShell) return Promise.resolve(window.confirm(message));
+  confirmTitle.textContent = title;
+  confirmMessage.textContent = message;
+  confirmAcceptButton.textContent = destructive ? "Delete" : "Continue";
+  confirmAcceptButton.classList.toggle("secondary", false);
+  confirmShell.hidden = false;
+  return new Promise((resolve) => {
+    confirmResolver = resolve;
+  });
+}
+
+function closeConfirm(result) {
+  if (confirmShell) confirmShell.hidden = true;
+  if (confirmResolver) confirmResolver(result);
+  confirmResolver = null;
+}
+
 function timestamp() {
   return new Date().toISOString();
 }
@@ -199,6 +366,21 @@ function formatDateTime(value) {
   return date.toLocaleDateString("en-IN", {
     day: "2-digit",
     month: "short",
+    year: "numeric",
+  });
+}
+
+function greetingForHour(hour) {
+  if (hour < 12) return "Good Morning";
+  if (hour < 17) return "Good Afternoon";
+  return "Good Evening";
+}
+
+function todayLabel() {
+  return new Date().toLocaleDateString("en-IN", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
     year: "numeric",
   });
 }
@@ -383,7 +565,7 @@ function renderCourseStructure(course) {
         </div>
         <div class="tree-node">
           <strong class="tree-title">Add Subject</strong>
-          <span class="tree-meta">Create another reusable subject course from My Courses.</span>
+          <span class="tree-meta">Create another reusable subject course from Content Studio.</span>
         </div>
       </div>
     </div>
@@ -817,6 +999,7 @@ function resetLectureForm() {
   lectureSourceKindInput.value = "link";
   pendingLectureFile = null;
   if (lectureFileInput) lectureFileInput.value = "";
+  renderUploadProgress(lectureUploadProgress, null);
   updateLectureModeUi();
 }
 
@@ -827,6 +1010,7 @@ function resetSourceForm() {
   sourceModeInput.value = "link";
   pendingSourceFile = null;
   if (sourceFileInput) sourceFileInput.value = "";
+  renderUploadProgress(sourceUploadProgress, null);
   updateSourceModeUi();
 }
 
@@ -910,7 +1094,8 @@ function formatBytes(bytes) {
 
 function validateCoursePayload(payload) {
   if (!payload.title) {
-    window.alert("Add a course title before saving.");
+    shakeField(courseTitleInput);
+    showToast("warning", "Course title is required", "Add a course title before saving.");
     return false;
   }
   return true;
@@ -918,11 +1103,13 @@ function validateCoursePayload(payload) {
 
 function validateBatchPayload(payload) {
   if (!payload.name) {
-    window.alert("Add a batch name before saving.");
+    shakeField(batchNameInput);
+    showToast("warning", "Batch name is required", "Add a batch name before saving.");
     return false;
   }
   if (!payload.year) {
-    window.alert("Add the academic year for this batch.");
+    shakeField(batchYearInput);
+    showToast("warning", "Batch code is required", "Add the academic year for this batch.");
     return false;
   }
   return true;
@@ -966,7 +1153,8 @@ async function buildLecturePayload() {
 
   const sourceKind = lectureSourceKindInput.value;
   if (!lectureTitleInput.value.trim()) {
-    window.alert("Add a lecture title.");
+    shakeField(lectureTitleInput);
+    showToast("warning", "Lecture title is required", "Add a lecture title before saving.");
     return null;
   }
 
@@ -981,11 +1169,12 @@ async function buildLecturePayload() {
       };
     }
     if (!file) {
-      window.alert("Choose a video file to upload.");
+      shakeField(lectureFileInput);
+      showToast("warning", "Select a video file", "Choose a lecture file to upload.");
       return null;
     }
     if (file.size > MAX_INLINE_FILE_SIZE) {
-      window.alert("The selected video is too large for browser storage. Please use a hosted link for larger videos.");
+      showToast("error", "Video file is too large", "Use a hosted link for larger videos.");
       return null;
     }
     return {
@@ -1002,7 +1191,8 @@ async function buildLecturePayload() {
   }
 
   if (!lectureUrlInput.value.trim()) {
-    window.alert("Add a video link or switch to upload mode.");
+    shakeField(lectureUrlInput);
+    showToast("warning", "Lecture link is required", "Add a video link or switch to upload mode.");
     return null;
   }
 
@@ -1026,7 +1216,8 @@ async function buildSourcePayload() {
 
   const mode = sourceModeInput.value;
   if (!sourceTitleInput.value.trim()) {
-    window.alert("Add a resource title.");
+    shakeField(sourceTitleInput);
+    showToast("warning", "Resource title is required", "Add a resource title before saving.");
     return null;
   }
 
@@ -1041,11 +1232,12 @@ async function buildSourcePayload() {
       };
     }
     if (!file) {
-      window.alert("Choose a file to upload.");
+      shakeField(sourceFileInput);
+      showToast("warning", "Select a file", "Choose a resource file to upload.");
       return null;
     }
     if (file.size > MAX_INLINE_FILE_SIZE) {
-      window.alert("The selected file is too large for browser storage. Please use a hosted link for larger documents.");
+      showToast("error", "Resource file is too large", "Use a hosted link for larger documents.");
       return null;
     }
     return {
@@ -1062,7 +1254,8 @@ async function buildSourcePayload() {
   }
 
   if (!sourceUrlInput.value.trim()) {
-    window.alert("Add a resource link or switch to upload mode.");
+    shakeField(sourceUrlInput);
+    showToast("warning", "Resource link is required", "Add a resource link or switch to upload mode.");
     return null;
   }
 
@@ -1079,9 +1272,10 @@ async function buildSourcePayload() {
   };
 }
 
-courseForm.addEventListener("submit", (event) => {
+courseForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   markSaving();
+  setButtonLoading(event.submitter, true);
 
   const existingModules = courseIdInput.value ? (state.courses.find((course) => course.id === courseIdInput.value)?.modules || []) : [];
   const existingCourse = courseIdInput.value ? state.courses.find((course) => course.id === courseIdInput.value) : null;
@@ -1130,7 +1324,10 @@ courseForm.addEventListener("submit", (event) => {
     payload.publishedAt = payload.publishedAt || timestamp();
   }
 
-  if (!validateCoursePayload(payload)) return;
+  if (!validateCoursePayload(payload)) {
+    setButtonLoading(event.submitter, false);
+    return;
+  }
 
   const existingIndex = state.courses.findIndex((course) => course.id === payload.id);
   if (existingIndex >= 0) {
@@ -1144,11 +1341,14 @@ courseForm.addEventListener("submit", (event) => {
   saveState();
   renderAll();
   hydrateCourseForm(payload);
+  setButtonLoading(event.submitter, false, true);
+  showToast("success", "Course saved successfully", `${payload.title || "Course"} is ready in Content Studio.`);
 });
 
-batchForm.addEventListener("submit", (event) => {
+batchForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   markSaving();
+  setButtonLoading(event.submitter, true);
 
   const payload = {
     id: batchIdInput.value || createId("batch"),
@@ -1162,7 +1362,10 @@ batchForm.addEventListener("submit", (event) => {
     courseIds: selectedBatchCourseIds(),
   };
 
-  if (!validateBatchPayload(payload)) return;
+  if (!validateBatchPayload(payload)) {
+    setButtonLoading(event.submitter, false);
+    return;
+  }
 
   const existingIndex = state.batches.findIndex((batch) => batch.id === payload.id);
   if (existingIndex >= 0) {
@@ -1175,14 +1378,20 @@ batchForm.addEventListener("submit", (event) => {
   saveState();
   renderAll();
   hydrateBatchForm(payload);
+  setButtonLoading(event.submitter, false, true);
+  showToast("success", "Batch saved successfully", `${payload.name} is ready for scheduling and publishing.`);
 });
 
-moduleForm.addEventListener("submit", (event) => {
+moduleForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   markSaving();
+  setButtonLoading(event.submitter, true);
 
   const course = getSelectedCourse();
-  if (!course) return;
+  if (!course) {
+    setButtonLoading(event.submitter, false);
+    return;
+  }
 
   const payload = {
     id: moduleIdInput.value || createId("module"),
@@ -1195,7 +1404,9 @@ moduleForm.addEventListener("submit", (event) => {
   };
 
   if (!payload.name) {
-    window.alert("Add a chapter name before saving.");
+    shakeField(moduleNameInput);
+    showToast("warning", "Chapter name is required", "Add a chapter name before saving.");
+    setButtonLoading(event.submitter, false);
     return;
   }
 
@@ -1209,20 +1420,31 @@ moduleForm.addEventListener("submit", (event) => {
   state.selectedModuleId = payload.id;
   saveState();
   renderAll();
+  setButtonLoading(event.submitter, false, true);
+  showToast("success", "Chapter saved successfully", `${payload.name} is now part of the course structure.`);
 });
 
 lectureForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   markSaving();
+  setButtonLoading(event.submitter, true);
 
   const module = getSelectedModule();
   if (!module) {
-    window.alert("Select a chapter before adding lecture content.");
+    showToast("warning", "Select a chapter first", "Open or create a chapter before adding lecture content.");
+    setButtonLoading(event.submitter, false);
     return;
   }
 
   const payload = await buildLecturePayload();
-  if (!payload) return;
+  if (!payload) {
+    setButtonLoading(event.submitter, false);
+    return;
+  }
+
+  if (payload.sourceKind === "upload" && pendingLectureFile) {
+    await simulateUploadProgress(lectureUploadProgress, pendingLectureFile, "Lecture");
+  }
 
   const existingIndex = module.lectures.findIndex((lecture) => lecture.id === payload.id);
   if (existingIndex >= 0) {
@@ -1234,20 +1456,31 @@ lectureForm.addEventListener("submit", async (event) => {
   resetLectureForm();
   saveState();
   renderAll();
+  setButtonLoading(event.submitter, false, true);
+  showToast("success", "Lecture saved successfully", `${payload.title} is ready for learners.`);
 });
 
 sourceForm.addEventListener("submit", async (event) => {
   event.preventDefault();
   markSaving();
+  setButtonLoading(event.submitter, true);
 
   const module = getSelectedModule();
   if (!module) {
-    window.alert("Select a chapter before adding study resources.");
+    showToast("warning", "Select a chapter first", "Open or create a chapter before adding study resources.");
+    setButtonLoading(event.submitter, false);
     return;
   }
 
   const payload = await buildSourcePayload();
-  if (!payload) return;
+  if (!payload) {
+    setButtonLoading(event.submitter, false);
+    return;
+  }
+
+  if (payload.mode === "upload" && pendingSourceFile) {
+    await simulateUploadProgress(sourceUploadProgress, pendingSourceFile, "Resource");
+  }
 
   const existingIndex = module.sources.findIndex((source) => source.id === payload.id);
   if (existingIndex >= 0) {
@@ -1259,6 +1492,8 @@ sourceForm.addEventListener("submit", async (event) => {
   resetSourceForm();
   saveState();
   renderAll();
+  setButtonLoading(event.submitter, false, true);
+  showToast("success", "Resource saved successfully", `${payload.title} is attached to this chapter.`);
 });
 
 courseList.addEventListener("click", (event) => {
@@ -1287,14 +1522,17 @@ courseList.addEventListener("click", (event) => {
     saveState("Review submitted");
     renderAll();
     hydrateCourseForm(course);
+    showToast("info", "Submitted for review", `${course.title} is now waiting for approval.`);
     return;
   }
 
   if (action === "publish") {
     if (requiresAdminApproval(course) && course.status !== "Approved") {
-      window.alert("This course still needs admin approval before it can be published to Explore.");
+      showToast("warning", "Approval required", "This course still needs admin approval before it can be published to Explore.");
+      shakeField(courseStatusInput);
       return;
     }
+    showToast("info", "Publishing started", "Validating content and syncing release state.");
     course.status = "Published";
     course.reviewState = requiresAdminApproval(course) ? "Approved" : "Published directly";
     course.publishedAt = timestamp();
@@ -1302,6 +1540,8 @@ courseList.addEventListener("click", (event) => {
     saveState("Published");
     renderAll();
     hydrateCourseForm(course);
+    celebratePublish();
+    showToast("success", "Published successfully", `${course.title} is now visible in the LMS experience.`);
     return;
   }
 
@@ -1311,21 +1551,31 @@ courseList.addEventListener("click", (event) => {
     saveState("Unpublished");
     renderAll();
     hydrateCourseForm(course);
+    showToast("info", "Course unpublished", `${course.title} has been moved out of student visibility.`);
     return;
   }
 
   if (action === "delete") {
-    state.courses = state.courses.filter((item) => item.id !== courseId);
-    if (state.selectedCourseId === courseId) {
-      state.selectedCourseId = state.courses[0]?.id || null;
-      state.selectedModuleId = state.courses[0]?.modules[0]?.id || null;
-    }
-    resetCourseForm();
-    resetModuleForm();
-    resetLectureForm();
-    resetSourceForm();
-    saveState();
-    renderAll();
+    confirmAction({
+      title: "Delete course?",
+      message: `Delete ${course.title}? This removes the course from the reusable library.`,
+      destructive: true,
+    }).then((confirmed) => {
+      if (!confirmed) return;
+      state.courses = state.courses.filter((item) => item.id !== courseId);
+      if (state.selectedCourseId === courseId) {
+        state.selectedCourseId = state.courses[0]?.id || null;
+        state.selectedModuleId = state.courses[0]?.modules[0]?.id || null;
+      }
+      resetCourseForm();
+      resetModuleForm();
+      resetLectureForm();
+      resetSourceForm();
+      saveState();
+      renderAll();
+      showToast("success", "Course deleted", `${course.title} has been removed.`);
+    });
+    return;
   }
 });
 
@@ -1344,10 +1594,18 @@ batchList.addEventListener("click", (event) => {
   }
 
   if (action === "delete") {
-    state.batches = state.batches.filter((item) => item.id !== batchId);
-    resetBatchForm();
-    saveState();
-    renderAll();
+    confirmAction({
+      title: "Delete batch?",
+      message: `Delete ${batch.name}? Students will no longer see this batch setup.`,
+      destructive: true,
+    }).then((confirmed) => {
+      if (!confirmed) return;
+      state.batches = state.batches.filter((item) => item.id !== batchId);
+      resetBatchForm();
+      saveState();
+      renderAll();
+      showToast("success", "Batch deleted", `${batch.name} has been removed.`);
+    });
   }
 });
 
@@ -1359,13 +1617,22 @@ moduleList.addEventListener("click", (event) => {
   if (!course) return;
 
   if (button.dataset.moduleAction === "delete") {
-    course.modules = course.modules.filter((module) => module.id !== button.dataset.moduleId);
-    state.selectedModuleId = course.modules[0]?.id || null;
-    resetModuleForm();
-    resetLectureForm();
-    resetSourceForm();
-    saveState();
-    renderAll();
+    const moduleToDelete = course.modules.find((module) => module.id === button.dataset.moduleId);
+    confirmAction({
+      title: "Delete chapter?",
+      message: `Delete ${moduleToDelete?.name || "this chapter"} and its lecture resources?`,
+      destructive: true,
+    }).then((confirmed) => {
+      if (!confirmed) return;
+      course.modules = course.modules.filter((module) => module.id !== button.dataset.moduleId);
+      state.selectedModuleId = course.modules[0]?.id || null;
+      resetModuleForm();
+      resetLectureForm();
+      resetSourceForm();
+      saveState();
+      renderAll();
+      showToast("success", "Chapter deleted", `${moduleToDelete?.name || "Chapter"} has been removed.`);
+    });
     return;
   }
 
@@ -1399,10 +1666,18 @@ lectureList.addEventListener("click", (event) => {
     return;
   }
 
-  module.lectures = module.lectures.filter((item) => item.id !== button.dataset.lectureId);
-  resetLectureForm();
-  saveState();
-  renderAll();
+  confirmAction({
+    title: "Delete lecture?",
+    message: `Delete ${lecture.title}? This lecture will be removed from the chapter.`,
+    destructive: true,
+  }).then((confirmed) => {
+    if (!confirmed) return;
+    module.lectures = module.lectures.filter((item) => item.id !== button.dataset.lectureId);
+    resetLectureForm();
+    saveState();
+    renderAll();
+    showToast("success", "Lecture deleted", `${lecture.title} has been removed.`);
+  });
 });
 
 sourceList.addEventListener("click", (event) => {
@@ -1430,10 +1705,18 @@ sourceList.addEventListener("click", (event) => {
     return;
   }
 
-  module.sources = module.sources.filter((item) => item.id !== button.dataset.sourceId);
-  resetSourceForm();
-  saveState();
-  renderAll();
+  confirmAction({
+    title: "Delete resource?",
+    message: `Delete ${source.title}? This file will be removed from the chapter resources.`,
+    destructive: true,
+  }).then((confirmed) => {
+    if (!confirmed) return;
+    module.sources = module.sources.filter((item) => item.id !== button.dataset.sourceId);
+    resetSourceForm();
+    saveState();
+    renderAll();
+    showToast("success", "Resource deleted", `${source.title} has been removed.`);
+  });
 });
 
 tabButtons.forEach((button) => {
@@ -1482,6 +1765,17 @@ if (lectureFileInput) {
     pendingLectureFile = event.target.files?.[0] || null;
     updateLectureModeUi();
     markSaving();
+    if (pendingLectureFile) {
+      renderUploadProgress(lectureUploadProgress, {
+        percent: 0,
+        title: "Lecture upload ready",
+        detail: pendingLectureFile.name,
+        status: "Waiting to upload",
+        remaining: "Starts on save",
+      });
+    } else {
+      renderUploadProgress(lectureUploadProgress, null);
+    }
   });
 }
 
@@ -1490,6 +1784,17 @@ if (sourceFileInput) {
     pendingSourceFile = event.target.files?.[0] || null;
     updateSourceModeUi();
     markSaving();
+    if (pendingSourceFile) {
+      renderUploadProgress(sourceUploadProgress, {
+        percent: 0,
+        title: "Resource upload ready",
+        detail: pendingSourceFile.name,
+        status: "Waiting to upload",
+        remaining: "Starts on save",
+      });
+    } else {
+      renderUploadProgress(sourceUploadProgress, null);
+    }
   });
 }
 
@@ -1627,6 +1932,8 @@ function loadTeacherSession() {
   if (teacherProfileName) teacherProfileName.textContent = name;
   if (teacherProfileMeta) teacherProfileMeta.textContent = email;
   if (teacherInitials) teacherInitials.textContent = initials(name);
+  if (welcomeGreeting) welcomeGreeting.textContent = `${greetingForHour(new Date().getHours())}, ${name}`;
+  if (welcomeDate) welcomeDate.textContent = `${todayLabel()} | Elite Coaching`;
 }
 
 ensureSelections();
@@ -1666,3 +1973,15 @@ if (sidebarScrim && sidebarDrawer) {
     sidebarScrim.classList.remove("is-visible");
   });
 }
+
+if (confirmCancelButton) {
+  confirmCancelButton.addEventListener("click", () => closeConfirm(false));
+}
+
+if (confirmAcceptButton) {
+  confirmAcceptButton.addEventListener("click", () => closeConfirm(true));
+}
+
+document.querySelectorAll("[data-confirm-close]").forEach((node) => {
+  node.addEventListener("click", () => closeConfirm(false));
+});
