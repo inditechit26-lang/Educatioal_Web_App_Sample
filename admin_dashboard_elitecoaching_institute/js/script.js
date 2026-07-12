@@ -1,149 +1,454 @@
 const pages = {
-  dashboard: ['Admin Dashboard', 'Complete institute overview and real-time performance insights.'],
-  students: ['Student Management', 'Manage profiles, enrollments, attendance, performance, and fees.'],
-  faculty: ['Faculty Management', 'Manage educators, subjects, batches, salary, and performance.'],
-  courses: ['Course Management', 'Create programs, organize syllabus, assign faculty, and track completion.'],
-  batches: ['Batch Management', 'Create batches, allocate classrooms, and monitor batch performance.'],
-  live: ['Live Class Management', 'Schedule classes, assign faculty, track attendance, and send reminders.'],
-  lectures: ['Recorded Lectures', 'Organize lectures by chapter and monitor student engagement.'],
-  tests: ['Mock Test Management', 'Build tests, schedule exams, and analyze ranks and percentiles.'],
-  materials: ['Study Materials', 'Manage notes, assignments, papers, PDFs, and versions.'],
-  doubts: ['Doubt Management', 'Assign, prioritize, and track student doubt resolution.'],
-  attendance: ['Attendance Management', 'Track daily attendance, monthly reports, and low-attendance alerts.'],
-  admissions: ['Admissions & Leads', 'Manage inquiries, follow-ups, counseling, and conversions.'],
-  fees: ['Fees & Payments', 'Track revenue, installments, pending dues, and receipts.'],
-  analytics: ['Results & Analytics', 'Explore student, batch, faculty, test, and attendance performance.'],
-  notifications: ['Notifications', 'Send announcements, push messages, emails, SMS, and reminders.'],
-  settings: ['Settings', 'Configure institute branding, permissions, security, themes, and backups.'],
-  profile: ['Admin Profile', 'Manage your profile, authentication, security, and activity logs.']
+  dashboard: ["Institute Dashboard", "Monitor institute activity, pending approvals, people, collections, and operational health."],
+  teachers: ["Teacher Management", "Manage faculty, workload, assigned subjects, assigned batches, and performance."],
+  students: ["Student Management", "Manage admissions, enrollment, attendance, progress, payment status, and bulk operations."],
+  approvals: ["Content Approval", "Review teacher-submitted courses and batches before publishing them to students."],
+  batches: ["Batch Management", "Create, assign, approve, clone, and monitor batch delivery across the institute."],
+  attendance: ["Attendance", "Track student, teacher, and live class attendance with operational alerts."],
+  payments: ["Fees & Payments", "Manage invoices, receipts, pending dues, discounts, refunds, and collection health."],
+  certificates: ["Certificates", "Issue, approve, verify, and track institute certificates and completion credentials."],
+  reports: ["Reports", "Generate institute, teacher, student, batch, revenue, and completion reports."],
+  communication: ["Communication", "Send announcements to the entire institute or to targeted courses, batches, and people."],
+  settings: ["Institute Settings", "Configure branding, roles, permissions, academic year, integrations, and institute rules."],
+  profile: ["Admin Profile", "Review your account, permissions, recent actions, and administrative activity logs."],
 };
 
-const content = document.getElementById('pageContent');
-const pageTitle = document.getElementById('pageTitle');
-const breadcrumb = document.getElementById('breadcrumb');
-const sidebar = document.getElementById('sidebar');
-const overlay = document.getElementById('sidebarOverlay');
-let charts = [];
+const content = document.getElementById("pageContent");
+const pageTitle = document.getElementById("pageTitle");
+const breadcrumb = document.getElementById("breadcrumb");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("sidebarOverlay");
+const palette = document.getElementById("commandPalette");
+const commandInput = document.getElementById("commandInput");
+const commandResults = document.getElementById("commandResults");
+const globalSearch = document.getElementById("globalSearch");
+const quickCreateButton = document.getElementById("quickCreateButton");
 
-const iconButton = (icon, title = 'Action') => `<button title="${title}"><span class="material-symbols-outlined">${icon}</span></button>`;
-const status = (text, type = 'success') => `<span class="status ${type}">${text}</span>`;
+const iconButton = (icon, title = "Action") => `<button title="${title}"><span class="material-symbols-outlined">${icon}</span></button>`;
+const button = (icon, label, primary = false) => `<button class="button ${primary ? "primary" : ""}" data-action="${label}"><span class="material-symbols-outlined">${icon}</span>${label}</button>`;
+const status = (text, type = "success") => `<span class="status ${type}">${text}</span>`;
 const person = (initials, name, detail) => `<div class="person"><span class="avatar">${initials}</span><span><strong>${name}</strong><small>${detail}</small></span></div>`;
-const actions = () => `<div class="row-actions">${iconButton('visibility','View')}${iconButton('edit','Edit')}${iconButton('more_horiz','More')}</div>`;
-const button = (icon, label, primary = false) => `<button class="button ${primary ? 'primary' : ''}" data-action="${label}"><span class="material-symbols-outlined">${icon}</span>${label}</button>`;
-const pageHead = (title, subtitle, action = 'Add New', icon = 'add') => `<div class="page-head"><div><h2>${title}</h2><p>${subtitle}</p></div><div class="head-actions">${button('download','Export')}${button(icon,action,true)}</div></div>`;
-const tableCard = (title, headers, rows, filter = 'All Status') => `<section class="card table-card"><div class="table-toolbar"><div><strong>${title}</strong><p class="card-subtitle">Updated just now</p></div><div class="filter-row"><label class="mini-search"><span class="material-symbols-outlined">search</span><input placeholder="Search records..." /></label><select class="select"><option>${filter}</option><option>Active</option><option>Pending</option></select></div></div><div class="table-wrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.join('')}</tbody></table></div></section>`;
-const metric = (icon, value, label, trend, color = '#2563eb', tint = '#eff6ff', down = false) => `<article class="metric-card" style="--accent:${color};--tint:${tint};--glow:${tint}"><div class="metric-top"><span class="metric-icon"><span class="material-symbols-outlined">${icon}</span></span><span class="trend ${down?'down':''}">${trend}</span></div><h3>${value}</h3><p>${label}</p></article>`;
+const actions = () => `<div class="row-actions">${iconButton("visibility", "View")}${iconButton("edit", "Edit")}${iconButton("more_horiz", "More")}</div>`;
+const pageHead = (title, subtitle, action = "Add New", icon = "add") => `<div class="page-head"><div><h2>${title}</h2><p>${subtitle}</p></div><div class="head-actions">${button("download", "Export")}${button(icon, action, true)}</div></div>`;
+const metric = (icon, value, label, trend, color = "#3b5dfd", tint = "#eff4ff", down = false) => `<article class="metric-card" style="--accent:${color};--tint:${tint};--glow:${tint}"><div class="metric-top"><span class="metric-icon"><span class="material-symbols-outlined">${icon}</span></span><span class="trend ${down ? "down" : ""}">${trend}</span></div><h3>${value}</h3><p>${label}</p></article>`;
+const activity = (icon, title, detail, time) => `<div class="activity-item"><span class="activity-icon"><span class="material-symbols-outlined">${icon}</span></span><div><strong>${title}</strong><p>${detail}</p></div><time>${time}</time></div>`;
+const tableCard = (title, headers, rows, filter = "All Status") => `<section class="card table-card"><div class="table-toolbar"><div><strong>${title}</strong><p class="card-subtitle">Updated just now</p></div><div class="filter-row"><label class="mini-search"><span class="material-symbols-outlined">search</span><input placeholder="Search records..." /></label><select class="select"><option>${filter}</option><option>Active</option><option>Pending</option><option>Needs Review</option></select></div></div><div class="table-wrap"><table><thead><tr>${headers.map((header) => `<th>${header}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody></table></div></section>`;
 
 function dashboardPage() {
-  const admissions = [
-    `<tr><td>${person('AS','Aarav Sharma','ST-24091')}</td><td>JEE Advanced</td><td>Momentum A1</td><td>08 Jul 2026</td><td>${status('Confirmed')}</td><td>${actions()}</td></tr>`,
-    `<tr><td>${person('MK','Meera Kapoor','ST-24090')}</td><td>NEET Achiever</td><td>Target N2</td><td>08 Jul 2026</td><td>${status('Documents Due','warning')}</td><td>${actions()}</td></tr>`,
-    `<tr><td>${person('RV','Rohan Verma','ST-24089')}</td><td>Foundation IX</td><td>Foundation F3</td><td>07 Jul 2026</td><td>${status('Confirmed')}</td><td>${actions()}</td></tr>`,
-    `<tr><td>${person('IA','Ishita Anand','ST-24088')}</td><td>JEE Main</td><td>Pinnacle J4</td><td>07 Jul 2026</td><td>${status('Fee Pending','danger')}</td><td>${actions()}</td></tr>`
+  const approvalRows = [
+    `<tr><td>${person("KS", "Kavya Singh", "Physics Teacher")}</td><td>Physics Class 11</td><td>Course Approval</td><td>Today, 09:20 AM</td><td>${status("Pending Review", "warning")}</td><td>${actions()}</td></tr>`,
+    `<tr><td>${person("RM", "Rohan Mehta", "Chemistry Teacher")}</td><td>NEET 2027 Evening Batch</td><td>Batch Approval</td><td>Today, 08:10 AM</td><td>${status("Pending Review", "warning")}</td><td>${actions()}</td></tr>`,
+    `<tr><td>${person("SP", "Sneha Patel", "Biology Teacher")}</td><td>Human Physiology Sprint</td><td>Course Update</td><td>Yesterday</td><td>${status("Changes Requested", "info")}</td><td>${actions()}</td></tr>`,
+    `<tr><td>${person("AD", "Academic Desk", "Institute Ops")}</td><td>Certificate Request - JEE Toppers</td><td>Certificate Approval</td><td>Yesterday</td><td>${status("Pending Review", "warning")}</td><td>${actions()}</td></tr>`,
   ];
-  return `${pageHead('Good morning, Arjun 👋','Here is what is happening across EliteCoaching Institute today.','Generate Report','auto_awesome')}
+
+  return `${pageHead("Good morning, Aakash", "This dashboard answers what is happening inside the institute today.", "Open Approval Queue", "approval")}
   <section class="metric-grid">
-    ${metric('groups','2,846','Total Students','+12.5%')}${metric('co_present','128','Faculty Members','+4.2%','#7c3aed','#f3e8ff')}${metric('menu_book','24','Active Courses','+3 new','#0891b2','#cffafe')}${metric('currency_rupee','₹48.6L','Total Revenue','+18.3%','#16a34a','#dcfce7')}
-    ${metric('person_add','186','New Admissions This Month','+22.1%','#8b5cf6','#ede9fe')}${metric('live_tv','12','Upcoming Live Classes','Today','#0284c7','#e0f2fe')}${metric('forum','18','Pending Doubts','-6.4%','#f59e0b','#fef3c7')}${metric('pending_actions','₹6.8L','Pending Fee Payments','+2.1%','#dc2626','#fee2e2',true)}
+    ${metric("groups", "3,248", "Total Students", "+186 this month")}
+    ${metric("person_check", "2,982", "Active Students", "91.8% active", "#16a34a", "#dcfce7")}
+    ${metric("co_present", "128", "Teachers", "12 need review", "#7c5cff", "#f1eaff")}
+    ${metric("menu_book", "42", "Courses", "8 pending approval", "#0891b2", "#e0f2fe")}
+    ${metric("group_work", "36", "Batches", "4 pending publish", "#f59e0b", "#fef3c7")}
+    ${metric("live_tv", "14", "Live Classes Today", "5 starting soon")}
+    ${metric("assignment", "28", "Assignments Pending", "Teacher review")}
+    ${metric("payments", "Rs. 8.6L", "Payments Due", "184 dues", "#dc2626", "#fee2e2", true)}
   </section>
-  <section class="card quick-card"><div class="card-head"><div><h3>Quick Actions</h3><p>Frequently used administrative tasks</p></div><span class="material-symbols-outlined">bolt</span></div><div class="quick-actions">${button('person_add','Add Student')}${button('group_add','Add Faculty')}${button('library_add','Create Course')}${button('event','Schedule Live Class')}${button('upload_file','Upload Material')}${button('campaign','Send Announcement')}</div></section>
-  <div class="dashboard-grid"><section class="card"><div class="card-head"><div><h3>Student Growth</h3><p>Enrollment growth over the last 12 months</p></div><select class="select"><option>Last 12 months</option></select></div><div class="chart-wrap"><canvas id="studentGrowthChart"></canvas></div></section><section class="card"><div class="card-head"><div><h3>Course Enrollment</h3><p>Students by program</p></div>${iconButton('more_horiz')}</div><div class="chart-wrap"><canvas id="courseChart"></canvas></div></section></div>
-  <div class="dashboard-grid"><section class="card"><div class="card-head"><div><h3>Revenue Analytics</h3><p>Monthly collections and targets</p></div><span class="status success">18.3% growth</span></div><div class="chart-wrap small"><canvas id="revenueChart"></canvas></div></section><section class="card"><div class="card-head"><div><h3>Recent Student Activities</h3><p>Live institute activity feed</p></div><button class="button">View all</button></div><div class="activity-list">${activity('quiz','Aarav completed JEE Mock Test 08','Scored 91%','2m')}${activity('payments','Meera paid installment #3','₹24,500 received','12m')}${activity('play_circle','Rohan watched Organic Chemistry','92% completed','28m')}${activity('workspace_premium','Ishita reached a 14-day streak','New achievement','1h')}</div></section></div>
-  ${tableCard('Recent Admissions',['Student','Course','Batch','Admission Date','Status','Actions'],admissions)}
-  <div class="split-charts"><section class="card"><div class="card-head"><div><h3>Latest Notifications</h3><p>Important administrative updates</p></div><button class="button" data-open-page="notifications">Open center</button></div><div class="notification-list">${activity('warning','Low attendance alert','27 students below 75%','10m')}${activity('cloud_done','Nightly backup completed','All records secured','3h')}${activity('event','Faculty meeting tomorrow','Conference Room A · 11:00 AM','5h')}</div></section><section class="card"><div class="card-head"><div><h3>Elite AI Insights</h3><p>Automated performance recommendations</p></div><span class="status info">AI powered</span></div><div class="feature-card"><span class="material-symbols-outlined">psychology</span><h3>34 students may need intervention</h3><p>Attendance, test scores, and lecture completion suggest these learners could benefit from personalized mentoring this week.</p>${button('auto_awesome','Review AI Recommendations',true)}</div></section></div>`;
+  <div class="dashboard-grid">
+    <section class="card">
+      <div class="card-head"><div><h3>Today's Activities</h3><p>What the institute team should focus on next</p></div>${status("Live", "info")}</div>
+      <div class="activity-list">
+        ${activity("live_tv", "12 live classes scheduled", "Physics, Chemistry, Biology, Mathematics, and Foundation lectures running today.", "09:00")}
+        ${activity("event_busy", "2 teacher leave requests", "One substitute required for the evening NEET batch.", "09:30")}
+        ${activity("person_add", "18 new student admissions", "Admissions team completed registration and batch allocation.", "10:00")}
+        ${activity("approval", "8 course approvals pending", "Teacher submissions are waiting for admin preview and decision.", "Now")}
+        ${activity("quiz", "3 upcoming tests", "JEE Mock 08, NEET Weekly Drill, Foundation Checkpoint.", "2:00 PM")}
+      </div>
+    </section>
+    <section class="card quick-card">
+      <div class="card-head"><div><h3>Quick Actions</h3><p>Institute operations with the highest frequency</p></div><span class="material-symbols-outlined">bolt</span></div>
+      <div class="quick-actions">
+        ${button("person_add", "Add Teacher")}
+        ${button("group_add", "Add Student")}
+        ${button("groups", "Create Batch")}
+        ${button("approval", "Approve Course")}
+        ${button("campaign", "Send Announcement")}
+        ${button("workspace_premium", "Generate Certificate")}
+      </div>
+    </section>
+  </div>
+  <div class="split-charts">
+    <section class="card">
+      <div class="card-head"><div><h3>Pending Approvals</h3><p>Approvals that block teacher publishing and student visibility</p></div><button class="button" data-open-page="approvals">Open Queue</button></div>
+      <div class="activity-list">
+        ${activity("menu_book", "Courses waiting for approval", "8 reusable library courses submitted by teachers.", "High")}
+        ${activity("groups", "Batches waiting for approval", "4 batch drafts ready for admin review.", "Medium")}
+        ${activity("badge", "Teacher registration checks", "3 faculty onboarding requests pending document verification.", "Medium")}
+        ${activity("workspace_premium", "Certificate requests", "12 student certificate issues pending approval.", "Low")}
+      </div>
+    </section>
+    <section class="card">
+      <div class="card-head"><div><h3>Institute Health</h3><p>Operational gaps that need admin attention</p></div>${status("Healthy", "success")}</div>
+      <div class="activity-list">
+        ${activity("warning", "Courses without faculty", "2 courses are published but missing an assigned lead teacher.", "Action")}
+        ${activity("schedule", "Expired batches", "3 archived batches should be cleaned up from active scheduling.", "Action")}
+        ${activity("person_off", "Inactive students", "41 enrolled students have not opened the LMS in 7 days.", "Alert")}
+        ${activity("cloud", "Storage usage", "74% of institute storage allocated across notes, videos, and certificates.", "Review")}
+      </div>
+    </section>
+  </div>
+  ${tableCard("Approval Queue Snapshot", ["Requester", "Item", "Approval Type", "Submitted", "Status", "Actions"], approvalRows, "Pending Review")}`;
 }
 
-function activity(icon, title, detail, time) { return `<div class="activity-item"><span class="activity-icon"><span class="material-symbols-outlined">${icon}</span></span><div><strong>${title}</strong><p>${detail}</p></div><time>${time}</time></div>`; }
-
-function studentPage() {
+function teachersPage() {
   const rows = [
-    ['EC-24091',person('AS','Aarav Sharma','aarav@email.com'),'JEE Advanced','Momentum A1','92%',status('Paid'),'<strong>91/100</strong>',actions()],
-    ['EC-24090',person('MK','Meera Kapoor','meera@email.com'),'NEET Achiever','Target N2','88%',status('Due','warning'),'<strong>87/100</strong>',actions()],
-    ['EC-24089',person('RV','Rohan Verma','rohan@email.com'),'Foundation IX','Foundation F3','73%',status('Partial','info'),'<strong>78/100</strong>',actions()],
-    ['EC-24088',person('IA','Ishita Anand','ishita@email.com'),'JEE Main','Pinnacle J4','68%',status('Overdue','danger'),'<strong>72/100</strong>',actions()],
-    ['EC-24087',person('NS','Nikhil Soni','nikhil@email.com'),'NEET Achiever','Target N1','96%',status('Paid'),'<strong>94/100</strong>',actions()]
-  ].map(c=>`<tr>${c.map(x=>`<td>${x}</td>`).join('')}</tr>`);
-  return `${pageHead('Student Management','View, filter, enroll, and monitor every learner from one place.','Add Student','person_add')}<section class="metric-grid">${metric('groups','2,846','Enrolled Students','+12.5%')}${metric('person_add','186','New This Month','+22.1%','#7c3aed','#f3e8ff')}${metric('fact_check','86.4%','Average Attendance','+1.8%','#16a34a','#dcfce7')}${metric('warning','27','Low Attendance Alerts','-4 this week','#f59e0b','#fef3c7')}</section>${tableCard('All Students',['Student ID','Student','Course','Batch','Attendance','Fee Status','Performance','Actions'],rows,'All Students')}`;
+    ["T-104", person("KS", "Kavya Singh", "Physics | 8 years"), "Physics, Mechanics, Thermodynamics", "JEE Morning, NEET Evening", "4 courses", "92%", status("Active"), actions()],
+    ["T-118", person("RM", "Rohan Mehta", "Chemistry | 11 years"), "Organic, Physical Chemistry", "JEE Morning", "3 courses", "88%", status("Active"), actions()],
+    ["T-123", person("SP", "Sneha Patel", "Biology | 9 years"), "Biology, Botany, Zoology", "NEET Prime", "5 courses", "95%", status("Top Performer", "success"), actions()],
+    ["T-131", person("AS", "Amit Sharma", "Mathematics | 7 years"), "Calculus, Algebra", "JEE Weekend", "2 courses", "81%", status("Overloaded", "warning"), actions()],
+  ].map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`);
+
+  return `${pageHead("Teacher Management", "Admin controls teacher onboarding, assignment, workload, performance, and lifecycle states.", "Add Teacher", "person_add")}
+  <section class="metric-grid">
+    ${metric("co_present", "128", "Teachers", "+6 new this quarter")}
+    ${metric("menu_book", "42", "Assigned Courses", "Admin controlled")}
+    ${metric("groups", "36", "Assigned Batches", "8 require balancing")}
+    ${metric("trending_up", "4.8", "Average Faculty Rating", "Student feedback")}
+  </section>
+  ${tableCard("Teacher Directory", ["Teacher ID", "Teacher", "Subjects", "Assigned Batches", "Assigned Courses", "Performance", "Status", "Actions"], rows, "All Teachers")}
+  <section class="feature-grid" style="margin-top:18px">
+    <article class="card feature-card"><span class="material-symbols-outlined">badge</span><h3>Teacher Profile</h3><p>Photo, experience, qualification, subjects, courses, batches, attendance, login history, and storage usage.</p>${button("visibility", "Open Profile")}</article>
+    <article class="card feature-card"><span class="material-symbols-outlined">conversion_path</span><h3>Workload Balancer</h3><p>Detect overloaded faculty and redistribute batches before student delivery is affected.</p>${button("tune", "Balance Workload")}</article>
+    <article class="card feature-card"><span class="material-symbols-outlined">rule_settings</span><h3>Assign Subjects & Batches</h3><p>Control who teaches what, who reviews content, and who owns each institute batch.</p>${button("edit", "Manage Assignments")}</article>
+  </section>`;
 }
 
-function facultyPage() {
-  const cards=[['DR','Dr. Rakesh Mehta','Physics · JEE','624','4.9','12 yrs'],['SP','Sneha Patel','Biology · NEET','518','4.8','9 yrs'],['AK','Amit Khanna','Mathematics · JEE','702','4.9','11 yrs'],['NV','Neha Verma','Chemistry · NEET','486','4.7','8 yrs'],['RS','Rahul Sethi','Science · Foundation','392','4.8','7 yrs'],['PS','Pooja Shah','English · Foundation','335','4.6','6 yrs']];
-  return `${pageHead('Faculty Management','Manage teaching assignments, performance, feedback, and payroll.','Add Faculty','group_add')}<section class="metric-grid">${metric('co_present','128','Total Faculty','+4.2%')}${metric('star','4.82','Average Rating','+0.3','#f59e0b','#fef3c7')}${metric('groups','22.3','Students per Faculty','Optimal','#7c3aed','#f3e8ff')}${metric('currency_rupee','₹18.4L','Monthly Payroll','On schedule','#16a34a','#dcfce7')}</section><section class="faculty-grid" style="margin-top:18px">${cards.map(c=>`<article class="card faculty-card"><span class="avatar">${c[0]}</span><h3>${c[1]}</h3><p>${c[2]}</p><div class="faculty-stats"><span><strong>${c[3]}</strong><small>Students</small></span><span><strong>${c[4]} ★</strong><small>Rating</small></span><span><strong>${c[5]}</strong><small>Experience</small></span></div><div class="quick-actions" style="margin-top:14px">${button('visibility','Profile')}${button('edit','Edit')}</div></article>`).join('')}</section>`;
+function studentsPage() {
+  const rows = [
+    ["ST-24091", person("AS", "Aarav Sharma", "JEE 2027 | Active"), "JEE Morning", "Physics, Chemistry, Mathematics", "91%", status("Paid"), status("Active"), actions()],
+    ["ST-24090", person("MK", "Meera Kapoor", "NEET 2027 | Active"), "NEET Prime", "Biology, Chemistry, Physics", "87%", status("Due", "warning"), status("At Risk", "warning"), actions()],
+    ["ST-24089", person("RV", "Rohan Verma", "Foundation | Active"), "Foundation Batch", "Science, Maths", "78%", status("Partial", "info"), status("Active"), actions()],
+    ["ST-24088", person("IA", "Ishita Anand", "JEE Weekend | Inactive"), "JEE Weekend", "Mathematics, Physics", "69%", status("Overdue", "danger"), status("Inactive", "danger"), actions()],
+  ].map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`);
+
+  return `${pageHead("Student Management", "Manage student lifecycle, enrollment, progress, attendance, fee state, and bulk operations.", "Add Student", "person_add")}
+  <section class="metric-grid">
+    ${metric("groups", "3,248", "Total Students", "+186 this month")}
+    ${metric("upload_file", "1", "Bulk Import Wizard", "Ready to run", "#7c5cff", "#f1eaff")}
+    ${metric("mail", "3,248", "Login Credentials", "Email + SMS supported", "#0891b2", "#e0f2fe")}
+    ${metric("fact_check", "86.4%", "Attendance Average", "Operational KPI")}
+  </section>
+  ${tableCard("Student Directory", ["Student ID", "Student", "Batch", "Courses", "Attendance", "Payment", "Status", "Actions"], rows, "All Students")}
+  <section class="feature-grid" style="margin-top:18px">
+    <article class="card feature-card"><span class="material-symbols-outlined">upload_file</span><h3>Bulk Import Wizard</h3><p>Upload Excel, preview records, validate, import, generate credentials, and send SMS/email in one flow.</p>${button("arrow_forward", "Open Wizard")}</article>
+    <article class="card feature-card"><span class="material-symbols-outlined">lock_reset</span><h3>Reset Password</h3><p>Admin can regenerate student access quickly without involving teachers or content teams.</p>${button("vpn_key", "Reset Access")}</article>
+    <article class="card feature-card"><span class="material-symbols-outlined">monitoring</span><h3>Student Progress</h3><p>Track academic progress, attendance, course completion, and payment status from one profile.</p>${button("visibility", "View Progress")}</article>
+  </section>`;
 }
 
-function coursePage() {
-  const courses=[['JEE Advanced Mastery','Physics · Chemistry · Mathematics','824','6 Faculty','24 months','78%',''],['NEET Achiever Program','Physics · Chemistry · Biology','706','5 Faculty','18 months','84%','purple'],['Foundation IX & X','Science · Mathematics · Reasoning','518','8 Faculty','12 months','91%','cyan'],['JEE Main Accelerator','PCM · Mock Tests · Analytics','426','4 Faculty','10 months','73%',''],['NEET Test Series','30 Tests · Video Solutions','394','3 Faculty','6 months','68%','purple'],['Olympiad Foundation','Science · Maths · Mental Ability','286','6 Faculty','9 months','82%','cyan']];
-  return `${pageHead('Course Management','Create courses, upload syllabus, build modules, assign faculty, and set pricing.','Create Course','library_add')}<section class="course-grid">${courses.map(c=>`<article class="card course-card"><div class="course-cover ${c[6]}"><h3>${c[0]}</h3></div><div class="course-body"><p class="card-subtitle">${c[1]}</p><div class="course-meta"><span>${c[2]} students</span><span>${c[3]}</span><span>${c[4]}</span></div><div class="progress"><span style="width:${c[5]}"></span></div><div class="course-meta"><span>Completion</span><strong>${c[5]}</strong></div><div class="quick-actions">${button('edit','Manage')}${button('analytics','Analytics')}</div></div></article>`).join('')}</section>`;
+function approvalsPage() {
+  const rows = [
+    ["APP-301", person("KS", "Kavya Singh", "Teacher"), "Physics Class 11", "Course Approval", "Teacher created course and submitted for review", status("Pending Review", "warning"), actions()],
+    ["APP-302", person("RM", "Rohan Mehta", "Teacher"), "NEET 2027 Evening Batch", "Batch Approval", "Batch created and submitted with assigned reusable courses", status("Pending Review", "warning"), actions()],
+    ["APP-303", person("SP", "Sneha Patel", "Teacher"), "Biology Revision Sprint", "Request Changes", "Admin asked for stronger DPP and notes structure", status("Changes Requested", "info"), actions()],
+    ["APP-304", person("AD", "Academic Desk", "Ops"), "Certificate Issue - JEE Topper", "Certificate Approval", "Certificate PDF and QR verification pending", status("Pending Review", "warning"), actions()],
+  ].map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`);
+
+  return `${pageHead("Content Approval", "Admin reviews teacher-created courses and batches before they are published to students.", "Approve Next", "approval")}
+  <section class="metric-grid">
+    ${metric("approval", "12", "Pending Approvals", "Needs review")}
+    ${metric("menu_book", "8", "Courses Waiting", "Teacher submissions")}
+    ${metric("groups", "4", "Batches Waiting", "Publish blockers")}
+    ${metric("notifications_active", "6", "Admin Alerts", "Approval notifications")}
+  </section>
+  <div class="dashboard-grid">
+    <section class="card">
+      <div class="card-head"><div><h3>Approval Workflow</h3><p>How teacher-created content reaches students</p></div>${status("Automated", "info")}</div>
+      <div class="activity-list">
+        ${activity("edit_note", "Teacher creates course", "Teacher owns lectures, notes, DPPs, assignments, and structure.", "Step 1")}
+        ${activity("send", "Teacher submits for approval", "Content enters Pending Review instead of publishing immediately.", "Step 2")}
+        ${activity("notifications", "Admin receives notification", "Institute admin reviews course preview and operational readiness.", "Step 3")}
+        ${activity("preview", "Preview + decision", "Approve, Reject, or Request Changes with review notes.", "Step 4")}
+        ${activity("publish", "Course published", "Automatically becomes visible in Student -> Explore Courses.", "Step 5")}
+      </div>
+    </section>
+    <section class="card">
+      <div class="card-head"><div><h3>Review Controls</h3><p>What admin controls before publishing</p></div></div>
+      <div class="activity-list">
+        ${activity("account_tree", "Course structure", "Verify subject, chapter, lecture, notes, DPP, and assignment coverage.", "Preview")}
+        ${activity("groups", "Batch readiness", "Confirm assigned teacher, assigned course, student capacity, and schedule.", "Preview")}
+        ${activity("rule_settings", "Request changes", "Return content to teacher with a structured review note.", "Action")}
+        ${activity("public", "Student visibility", "Only approved items can be published to the student Explore experience.", "Control")}
+      </div>
+    </section>
+  </div>
+  ${tableCard("Approval Queue", ["Approval ID", "Submitted By", "Item", "Type", "Review Notes", "Status", "Actions"], rows, "Pending Review")}`;
 }
 
-const genericData = {
-  batches:{metrics:[['groups','32','Active Batches'],['school','2,412','Assigned Students'],['co_present','96','Assigned Faculty'],['meeting_room','18','Classrooms']],features:[['group_add','Create & Assign','Create batches and assign learners by course and level.'],['calendar_month','Batch Schedules','Plan recurring class schedules and faculty availability.'],['meeting_room','Classroom Allocation','Assign physical and virtual classrooms without conflicts.'],['analytics','Performance Reports','Compare batch scores, attendance, and completion.']]},
-  live:{metrics:[['live_tv','12','Classes Today'],['groups','1,486','Expected Attendees'],['schedule','96.2%','On-time Rate'],['videocam','8','Recordings Processing']],features:[['event','Schedule Live Class','Set subject, faculty, date, time, batch, and meeting link.'],['notifications_active','Send Reminders','Notify enrolled students before each class begins.'],['fact_check','Track Attendance','Capture join time, duration, and attendance automatically.'],['video_library','Record Sessions','Publish recordings to the correct course and chapter.']]},
-  lectures:{metrics:[['video_library','1,248','Recorded Lectures'],['visibility','84.6K','Monthly Views'],['task_alt','78%','Completion Rate'],['monitoring','82%','Engagement Score']],features:[['upload','Upload Lectures','Add video, notes, resources, and chapter mapping.'],['account_tree','Course Organization','Arrange content into modules, chapters, and lessons.'],['visibility_lock','Visibility Rules','Publish by course, batch, date, or enrollment status.'],['analytics','Watch Analytics','Track views, completion, replays, and drop-off.']]},
-  tests:{metrics:[['quiz','86','Active Mock Tests'],['groups','2,218','Participants'],['leaderboard','94.8','Highest Score'],['percent','89%','Participation']],features:[['edit_note','Create Mock Test','Build sections, questions, marking rules, and time limits.'],['database','Question Banks','Upload and categorize reusable subject question banks.'],['event','Schedule Exams','Configure exam windows, reminders, and eligible batches.'],['auto_graph','Automatic Analytics','Generate results, rank, percentile, and weak-topic analysis.']]},
-  materials:{metrics:[['folder_open','3,486','Total Resources'],['picture_as_pdf','1,925','PDF Notes'],['assignment','742','Assignments'],['download','128K','Downloads']],features:[['upload_file','Upload Resources','Add PDFs, notes, assignments, and previous papers.'],['category','Smart Categories','Organize by course, subject, chapter, and resource type.'],['history','Version Management','Maintain revisions while preserving download history.'],['visibility','Access Control','Control visibility by role, enrollment, batch, and date.']]},
-  doubts:{metrics:[['forum','146','Open Doubts'],['pending','18','Pending Assignment'],['sync','43','In Progress'],['check_circle','1,284','Solved This Month']],features:[['assignment_ind','Assign to Faculty','Route doubts by subject, availability, and expertise.'],['priority_high','Priority Queue','Surface overdue and high-priority student questions.'],['chat','Student Responses','Track faculty replies and student satisfaction.'],['analytics','Resolution Analytics','Measure response time, resolution rate, and faculty load.']]},
-  attendance:{metrics:[['fact_check','86.4%','Institute Average'],['warning','27','Low Attendance'],['groups','2,631','Marked Today'],['download','12','Reports Ready']],features:[['today','Daily Attendance','Mark and verify attendance for every scheduled class.'],['calendar_month','Monthly Reports','Review trends by student, batch, course, and faculty.'],['notification_important','Low Attendance Alerts','Automatically notify students, parents, and mentors.'],['download','Export Reports','Download verified attendance reports in PDF or Excel.']]},
-  notifications:{metrics:[['campaign','24','Active Campaigns'],['send','18.6K','Messages Sent'],['mark_email_read','92%','Delivery Rate'],['notifications_active','8','Scheduled']],features:[['campaign','Announcements','Send institute-wide or targeted announcements.'],['notifications','Push Notifications','Deliver real-time updates to web and mobile users.'],['mail','Email & SMS','Create channel-specific messages and monitor delivery.'],['event','Event Reminders','Automate class, exam, fee, and event reminders.']]}
-};
+function batchesPage() {
+  const rows = [
+    ["BAT-101", "JEE 2027 Morning Batch", "JEE", "3 teachers", "186 students", "Physics, Chemistry, Maths", status("Published"), actions()],
+    ["BAT-102", "NEET 2027 Prime Batch", "NEET", "4 teachers", "214 students", "Biology, Chemistry, Physics", status("Pending Approval", "warning"), actions()],
+    ["BAT-103", "Foundation Evening", "Foundation", "2 teachers", "122 students", "Science, Maths", status("Draft", "info"), actions()],
+    ["BAT-104", "JEE Weekend", "JEE", "2 teachers", "98 students", "Maths, Physics", status("Archived", "danger"), actions()],
+  ].map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`);
 
-function genericPage(key) {
-  const d=genericData[key], p=pages[key];
-  return `${pageHead(p[0],p[1],key==='materials'?'Upload Material':key==='notifications'?'New Announcement':'Create New',key==='live'?'event':'add')}<section class="metric-grid">${d.metrics.map((m,i)=>metric(m[0],m[1],m[2],i%2?'+ This month':'Live',i===1?'#7c3aed':'#2563eb',i===1?'#f3e8ff':'#eff6ff')).join('')}</section><section class="feature-grid" style="margin-top:18px">${d.features.map(f=>`<article class="card feature-card"><span class="material-symbols-outlined">${f[0]}</span><h3>${f[1]}</h3><p>${f[2]}</p>${button('arrow_forward','Open Module')}</article>`).join('')}</section>${simpleActivityTable(key)}`;
+  return `${pageHead("Batch Management", "Admin owns batch creation, assignment, scheduling, approval, cloning, and lifecycle control.", "Create Batch", "groups")}
+  <section class="metric-grid">
+    ${metric("groups", "36", "Active Batches", "+4 this quarter")}
+    ${metric("school", "3,248", "Students Assigned", "Across all batches")}
+    ${metric("co_present", "128", "Teachers Assigned", "Balanced by admin")}
+    ${metric("calendar_month", "14", "Batch Calendar Events", "This week")}
+  </section>
+  ${tableCard("Batch Control Center", ["Batch ID", "Batch Name", "Type", "Teachers", "Students", "Courses", "Status", "Actions"], rows, "All Batches")}
+  <section class="feature-grid" style="margin-top:18px">
+    <article class="card feature-card"><span class="material-symbols-outlined">content_copy</span><h3>Clone Batch</h3><p>Reuse a successful structure, schedule, and course composition for the next academic cycle.</p>${button("content_copy", "Clone Batch")}</article>
+    <article class="card feature-card"><span class="material-symbols-outlined">event</span><h3>Batch Calendar</h3><p>Plan class windows, tests, revisions, and holidays without asking teachers to manage institute logistics.</p>${button("calendar_month", "Open Calendar")}</article>
+    <article class="card feature-card"><span class="material-symbols-outlined">approval</span><h3>Batch Approval</h3><p>Teachers can build batches, but students only see them after admin approval and publish.</p>${button("approval", "Review Batch")}</article>
+  </section>`;
 }
 
-function simpleActivityTable(key){const rows=[['Today, 10:30 AM','JEE Advanced · Momentum A1','Dr. Rakesh Mehta',status('Active')],['Today, 12:00 PM','NEET Achiever · Target N2','Sneha Patel',status('Scheduled','info')],['Tomorrow, 09:00 AM','Foundation IX · F3','Rahul Sethi',status('Draft','warning')]].map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}<td>${actions()}</td></tr>`);return tableCard(`Recent ${pages[key][0]} Activity`,['Date & Time','Course / Batch','Owner','Status','Actions'],rows)}
+function attendancePage() {
+  const rows = [
+    ["Today", "JEE 2027 Morning", "Student Attendance", "91.4%", "12 absent", status("Recorded"), actions()],
+    ["Today", "Teacher Attendance", "Faculty Check-in", "96.1%", "2 leave requests", status("Recorded"), actions()],
+    ["Today", "NEET Prime Live Class", "Live Class Attendance", "88.2%", "Late joins: 14", status("In Progress", "info"), actions()],
+    ["Yesterday", "Foundation Evening", "Student Attendance", "82.6%", "Low attendance alert", status("Needs Follow-up", "warning"), actions()],
+  ].map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`);
 
-function admissionsPage(){const stages=[['New Lead','184','#2563eb'],['Contacted','126','#06b6d4'],['Counseling Scheduled','72','#8b5cf6'],['Converted','48','#16a34a'],['Rejected','19','#ef4444']];return `${pageHead('Admissions & Leads','Track every inquiry from first contact through successful enrollment.','Add Lead','person_add')}<section class="pipeline">${stages.map(s=>`<article class="pipeline-stage"><span>${s[0]}</span><strong>${s[1]}</strong><i style="--stage:${s[2]}"></i></article>`).join('')}</section><div class="dashboard-grid"><section class="card"><div class="card-head"><div><h3>Admission Pipeline</h3><p>Lead movement and conversion</p></div><span class="status success">26.1% conversion</span></div><div class="chart-wrap"><canvas id="leadChart"></canvas></div></section><section class="card"><div class="card-head"><div><h3>Follow-up Reminders</h3><p>Priority counselor tasks</p></div></div>${activity('call','Call Priya Nair','NEET inquiry · High intent','10:30')}${activity('event','Counseling: Arnav Gupta','JEE Advanced','12:00')}${activity('mail','Send brochure to 12 leads','Foundation campaign','15:30')}</section></div>${simpleActivityTable('admissions')}`}
+  return `${pageHead("Attendance", "Track student, teacher, and live class attendance with follow-up and reporting controls.", "Export Attendance", "download")}
+  <section class="metric-grid">
+    ${metric("fact_check", "86.4%", "Institute Average", "+1.8%")}
+    ${metric("warning", "27", "Low Attendance Alerts", "Needs intervention", "#f59e0b", "#fef3c7")}
+    ${metric("co_present", "96.1%", "Teacher Attendance", "Today", "#7c5cff", "#f1eaff")}
+    ${metric("live_tv", "88.2%", "Live Class Attendance", "Current sessions", "#0891b2", "#e0f2fe")}
+  </section>
+  ${tableCard("Attendance Overview", ["Date", "Scope", "Type", "Attendance", "Exception", "Status", "Actions"], rows, "Today")}`;
+}
 
-function feesPage(){return `${pageHead('Fees & Payments','Monitor collections, installments, scholarships, pending dues, and receipts.','Record Payment','add_card')}<section class="metric-grid">${metric('currency_rupee','₹48.6L','Total Revenue','+18.3%')}${metric('calendar_month','₹8.2L','Monthly Revenue','+12.6%','#16a34a','#dcfce7')}${metric('pending_actions','₹6.8L','Pending Payments','184 students','#dc2626','#fee2e2',true)}${metric('school','₹4.3L','Scholarships Awarded','62 students','#7c3aed','#f3e8ff')}</section><div class="dashboard-grid"><section class="card"><div class="card-head"><div><h3>Revenue Growth</h3><p>Collections over the last six months</p></div></div><div class="chart-wrap"><canvas id="feesChart"></canvas></div></section><section class="card"><div class="card-head"><div><h3>Payment Methods</h3><p>Collection distribution</p></div></div><div class="chart-wrap"><canvas id="paymentChart"></canvas></div></section></div>${simpleActivityTable('fees')}`}
+function paymentsPage() {
+  const rows = [
+    ["INV-9102", person("AS", "Aarav Sharma", "JEE Morning"), "Tuition Fee", "Rs. 24,500", "UPI", status("Paid"), actions()],
+    ["INV-9103", person("MK", "Meera Kapoor", "NEET Prime"), "Installment 3", "Rs. 18,000", "Pending", status("Due", "warning"), actions()],
+    ["INV-9104", person("IA", "Ishita Anand", "JEE Weekend"), "Monthly Fee", "Rs. 12,500", "Pending", status("Overdue", "danger"), actions()],
+    ["INV-9105", person("RV", "Rohan Verma", "Foundation"), "Scholarship Adjusted", "Rs. 8,400", "Cash", status("Partial", "info"), actions()],
+  ].map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`);
 
-function analyticsPage(){return `${pageHead('Results & Analytics','Compare enrollment, revenue, tests, attendance, batches, and faculty effectiveness.','Export Analytics','download')}<section class="metric-grid">${metric('trending_up','14.8%','Enrollment Growth','+2.7%')}${metric('leaderboard','91.4','Top Test Average','+4.1','#7c3aed','#f3e8ff')}${metric('fact_check','86.4%','Attendance Average','+1.8%','#16a34a','#dcfce7')}${metric('psychology','34','AI Risk Alerts','Review','#f59e0b','#fef3c7')}</section><div class="split-charts"><section class="card"><div class="card-head"><h3>Test Performance Trends</h3></div><div class="chart-wrap"><canvas id="testChart"></canvas></div></section><section class="card"><div class="card-head"><h3>Attendance Analytics</h3></div><div class="chart-wrap"><canvas id="attendanceChart"></canvas></div></section></div><section class="feature-grid" style="margin-top:18px"><article class="card feature-card"><span class="material-symbols-outlined">workspace_premium</span><h3>Top Performers</h3><p>Identify institute, course, batch, and subject toppers.</p>${button('arrow_forward','View Report')}</article><article class="card feature-card"><span class="material-symbols-outlined">troubleshoot</span><h3>Weak Topic Analysis</h3><p>Discover topics causing the greatest score loss.</p>${button('arrow_forward','View Analysis')}</article><article class="card feature-card"><span class="material-symbols-outlined">co_present</span><h3>Faculty Effectiveness</h3><p>Compare outcomes, feedback, engagement, and progress.</p>${button('arrow_forward','Compare Faculty')}</article></section>`}
+  return `${pageHead("Fees & Payments", "Admin manages invoices, receipts, online and offline collections, discounts, refunds, and dues.", "Record Payment", "payments")}
+  <section class="metric-grid">
+    ${metric("currency_rupee", "Rs. 48.6L", "Total Revenue", "+18.3%")}
+    ${metric("receipt_long", "1,248", "Invoices Issued", "This academic year", "#7c5cff", "#f1eaff")}
+    ${metric("pending_actions", "Rs. 8.6L", "Pending Fees", "184 dues", "#dc2626", "#fee2e2", true)}
+    ${metric("redeem", "Rs. 3.2L", "Discounts & Coupons", "Admin approved", "#16a34a", "#dcfce7")}
+  </section>
+  ${tableCard("Payments Control Center", ["Invoice", "Student", "Type", "Amount", "Channel", "Status", "Actions"], rows, "All Payments")}
+  <section class="feature-grid" style="margin-top:18px">
+    <article class="card feature-card"><span class="material-symbols-outlined">payments</span><h3>Payment Channels</h3><p>Track online, offline, card, UPI, bank transfer, refund, and cash collection states in one place.</p>${button("monitoring", "View Channels")}</article>
+    <article class="card feature-card"><span class="material-symbols-outlined">local_offer</span><h3>Coupons & Discounts</h3><p>Control scholarships, promotional discounts, and concession rules at institute level.</p>${button("edit", "Manage Discounts")}</article>
+    <article class="card feature-card"><span class="material-symbols-outlined">receipt</span><h3>Receipts & Refunds</h3><p>Generate receipts, audit refund approvals, and maintain compliant payment records.</p>${button("receipt_long", "Open Ledger")}</article>
+  </section>`;
+}
 
-function settingsPage(){const rows=[['Institute Profile','Manage name, contact details, branches, logo, and branding.'],['Theme Customization','Control colors, appearance, dashboard density, and dark mode.'],['User Roles & Permissions','Configure access for admins, counselors, faculty, and accountants.'],['Security Settings','Password policy, session controls, device access, and audit rules.'],['Automated Backups','Securely back up institute data every night.'],['Real-time Notifications','Enable instant system alerts and administrative updates.']];return `${pageHead('Settings','Control institute configuration, access, security, themes, and backups.','Save Changes','save')}<section class="card"><div class="card-head"><div><h3>Institute Configuration</h3><p>Changes apply across the management platform</p></div></div><div class="setting-list">${rows.map((r,i)=>`<div class="setting-row"><div><h4>${r[0]}</h4><p>${r[1]}</p></div><button class="switch ${i>3?'on':''}" aria-label="Toggle ${r[0]}"></button></div>`).join('')}</div></section>`}
+function certificatesPage() {
+  const rows = [
+    ["CERT-301", "JEE Excellence Certificate", "Template", "Batch Topper", status("Active"), actions()],
+    ["CERT-302", "Course Completion Certificate", "Issued", "NEET 2027 Prime", status("Approved"), actions()],
+    ["CERT-303", "Attendance Appreciation", "Pending", "Foundation Evening", status("Pending Review", "warning"), actions()],
+    ["CERT-304", "Institute Merit Award", "Issued", "Annual Ceremony", status("Verified", "success"), actions()],
+  ].map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`);
 
-function profilePage(){return `${pageHead('Admin Profile','Manage your personal details, security, and account activity.','Edit Profile','edit')}<div class="dashboard-grid"><section class="card faculty-card"><span class="avatar" style="width:90px;height:90px;font-size:25px">AV</span><h3 style="font-size:20px">Arjun Verma</h3><p>Super Administrator · EliteCoaching Institute</p><div class="faculty-stats"><span><strong>8 yrs</strong><small>Member</small></span><span><strong>2FA</strong><small>Enabled</small></span><span><strong>98</strong><small>Actions this week</small></span></div></section><section class="card"><div class="card-head"><h3>Security</h3></div><div class="setting-list"><div class="setting-row"><div><h4>Change Password</h4><p>Last changed 42 days ago</p></div>${button('lock_reset','Update')}</div><div class="setting-row"><div><h4>Two-factor Authentication</h4><p>Authenticator app is connected</p></div><button class="switch on"></button></div><div class="setting-row"><div><h4>Active Sessions</h4><p>2 authenticated devices</p></div>${button('devices','Review')}</div></div></section></div>${tableCard('Recent Activity Logs',['Time','Activity','IP Address','Device','Status'],[['Today, 10:42','Updated student EC-24091','103.21.58.14','Chrome · Windows',status('Successful')],['Today, 09:18','Exported fee report','103.21.58.14','Chrome · Windows',status('Successful')],['Yesterday, 18:03','Changed role permissions','103.21.58.14','Chrome · Windows',status('Verified','info')]].map(r=>`<tr>${r.map(x=>`<td>${x}</td>`).join('')}</tr>`))}`}
+  return `${pageHead("Certificates", "Create templates, approve issues, download PDFs, and verify credentials with institute controls.", "Create Template", "workspace_premium")}
+  <section class="metric-grid">
+    ${metric("workspace_premium", "24", "Active Templates", "Brand controlled")}
+    ${metric("verified", "1,186", "Issued Certificates", "This year", "#16a34a", "#dcfce7")}
+    ${metric("qr_code_2", "100%", "QR Verification", "Enabled", "#7c5cff", "#f1eaff")}
+    ${metric("approval", "12", "Pending Approval", "Needs review", "#f59e0b", "#fef3c7")}
+  </section>
+  ${tableCard("Certificate Center", ["Certificate ID", "Title", "Mode", "Scope", "Status", "Actions"], rows, "All Certificates")}`;
+}
+
+function reportsPage() {
+  const cards = [
+    ["monitoring", "Institute Report", "Students, teachers, approvals, collections, and institute health."],
+    ["groups", "Batch Report", "Batch strength, attendance, course completion, and scheduling quality."],
+    ["co_present", "Teacher Report", "Workload, performance, approval turnaround, and attendance."],
+    ["school", "Student Report", "Progress, fees, attendance, and course completion."],
+    ["payments", "Revenue Report", "Collections, pending dues, refunds, and discount exposure."],
+    ["live_tv", "Watch Time Report", "Lecture consumption and student learning engagement."],
+  ];
+
+  return `${pageHead("Reports", "Admin uses reports to run the institute, not to browse vanity charts.", "Generate Report", "download")}
+  <section class="metric-grid">
+    ${metric("summarize", "9", "Report Types", "Operational reporting")}
+    ${metric("download", "126", "Exports This Month", "Admin usage", "#7c5cff", "#f1eaff")}
+    ${metric("assignment", "18", "Scheduled Reports", "Automation ready", "#0891b2", "#e0f2fe")}
+    ${metric("insights", "34", "Actionable Alerts", "Across reports", "#f59e0b", "#fef3c7")}
+  </section>
+  <section class="feature-grid" style="margin-top:18px">
+    ${cards.map((card) => `<article class="card feature-card"><span class="material-symbols-outlined">${card[0]}</span><h3>${card[1]}</h3><p>${card[2]}</p>${button("arrow_forward", "Open Report")}</article>`).join("")}
+  </section>`;
+}
+
+function communicationPage() {
+  const rows = [
+    ["COMM-21", "Entire Institute", "Admission reminder + payment deadline", "Scheduled", status("Scheduled", "info"), actions()],
+    ["COMM-22", "JEE 2027 Morning", "Mock test reminder and reporting time", "Push + SMS", status("Sent"), actions()],
+    ["COMM-23", "Teachers", "Faculty meeting notice for approvals", "Email", status("Draft", "warning"), actions()],
+    ["COMM-24", "Specific Students", "Low attendance follow-up", "WhatsApp", status("In Review", "warning"), actions()],
+  ].map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`);
+
+  return `${pageHead("Communication", "Send institute-wide or targeted announcements to teachers, students, batches, and courses.", "Send Announcement", "campaign")}
+  <section class="metric-grid">
+    ${metric("campaign", "24", "Active Campaigns", "6 scheduled")}
+    ${metric("send", "18.6K", "Messages Sent", "Multi-channel", "#7c5cff", "#f1eaff")}
+    ${metric("mark_email_read", "92%", "Delivery Rate", "Institute average", "#16a34a", "#dcfce7")}
+    ${metric("schedule_send", "8", "Scheduled Sends", "Queued")}
+  </section>
+  ${tableCard("Announcement Center", ["ID", "Audience", "Message", "Channel", "Status", "Actions"], rows, "All Campaigns")}`;
+}
+
+function settingsPage() {
+  const rows = [
+    ["Institute Profile", "Institute name, domain, logo, timezone, and working days."],
+    ["Branding", "Theme, primary color, secondary color, certificate identity, and parent-facing visual system."],
+    ["Roles & Permissions", "Institute Admin, Academic Coordinator, Teacher, TA, Student, Parent permissions."],
+    ["Academic Year", "Current year, term control, and archive rules."],
+    ["Integrations", "Cloudinary, Firebase, Email, SMS Gateway, WhatsApp API, Zoom, Google Meet."],
+    ["Security & Audit Logs", "Access rules, password policy, device logs, and permission traceability."],
+  ];
+
+  return `${pageHead("Institute Settings", "Admin owns institute branding, permissions, integrations, tenant rules, and governance.", "Save Settings", "save")}
+  <section class="card">
+    <div class="card-head"><div><h3>Configuration Areas</h3><p>Everything required to operate EduVerse as an institute product</p></div></div>
+    <div class="setting-list">
+      ${rows.map((row, index) => `<div class="setting-row"><div><h4>${row[0]}</h4><p>${row[1]}</p></div><button class="switch ${index < 4 ? "on" : ""}" aria-label="Toggle ${row[0]}"></button></div>`).join("")}
+    </div>
+  </section>`;
+}
+
+function profilePage() {
+  const logs = [
+    ["Today, 10:42", "Approved Physics Class 11 for student visibility", "103.21.58.14", "Chrome | Windows", status("Successful")],
+    ["Today, 09:18", "Opened batch approval queue", "103.21.58.14", "Chrome | Windows", status("Successful")],
+    ["Yesterday, 18:03", "Updated role permissions for Academic Coordinator", "103.21.58.14", "Chrome | Windows", status("Verified", "info")],
+  ].map((row) => `<tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>`);
+
+  return `${pageHead("Admin Profile", "Manage institute admin identity, security, permissions, and recent actions.", "Edit Profile", "edit")}
+  <div class="dashboard-grid">
+    <section class="card faculty-card"><span class="avatar" style="width:90px;height:90px;font-size:25px">AV</span><h3 style="font-size:20px">Aakash Verma</h3><p>Institute Admin | EduVerse LMS</p><div class="faculty-stats"><span><strong>2FA</strong><small>Enabled</small></span><span><strong>128</strong><small>Actions this week</small></span><span><strong>Full</strong><small>Access scope</small></span></div></section>
+    <section class="card"><div class="card-head"><div><h3>Security & Access</h3><p>Personal administrative controls</p></div></div><div class="setting-list"><div class="setting-row"><div><h4>Change Password</h4><p>Last changed 42 days ago</p></div>${button("lock_reset", "Update")}</div><div class="setting-row"><div><h4>Two-factor Authentication</h4><p>Authenticator app connected</p></div><button class="switch on"></button></div><div class="setting-row"><div><h4>Audit Logs</h4><p>Every approval and configuration change is tracked</p></div>${button("history", "Open Logs")}</div></div></section>
+  </div>
+  ${tableCard("Recent Admin Activity", ["Time", "Activity", "IP Address", "Device", "Status"], logs, "All Logs")}`;
+}
 
 function renderPage(key) {
-  charts.forEach(c=>c.destroy()); charts=[];
-  const p=pages[key]||pages.dashboard; pageTitle.textContent=p[0]; breadcrumb.textContent=p[0];
-  document.querySelectorAll('.nav-item[data-page]').forEach(n=>n.classList.toggle('active',n.dataset.page===key));
-  const renderers={dashboard:dashboardPage,students:studentPage,faculty:facultyPage,courses:coursePage,admissions:admissionsPage,fees:feesPage,analytics:analyticsPage,settings:settingsPage,profile:profilePage};
-  content.innerHTML=renderers[key]?renderers[key]():genericPage(key);
-  window.scrollTo({top:0,behavior:'smooth'}); closeMobile(); bindContentActions(); requestAnimationFrame(()=>initCharts(key));
+  const page = pages[key] || pages.dashboard;
+  pageTitle.textContent = page[0];
+  breadcrumb.textContent = page[0];
+  document.querySelectorAll(".nav-item[data-page]").forEach((item) => item.classList.toggle("active", item.dataset.page === key));
+
+  const renderers = {
+    dashboard: dashboardPage,
+    teachers: teachersPage,
+    students: studentsPage,
+    approvals: approvalsPage,
+    batches: batchesPage,
+    attendance: attendancePage,
+    payments: paymentsPage,
+    certificates: certificatesPage,
+    reports: reportsPage,
+    communication: communicationPage,
+    settings: settingsPage,
+    profile: profilePage,
+  };
+
+  content.innerHTML = renderers[key] ? renderers[key]() : dashboardPage();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  closeMobile();
+  bindContentActions();
 }
 
-function chart(id,config){const el=document.getElementById(id);if(!el||typeof Chart==='undefined')return;charts.push(new Chart(el,config))}
-function lineConfig(labels,data,color='#2563eb',fill=true){return{type:'line',data:{labels,datasets:[{data,label:'Performance',borderColor:color,backgroundColor:color+'18',fill,tension:.4,borderWidth:2.5,pointRadius:2,pointHoverRadius:5}]},options:chartOptions()}}
-function chartOptions(){return{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{grid:{display:false},ticks:{color:'#94a3b8',font:{size:9}}},y:{beginAtZero:true,grid:{color:'rgba(148,163,184,.13)'},ticks:{color:'#94a3b8',font:{size:9}}}}}}
-function initCharts(key){
-  if(key==='dashboard'){
-    chart('studentGrowthChart',lineConfig(['Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun','Jul'],[1840,1920,2010,2070,2160,2220,2290,2380,2490,2590,2710,2846]));
-    chart('revenueChart',{type:'bar',data:{labels:['Feb','Mar','Apr','May','Jun','Jul'],datasets:[{data:[5.8,6.4,7.1,6.9,7.8,8.6],backgroundColor:['#bfdbfe','#bfdbfe','#bfdbfe','#bfdbfe','#bfdbfe','#2563eb'],borderRadius:7}]},options:chartOptions()});
-    chart('courseChart',{type:'doughnut',data:{labels:['JEE','NEET','Foundation','Other'],datasets:[{data:[38,31,21,10],backgroundColor:['#2563eb','#7c3aed','#06b6d4','#cbd5e1'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'72%',plugins:{legend:{position:'bottom',labels:{boxWidth:8,usePointStyle:true,color:'#64748b',font:{size:9}}}}}});
+function showToast(text) {
+  const toast = document.getElementById("toast");
+  document.getElementById("toastText").textContent = text;
+  toast.classList.add("show");
+  window.setTimeout(() => toast.classList.remove("show"), 2400);
+}
+
+function bindContentActions() {
+  document.querySelectorAll("[data-action]").forEach((buttonNode) => buttonNode.addEventListener("click", () => showToast(`${buttonNode.dataset.action} opened`)));
+  document.querySelectorAll(".row-actions button").forEach((buttonNode) => buttonNode.addEventListener("click", () => showToast(`${buttonNode.title} action selected`)));
+  document.querySelectorAll(".switch").forEach((switchNode) => switchNode.addEventListener("click", () => {
+    switchNode.classList.toggle("on");
+    showToast("Setting updated");
+  }));
+  document.querySelectorAll("[data-open-page]").forEach((buttonNode) => buttonNode.addEventListener("click", () => renderPage(buttonNode.dataset.openPage)));
+}
+
+function closeMobile() {
+  sidebar.classList.remove("mobile-open");
+  overlay.classList.remove("show");
+}
+
+function openPalette() {
+  palette.classList.add("open");
+  commandInput.value = "";
+  filterCommands();
+  window.setTimeout(() => commandInput.focus(), 30);
+}
+
+function closePalette() {
+  palette.classList.remove("open");
+}
+
+function filterCommands() {
+  const query = commandInput.value.toLowerCase();
+  commandResults.innerHTML = Object.entries(pages)
+    .filter(([, value]) => value[0].toLowerCase().includes(query))
+    .map(([key, value]) => `<button class="command-result" data-command="${key}"><span class="material-symbols-outlined">arrow_forward</span><span>${value[0]}</span></button>`)
+    .join("");
+}
+
+document.getElementById("adminNav").addEventListener("click", (event) => {
+  const item = event.target.closest("[data-page]");
+  if (item) renderPage(item.dataset.page);
+});
+
+document.getElementById("collapseSidebar").addEventListener("click", () => sidebar.classList.toggle("collapsed"));
+document.getElementById("mobileMenu").addEventListener("click", () => {
+  sidebar.classList.add("mobile-open");
+  overlay.classList.add("show");
+});
+overlay.addEventListener("click", closeMobile);
+
+document.getElementById("themeToggle").addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+  localStorage.setItem("eliteAdminTheme", document.body.classList.contains("dark") ? "dark" : "light");
+});
+
+if (localStorage.getItem("eliteAdminTheme") === "dark") document.body.classList.add("dark");
+
+document.getElementById("aiAssistant").addEventListener("click", () => showToast("EduVerse AI is ready to help with approvals, reports, and operations"));
+commandInput.addEventListener("input", filterCommands);
+commandResults.addEventListener("click", (event) => {
+  const buttonNode = event.target.closest("[data-command]");
+  if (buttonNode) {
+    renderPage(buttonNode.dataset.command);
+    closePalette();
   }
-  if(key==='admissions')chart('leadChart',lineConfig(['Jan','Feb','Mar','Apr','May','Jun','Jul'],[92,118,132,146,171,164,184],'#7c3aed'));
-  if(key==='fees'){chart('feesChart',lineConfig(['Feb','Mar','Apr','May','Jun','Jul'],[5.8,6.4,7.1,6.9,7.8,8.2],'#16a34a'));chart('paymentChart',{type:'doughnut',data:{labels:['UPI','Cards','Bank','Cash'],datasets:[{data:[44,26,21,9],backgroundColor:['#2563eb','#7c3aed','#06b6d4','#f59e0b'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{position:'bottom',labels:{boxWidth:8,usePointStyle:true,color:'#64748b'}}}}})}
-  if(key==='analytics'){chart('testChart',lineConfig(['Test 1','Test 2','Test 3','Test 4','Test 5','Test 6'],[62,68,66,74,79,83],'#7c3aed'));chart('attendanceChart',{type:'bar',data:{labels:['JEE A1','JEE J4','NEET N1','NEET N2','FND F3'],datasets:[{data:[91,84,94,88,76],backgroundColor:['#2563eb','#60a5fa','#7c3aed','#a78bfa','#06b6d4'],borderRadius:8}]},options:chartOptions()})}
+});
+palette.addEventListener("click", (event) => { if (event.target === palette) closePalette(); });
+
+globalSearch.addEventListener("focus", openPalette);
+document.addEventListener("keydown", (event) => {
+  if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
+    event.preventDefault();
+    openPalette();
+  }
+  if (event.key === "Escape") closePalette();
+});
+
+if (quickCreateButton) {
+  quickCreateButton.addEventListener("click", () => showToast("Quick Create opened"));
 }
 
-function showToast(text){const t=document.getElementById('toast');document.getElementById('toastText').textContent=text;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200)}
-function bindContentActions(){document.querySelectorAll('[data-action]').forEach(b=>b.addEventListener('click',()=>showToast(`${b.dataset.action} opened`)));document.querySelectorAll('.row-actions button').forEach(b=>b.addEventListener('click',()=>showToast(`${b.title} action selected`)));document.querySelectorAll('.switch').forEach(s=>s.addEventListener('click',()=>{s.classList.toggle('on');showToast('Setting updated')}));document.querySelectorAll('[data-open-page]').forEach(b=>b.addEventListener('click',()=>renderPage(b.dataset.openPage)))}
-function closeMobile(){sidebar.classList.remove('mobile-open');overlay.classList.remove('show')}
-
-document.getElementById('adminNav').addEventListener('click',e=>{const item=e.target.closest('[data-page]');if(item)renderPage(item.dataset.page)});
-document.querySelectorAll('[data-open-page]').forEach(b=>b.addEventListener('click',()=>renderPage(b.dataset.openPage)));
-document.getElementById('collapseSidebar').addEventListener('click',()=>sidebar.classList.toggle('collapsed'));
-document.getElementById('mobileMenu').addEventListener('click',()=>{sidebar.classList.add('mobile-open');overlay.classList.add('show')}); overlay.addEventListener('click',closeMobile);
-document.getElementById('themeToggle').addEventListener('click',()=>{document.body.classList.toggle('dark');localStorage.setItem('eliteAdminTheme',document.body.classList.contains('dark')?'dark':'light')});
-if(localStorage.getItem('eliteAdminTheme')==='dark')document.body.classList.add('dark');
-document.getElementById('aiAssistant').addEventListener('click',()=>showToast('Elite AI assistant is ready to help'));
-
-const palette=document.getElementById('commandPalette'),commandInput=document.getElementById('commandInput'),commandResults=document.getElementById('commandResults');
-function openPalette(){palette.classList.add('open');commandInput.value='';filterCommands();setTimeout(()=>commandInput.focus(),30)}
-function closePalette(){palette.classList.remove('open')}
-function filterCommands(){const q=commandInput.value.toLowerCase();commandResults.innerHTML=Object.entries(pages).filter(([,v])=>v[0].toLowerCase().includes(q)).map(([k,v])=>`<button class="command-result" data-command="${k}"><span class="material-symbols-outlined">arrow_forward</span><span>${v[0]}</span></button>`).join('')}
-commandInput.addEventListener('input',filterCommands);commandResults.addEventListener('click',e=>{const b=e.target.closest('[data-command]');if(b){renderPage(b.dataset.command);closePalette()}});palette.addEventListener('click',e=>{if(e.target===palette)closePalette()});
-document.getElementById('globalSearch').addEventListener('focus',openPalette);document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openPalette()}if(e.key==='Escape')closePalette()});
-
-renderPage('dashboard');
+renderPage("dashboard");
