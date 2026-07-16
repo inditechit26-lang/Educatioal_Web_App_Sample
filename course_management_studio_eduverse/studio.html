@@ -3,12 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>EduVerse | Teacher Panel</title>
+  <title>EduVerse | Visual Curriculum Builder</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="js/tailwind.config.js"></script>
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -17,762 +15,333 @@
       <div class="sidebar-brand">
         <a class="brand-link" href="../home_elitecoaching_institute/code.html">
           <span class="brand-mark">EV</span>
-          <span>
-            <strong>EduVerse</strong>
-            <small>Teacher Panel</small>
-          </span>
+          <span><strong>EduVerse</strong><small>Teacher Portal</small></span>
         </a>
-        <button class="icon-button mobile-only" id="sidebarToggle" type="button" aria-label="Toggle sidebar">
-          <span class="material-symbols-outlined">close</span>
-        </button>
+        <button class="icon-button mobile-only" id="sidebarToggle" type="button" aria-label="Close navigation"><span class="material-symbols-outlined">close</span></button>
       </div>
 
       <nav class="sidebar-nav" aria-label="Teacher navigation">
-        <button class="sidebar-link is-active" data-sidebar-tab="overview" type="button">
-          <span class="material-symbols-outlined">dashboard</span>
-          <span>Dashboard</span>
-        </button>
-        <button class="sidebar-link" data-sidebar-tab="courses" type="button">
-          <span class="material-symbols-outlined">menu_book</span>
-          <span>Content Studio</span>
-        </button>
-        <button class="sidebar-link" data-sidebar-tab="batches" type="button">
-          <span class="material-symbols-outlined">account_tree</span>
-          <span>Batch Composer</span>
-        </button>
-        <button class="sidebar-link" data-sidebar-tab="live-classes" type="button">
-          <span class="material-symbols-outlined">live_tv</span>
-          <span>Live Classes</span>
-        </button>
-        <button class="sidebar-link" data-sidebar-tab="assignments" type="button">
-          <span class="material-symbols-outlined">assignment</span>
-          <span>Assignments</span>
-        </button>
-        <button class="sidebar-link" data-sidebar-tab="student-performance" type="button">
-          <span class="material-symbols-outlined">groups</span>
-          <span>Students</span>
-        </button>
-        <button class="sidebar-link" data-sidebar-tab="analytics" type="button">
-          <span class="material-symbols-outlined">monitoring</span>
-          <span>Analytics</span>
-        </button>
-        <button class="sidebar-link" data-sidebar-tab="messages" type="button">
-          <span class="material-symbols-outlined">forum</span>
-          <span>Messages</span>
-        </button>
-        <button class="sidebar-link" data-sidebar-tab="settings" type="button">
-          <span class="material-symbols-outlined">settings</span>
-          <span>Settings</span>
-        </button>
+        <button class="sidebar-link" data-sidebar-tab="overview" type="button"><span class="material-symbols-outlined">dashboard</span><span>Dashboard</span></button>
+        <button class="sidebar-link is-active" data-sidebar-tab="courses" type="button"><span class="material-symbols-outlined">account_tree</span><span>Content Studio</span></button>
+        <button class="sidebar-link" data-sidebar-tab="batches" type="button"><span class="material-symbols-outlined">group_work</span><span>Batch Composer</span></button>
+        <button class="sidebar-link" data-sidebar-tab="live-classes" type="button"><span class="material-symbols-outlined">live_tv</span><span>Live Classes</span></button>
+        <button class="sidebar-link" data-sidebar-tab="assignments" type="button"><span class="material-symbols-outlined">assignment</span><span>Assignments</span></button>
+        <button class="sidebar-link" data-sidebar-tab="tests" type="button"><span class="material-symbols-outlined">quiz</span><span>Tests &amp; Question Bank</span></button>
+        <button class="sidebar-link" data-sidebar-tab="students" type="button"><span class="material-symbols-outlined">groups</span><span>Students</span></button>
+        <button class="sidebar-link" data-sidebar-tab="messages" type="button"><span class="material-symbols-outlined">forum</span><span>Messages</span><span class="nav-badge">4</span></button>
+        <button class="sidebar-link" data-sidebar-tab="resources" type="button"><span class="material-symbols-outlined">folder_open</span><span>Resource Library</span></button>
+        <button class="sidebar-link" data-sidebar-tab="calendar" type="button"><span class="material-symbols-outlined">calendar_month</span><span>Calendar</span></button>
+        <button class="sidebar-link" data-sidebar-tab="analytics" type="button"><span class="material-symbols-outlined">monitoring</span><span>Analytics</span></button>
+        <button class="sidebar-link" data-sidebar-tab="settings" type="button"><span class="material-symbols-outlined">manage_accounts</span><span>Profile &amp; Settings</span></button>
       </nav>
 
       <div class="sidebar-footer">
-        <div class="teacher-chip">
-          <span class="teacher-chip__avatar" id="teacherInitials">TS</span>
-          <div>
-            <strong id="teacherProfileName">Teacher</strong>
-            <small id="teacherProfileMeta">Teaching workspace</small>
-          </div>
-        </div>
-        <button class="logout-button" id="teacherLogoutButton" type="button">
-          <span class="material-symbols-outlined">logout</span>
-          <span>Logout</span>
-        </button>
+        <div class="teacher-chip"><span class="teacher-chip__avatar" id="teacherInitials">TS</span><div><strong id="teacherProfileName">Teacher</strong><small id="teacherProfileMeta">Teaching workspace</small></div></div>
+        <button class="logout-button" id="teacherLogoutButton" type="button"><span class="material-symbols-outlined">logout</span><span>Logout</span></button>
       </div>
     </aside>
 
     <div class="sidebar-scrim" id="sidebarScrim"></div>
 
     <div class="teacher-main">
-      <header class="teacher-topbar">
+      <header class="teacher-topbar builder-topbar">
         <div class="topbar-left">
-          <button class="icon-button desktop-hidden" id="sidebarOpenButton" type="button" aria-label="Open sidebar">
-            <span class="material-symbols-outlined">menu</span>
-          </button>
-          <div>
-            <p class="eyebrow">Enterprise LMS</p>
-            <h1>Teacher Dashboard</h1>
-          </div>
+          <button class="icon-button desktop-hidden" id="sidebarOpenButton" type="button" aria-label="Open navigation"><span class="material-symbols-outlined">menu</span></button>
+          <div><p class="eyebrow">Reusable Content Workspace</p><h1 id="pageTitle">Content Studio</h1></div>
         </div>
-
         <div class="topbar-center">
-          <label class="search-shell" for="studioSearch">
-            <span class="material-symbols-outlined">search</span>
-            <input id="studioSearch" type="search" placeholder="Search courses, subjects, chapters, lectures..." />
-          </label>
+          <label class="search-shell" for="studioSearch"><span class="material-symbols-outlined">search</span><input id="studioSearch" type="search" placeholder="Search the curriculum…" autocomplete="off" /><kbd>⌘ K</kbd></label>
         </div>
-
         <div class="topbar-right">
-          <div class="meta-pill">
-            <span class="meta-label">Institute</span>
-            <strong>EduVerse LMS</strong>
-          </div>
-          <div class="meta-pill">
-            <span class="meta-label">Current Batch</span>
-            <strong>NEEV 2026</strong>
-          </div>
-          <button class="icon-button" type="button" aria-label="Notifications">
-            <span class="material-symbols-outlined">notifications</span>
-          </button>
-          <button class="icon-button" type="button" aria-label="Messages">
-            <span class="material-symbols-outlined">mail</span>
-          </button>
-          <span class="autosave-pill is-saved" id="studioAutosave">Saved</span>
+          <span class="collaborator-stack" aria-label="3 collaborators"><span>KS</span><span>RM</span><span>+1</span></span>
+          <span class="autosave-pill is-saved" id="studioAutosave"><span class="material-symbols-outlined">cloud_done</span>Saved</span>
+          <button class="icon-button" id="versionHistoryButton" type="button" title="Version history"><span class="material-symbols-outlined">history</span></button>
+          <button class="action-button primary compact" id="publishButton" type="button"><span class="material-symbols-outlined">rocket_launch</span>Publish</button>
         </div>
       </header>
 
-      <main class="teacher-content">
-        <div class="workspace-switcher">
-          <button class="switcher-pill is-active" data-workspace-tab="overview" type="button">Dashboard</button>
-          <button class="switcher-pill" data-workspace-tab="courses" type="button">Content Studio</button>
-          <button class="switcher-pill" data-workspace-tab="batches" type="button">Batch Composer</button>
-        </div>
-
-        <section class="workspace-section is-active" data-workspace-section="overview">
-          <div class="dashboard-grid">
-            <article class="hero-card hero-card--primary dashboard-welcome">
-              <div>
-                <p class="eyebrow">Teacher Workspace</p>
-                <h2 id="welcomeGreeting">Good Morning, Teacher</h2>
-                <p class="dashboard-date" id="welcomeDate">Today's teaching plan</p>
-              </div>
-                <button class="action-button primary" data-sidebar-tab="courses" type="button">Create New Lecture</button>
-            </article>
-
-            <article class="panel-card schedule-focus">
-              <div class="card-head">
-                <div>
-                  <p class="eyebrow">Next Live Class</p>
-                  <h3>Your next live class starts in 25 minutes</h3>
-                </div>
-              </div>
-              <div class="schedule-highlight">
-                <div>
-                  <strong>Physics - JEE 2027</strong>
-                  <small>09:00 AM</small>
-                </div>
-                <button class="action-button primary" data-sidebar-tab="live-classes" type="button">Join Class</button>
-              </div>
-            </article>
+      <main class="teacher-content builder-content">
+        <section class="workspace-section" data-workspace-section="overview">
+          <div class="portal-placeholder portal-dashboard">
+            <div><p class="eyebrow">Teacher Dashboard</p><h2 id="welcomeGreeting">Welcome back, Teacher</h2><p id="welcomeDate">Your teaching workspace is ready.</p></div>
+            <button class="action-button primary" data-sidebar-tab="courses" type="button">Open Curriculum Builder</button>
           </div>
-
-          <div class="dashboard-task-grid">
-            <article class="panel-card task-stack">
-              <div class="card-head">
-                <div>
-                  <p class="eyebrow">Today's Priorities</p>
-                  <h3>What needs attention now</h3>
-                </div>
-              </div>
-              <div class="priority-list">
-                <div class="priority-row">
-                  <strong>8 Assignments need review</strong>
-                  <button class="action-button secondary" data-sidebar-tab="assignments" type="button">Open</button>
-                </div>
-                <div class="priority-row">
-                  <strong>Upload today's Chemistry lecture</strong>
-                <button class="action-button secondary" data-sidebar-tab="courses" type="button">Open Studio</button>
-                </div>
-                <div class="priority-row">
-                  <strong>2 DPPs scheduled for today</strong>
-                <button class="action-button secondary" data-sidebar-tab="courses" type="button">Open Studio</button>
-                </div>
-              </div>
-            </article>
-
-            <article class="panel-card completion-card">
-              <div class="card-head">
-                <div>
-                  <p class="eyebrow">Completed Class</p>
-                  <h3>Live Class Completed</h3>
-                </div>
-              </div>
-              <div class="completion-status">Attendance Recorded | Recording Uploaded</div>
-              <div class="completion-actions">
-                <button class="action-button secondary" data-sidebar-tab="courses" type="button">Send Notes</button>
-                <button class="action-button secondary" data-sidebar-tab="assignments" type="button">Upload Assignment</button>
-                <button class="action-button primary" data-sidebar-tab="courses" type="button">Create DPP</button>
-              </div>
-            </article>
-          </div>
-
-          <div class="section-block">
-            <div class="section-heading">
-              <div>
-                <p class="eyebrow">Daily Snapshot</p>
-                <h3>Teaching snapshot</h3>
-              </div>
-            </div>
-            <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4" id="studioOverviewStats"></div>
-          </div>
-
-          <div class="content-grid">
-            <article class="panel-card">
-              <div class="section-heading">
-                <div>
-                  <p class="eyebrow">Quick Actions</p>
-                  <h3>Start teaching work</h3>
-                </div>
-              </div>
-              <div class="quick-action-grid">
-                <button class="quick-action" data-sidebar-tab="courses" type="button">
-                  <span class="material-symbols-outlined">upload_file</span>
-                  <strong>Upload Lecture</strong>
-                  <small>Add recorded content</small>
-                </button>
-                <button class="quick-action" data-sidebar-tab="courses" type="button">
-                  <span class="material-symbols-outlined">description</span>
-                  <strong>Upload Notes</strong>
-                  <small>Send class support files</small>
-                </button>
-                <button class="quick-action" data-sidebar-tab="courses" type="button">
-                  <span class="material-symbols-outlined">quiz</span>
-                  <strong>Create DPP</strong>
-                  <small>Build practice sets</small>
-                </button>
-                <button class="quick-action" data-sidebar-tab="assignments" type="button">
-                  <span class="material-symbols-outlined">assignment_add</span>
-                  <strong>Create Assignment</strong>
-                  <small>Send follow-up work</small>
-                </button>
-                <button class="quick-action" data-sidebar-tab="live-classes" type="button">
-                  <span class="material-symbols-outlined">video_call</span>
-                  <strong>Schedule Live Class</strong>
-                  <small>Plan today's session</small>
-                </button>
-                <button class="quick-action" data-sidebar-tab="batches" type="button">
-                  <span class="material-symbols-outlined">account_tree</span>
-                  <strong>Batch Composer</strong>
-                  <small>Compose and publish batches</small>
-                </button>
-              </div>
-            </article>
-
-            <article class="panel-card">
-              <div class="section-heading">
-                <div>
-                  <p class="eyebrow">Recent Activity</p>
-                  <h3>Published content feed</h3>
-                </div>
-              </div>
-              <div class="grid gap-3" id="studioOverviewFeed"></div>
-            </article>
+          <div class="dashboard-metrics">
+            <article><span class="material-symbols-outlined">menu_book</span><strong id="dashboardCourseCount">0</strong><small>Active courses</small></article>
+            <article><span class="material-symbols-outlined">video_library</span><strong id="dashboardLectureCount">0</strong><small>Lectures planned</small></article>
+            <article><span class="material-symbols-outlined">task_alt</span><strong>87%</strong><small>Weekly completion</small></article>
+            <article><span class="material-symbols-outlined">groups</span><strong>486</strong><small>Students reached</small></article>
           </div>
         </section>
 
-        <section class="workspace-section" data-workspace-section="courses">
-          <div class="page-stack">
-            <div class="section-heading">
-              <div>
-                <p class="eyebrow">Content Studio</p>
-                <h2>Course workspace</h2>
-                <p class="section-copy">Build reusable subject courses once, then reuse them across many batches like JEE Morning, JEE Evening, NEET, and Foundation.</p>
-              </div>
+        <section class="workspace-section is-active curriculum-workspace" data-workspace-section="courses" aria-label="Visual Curriculum Builder">
+          <div class="curriculum-toolbar" role="toolbar" aria-label="Curriculum actions">
+            <div class="toolbar-group">
+              <button class="tool-button tool-button--accent" id="addCourseButton" type="button"><span class="material-symbols-outlined">add</span>New course</button>
+              <button class="tool-button" id="addChildButton" type="button"><span class="material-symbols-outlined">add_box</span>Add child</button>
+              <button class="tool-button" id="cloneCourseButton" type="button"><span class="material-symbols-outlined">library_add</span>Clone course</button>
             </div>
-
-            <div class="content-grid content-grid--wide">
-              <article class="panel-card">
-                <div class="card-head">
-                  <div>
-                    <p class="eyebrow">Courses</p>
-                    <h3>My course library</h3>
-                  </div>
-                  <button class="action-button secondary" id="addNewCourseButton" type="button">New Course</button>
-                </div>
-                <div class="grid gap-4" id="courseList"></div>
-              </article>
-
-              <article class="panel-card">
-                <div class="card-head">
-                  <div>
-                    <p class="eyebrow">Library Course Setup</p>
-                    <h3 id="courseFormTitle">Create a new course</h3>
-                  </div>
-                </div>
-
-                <form class="form-stack" id="courseForm">
-                  <input id="courseId" type="hidden" />
-
-                  <div class="form-grid">
-                    <label class="field">
-                      <span>Course Name</span>
-                      <input id="courseTitle" data-autosave-field type="text" placeholder="NEET 2027 Rankers Batch" />
-                    </label>
-                    <label class="field">
-                      <span>Library Type</span>
-                      <select id="courseBatch" data-autosave-field></select>
-                    </label>
-                  </div>
-
-                  <div class="form-grid">
-                    <label class="field">
-                      <span>Faculty Name</span>
-                      <input id="courseFaculty" data-autosave-field type="text" placeholder="Dr. Kavya Sharma" />
-                    </label>
-                    <label class="field">
-                      <span>Primary Subject</span>
-                      <input id="courseCategory" data-autosave-field type="text" placeholder="Physics" />
-                    </label>
-                  </div>
-
-                  <div class="form-grid form-grid--triple">
-                    <label class="field">
-                      <span>Status</span>
-                      <select id="courseStatus" data-autosave-field>
-                        <option>Draft</option>
-                        <option>In Review</option>
-                        <option>Approved</option>
-                        <option>Published</option>
-                        <option>Archived</option>
-                      </select>
-                    </label>
-                    <label class="field">
-                      <span>Mode</span>
-                      <select id="courseMode" data-autosave-field>
-                        <option>Online</option>
-                        <option>Offline</option>
-                        <option>Hybrid</option>
-                      </select>
-                    </label>
-                    <label class="field">
-                      <span>Level</span>
-                      <select id="courseLevel" data-autosave-field>
-                        <option>Beginner</option>
-                        <option>Intermediate</option>
-                        <option>Advanced</option>
-                      </select>
-                    </label>
-                  </div>
-
-                  <div class="form-grid form-grid--triple">
-                    <label class="field">
-                      <span>Visibility</span>
-                      <select id="courseVisibility" data-autosave-field>
-                        <option>Premium</option>
-                        <option>Public</option>
-                        <option>Private</option>
-                      </select>
-                    </label>
-                    <label class="field">
-                      <span>Approval Flow</span>
-                      <select id="courseApprovalMode" data-autosave-field>
-                        <option>Admin Approval Required</option>
-                        <option>Direct Publish</option>
-                      </select>
-                    </label>
-                    <label class="field">
-                      <span>Students Enrolled</span>
-                      <input id="courseStudents" data-autosave-field type="text" placeholder="0" />
-                    </label>
-                  </div>
-
-                  <div class="form-grid">
-                    <label class="field">
-                      <span>Duration</span>
-                      <input id="courseDuration" data-autosave-field type="text" placeholder="16 weeks" />
-                    </label>
-                    <label class="field">
-                      <span>Fee</span>
-                      <input id="coursePrice" data-autosave-field type="text" placeholder="Rs 12,000" />
-                    </label>
-                  </div>
-
-                  <label class="field">
-                    <span>Course Description</span>
-                    <textarea id="courseDescription" data-autosave-field rows="4" placeholder="Describe the course, teaching plan, and delivery expectations."></textarea>
-                  </label>
-
-                  <label class="field">
-                    <span>Learning Outcomes</span>
-                    <textarea id="courseOutcomes" data-autosave-field rows="3" placeholder="List the learning outcomes students should achieve."></textarea>
-                  </label>
-
-                  <div class="form-actions">
-                    <button class="action-button primary" type="submit">Save Course</button>
-                    <button class="action-button secondary" type="button" data-workspace-tab="batches">Manage Batch</button>
-                  </div>
-                </form>
-              </article>
+            <span class="toolbar-separator"></span>
+            <div class="toolbar-group">
+              <button class="tool-icon" id="undoButton" type="button" title="Undo (Ctrl+Z)"><span class="material-symbols-outlined">undo</span></button>
+              <button class="tool-icon" id="redoButton" type="button" title="Redo (Ctrl+Y)"><span class="material-symbols-outlined">redo</span></button>
             </div>
-
-            <article class="panel-card">
-              <div class="section-heading">
-                <div>
-                  <p class="eyebrow">Approval Workflow</p>
-                  <h3>Role boundaries</h3>
-                </div>
-              </div>
-              <div class="static-list">
-                <div class="static-row">
-                  <strong>Admin</strong>
-                  <span>Creates batch, assigns teacher, optionally approves course</span>
-                </div>
-                <div class="static-row">
-                  <strong>Teacher</strong>
-                  <span>Creates subjects, chapters, lectures, notes, DPP, tests, and submits for review</span>
-                </div>
-                <div class="static-row">
-                  <strong>Student</strong>
-                  <span>Sees only approved and published batches in the student panel</span>
-                </div>
-              </div>
-            </article>
-
-            <article class="panel-card">
-              <div class="section-heading">
-                <div>
-                  <p class="eyebrow">Library Snapshot</p>
-                  <h3>Selected reusable course</h3>
-                </div>
-              </div>
-              <div class="grid gap-4 lg:grid-cols-2" id="courseSummary"></div>
-            </article>
-
-            <article class="panel-card builder-shell">
-              <div class="section-heading">
-                <div>
-                  <p class="eyebrow">Course -> Chapter</p>
-                  <h3>Library content workspace</h3>
-                <p class="section-copy">Pick a reusable course, build chapters, upload lecture content, and keep it ready to plug into multiple batches.</p>
-              </div>
+            <span class="toolbar-separator"></span>
+            <div class="toolbar-group toolbar-secondary-actions">
+              <button class="tool-icon" id="copyButton" type="button" title="Copy (Ctrl+C)"><span class="material-symbols-outlined">content_copy</span></button>
+              <button class="tool-icon" id="pasteButton" type="button" title="Paste (Ctrl+V)"><span class="material-symbols-outlined">content_paste</span></button>
+              <button class="tool-icon" id="duplicateButton" type="button" title="Duplicate (Ctrl+D)"><span class="material-symbols-outlined">file_copy</span></button>
+              <button class="tool-icon danger" id="deleteButton" type="button" title="Delete"><span class="material-symbols-outlined">delete</span></button>
             </div>
+            <div class="toolbar-spacer"></div>
+            <div class="content-filter" id="contentFilter" aria-label="Content filters">
+              <button class="is-active" data-content-filter="all" type="button">All</button>
+              <button data-content-filter="drafts" type="button">Drafts</button>
+              <button data-content-filter="templates" type="button">Templates</button>
+            </div>
+            <div class="view-controls">
+              <button class="tool-button" id="collapseAllButton" type="button"><span class="material-symbols-outlined">unfold_less</span>Collapse</button>
+              <span class="item-counter" id="itemCounter">0 items</span>
+            </div>
+          </div>
 
-              <div class="empty-panel" id="builderEmpty">
-                <span class="material-symbols-outlined">menu_book</span>
-                <h4>Select a course to start</h4>
-                <p>Your chapter upload workspace appears here after you open a course from Content Studio.</p>
+          <div class="visual-builder" id="visualBuilder">
+            <aside class="explorer-pane" aria-label="Curriculum hierarchy">
+              <div class="pane-header">
+                <div><p class="pane-kicker">Explorer</p><h2>Curriculum</h2></div>
+                <button class="tool-icon" id="explorerMenuButton" type="button" title="Explorer options"><span class="material-symbols-outlined">more_horiz</span></button>
               </div>
+              <div class="explorer-hint"><span class="material-symbols-outlined">drag_indicator</span>Drag items to reorganize</div>
+              <div class="virtual-tree" id="treeViewport" role="tree" tabindex="0" aria-label="Curriculum tree">
+                <div id="treeCanvas"></div>
+              </div>
+              <div class="explorer-footer"><span><i class="status-dot"></i>Live tree</span><span id="visibleCount">0 visible</span></div>
+            </aside>
 
-              <div class="hidden" id="builderContent">
-                <div class="builder-header">
-                  <div>
-                    <p class="eyebrow">Course Workspace</p>
-                    <h3 id="builderCourseTitle">Selected course</h3>
-                    <p id="builderCourseMeta">Course metadata</p>
+            <section class="canvas-pane" aria-label="Selected curriculum item editor">
+              <div class="canvas-empty" id="canvasEmpty" hidden>
+                <div class="empty-illustration"><span class="material-symbols-outlined">account_tree</span></div>
+                <h2>Build your first course</h2><p>Create a course, then add subjects, chapters, lectures, and learning materials visually.</p>
+                <button class="action-button primary" data-create-first type="button">Create a course</button>
+              </div>
+              <div class="node-canvas" id="nodeCanvas">
+                <nav class="node-breadcrumbs" id="nodeBreadcrumbs" aria-label="Curriculum breadcrumb"></nav>
+                <div class="node-hero">
+                  <div class="node-icon-large" id="nodeIconLarge"><span class="material-symbols-outlined">menu_book</span></div>
+                  <div class="node-heading">
+                    <span class="type-label" id="nodeTypeLabel">Course</span><span class="reusable-badge"><span class="material-symbols-outlined">sync_alt</span>Reusable</span>
+                    <input class="canvas-title-input" id="canvasTitleInput" type="text" aria-label="Item title" />
+                    <input class="canvas-description-input" id="canvasDescriptionInput" type="text" placeholder="Add a short description…" aria-label="Item description" />
                   </div>
+                  <button class="more-button" id="canvasMoreButton" type="button"><span class="material-symbols-outlined">more_horiz</span></button>
                 </div>
 
-                <div class="builder-grid builder-grid--explorer">
-                  <div class="stack-card">
-                    <div class="card-head">
-                      <div>
-                        <p class="eyebrow">Chapters</p>
-                        <h4 id="moduleFormTitle">Create a new chapter</h4>
+                <div class="canvas-tabs" role="tablist">
+                  <button class="is-active" type="button">Overview</button><button type="button">Content</button><button type="button">Activity</button>
+                </div>
+
+                <div class="canvas-scroll">
+                  <div class="canvas-grid">
+                    <article class="canvas-card progress-card">
+                      <div class="card-title-row"><div><p class="pane-kicker">Structure health</p><h3>Curriculum progress</h3></div><span id="nodeProgressLabel">72%</span></div>
+                      <div class="progress-track"><span id="nodeProgressBar"></span></div>
+                      <div class="progress-legend"><span><i class="complete"></i>Ready</span><span><i class="draft"></i>Draft</span><span><i class="empty"></i>Missing</span></div>
+                    </article>
+                    <article class="canvas-card details-card">
+                      <p class="pane-kicker">Details</p><h3>Teaching setup</h3>
+                      <div class="detail-grid">
+                        <label><span>Status</span><select id="nodeStatusInput"><option>Draft</option><option>In review</option><option>Published</option><option>Archived</option></select></label>
+                        <label><span>Duration</span><input id="nodeDurationInput" type="text" placeholder="e.g. 45 min" /></label>
+                        <label><span>Owner</span><input id="nodeOwnerInput" type="text" placeholder="Teacher name" /></label>
+                        <label><span>Due date</span><input id="nodeDateInput" type="date" /></label>
+                        <label class="detail-grid-wide" id="thumbnailField"><span>Course thumbnail URL</span><input id="nodeThumbnailInput" type="url" placeholder="https://example.com/course-thumbnail.jpg" /></label>
+                        <label class="detail-grid-wide" id="contentUrlField" hidden><span id="contentUrlLabel">Content URL</span><input id="nodeContentUrlInput" type="url" placeholder="https://example.com/content" /></label>
                       </div>
-                      <button class="action-button secondary" id="clearModuleButton" type="button">Clear</button>
-                    </div>
-
-                    <div class="stack-list" id="moduleList"></div>
-
-                    <form class="form-stack" id="moduleForm">
-                      <input id="moduleId" type="hidden" />
-                      <label class="field">
-                        <span>Chapter Name</span>
-                        <input id="moduleName" data-autosave-field type="text" placeholder="Electrostatics" />
-                      </label>
-                      <label class="field">
-                        <span>Teaching Objective</span>
-                        <textarea id="moduleObjective" data-autosave-field rows="3" placeholder="What should students understand in this chapter?"></textarea>
-                      </label>
-                      <label class="field">
-                        <span>Class Plan</span>
-                        <textarea id="moduleDesign" data-autosave-field rows="3" placeholder="Lecture flow, notes, DPP plan, and resources."></textarea>
-                      </label>
-                      <label class="field">
-                        <span>Status</span>
-                        <select id="moduleStatus" data-autosave-field>
-                          <option>Draft</option>
-                          <option>In Review</option>
-                          <option>Published</option>
-                        </select>
-                      </label>
-                      <button class="action-button primary" type="submit">Save Chapter</button>
-                    </form>
+                    </article>
                   </div>
 
-                  <div class="stack-card">
-                    <div class="card-head">
-                      <div>
-                        <p class="eyebrow">Lectures</p>
-                        <h4>Upload lecture</h4>
-                      </div>
-                      <button class="action-button secondary" id="clearLectureButton" type="button">Clear</button>
-                    </div>
+                  <article class="canvas-card child-board-card">
+                    <div class="card-title-row"><div><p class="pane-kicker">Inside this item</p><h3 id="childBoardTitle">Course structure</h3></div><button class="text-button" id="addChildInlineButton" type="button"><span class="material-symbols-outlined">add</span>Add</button></div>
+                    <div class="child-board" id="childBoard"></div>
+                  </article>
 
-                    <div class="stack-list" id="lectureList"></div>
-
-                    <form class="form-stack" id="lectureForm">
-                      <input id="lectureId" type="hidden" />
-                      <label class="field">
-                        <span>Lecture Title</span>
-                        <input id="lectureTitle" data-autosave-field type="text" placeholder="Lecture 1 - Coulomb's Law" />
-                      </label>
-                      <div class="form-grid">
-                        <label class="field">
-                          <span>Source Type</span>
-                          <select id="lectureSourceKind" data-autosave-field>
-                            <option value="link">Hosted Link</option>
-                            <option value="upload">Upload Video</option>
-                          </select>
-                        </label>
-                        <label class="field">
-                          <span>Duration</span>
-                          <input id="lectureDuration" data-autosave-field type="text" placeholder="42 min" />
-                        </label>
-                      </div>
-                      <label class="field">
-                        <span>Lecture Link</span>
-                        <input id="lectureUrl" data-autosave-field type="url" placeholder="https://example.com/video" />
-                      </label>
-                      <label class="field">
-                        <span>Upload Video</span>
-                        <input id="lectureFile" type="file" accept="video/*" />
-                        <small id="lectureFileMeta" class="helper-text">Attach a hosted lecture link such as YouTube, Drive, or your media CDN.</small>
-                        <div class="upload-progress-shell" id="lectureUploadProgress" aria-live="polite"></div>
-                      </label>
-                      <button class="action-button primary" id="lectureSubmitButton" type="submit">Add Lecture</button>
-                    </form>
-                  </div>
-
-                  <div class="stack-card">
-                    <div class="card-head">
-                      <div>
-                        <p class="eyebrow">Notes / DPP / Resources</p>
-                        <h4>Upload notes or attachments</h4>
-                      </div>
-                      <button class="action-button secondary" id="clearSourceButton" type="button">Clear</button>
-                    </div>
-
-                    <div class="stack-list" id="sourceList"></div>
-
-                    <form class="form-stack" id="sourceForm">
-                      <input id="sourceId" type="hidden" />
-                      <label class="field">
-                        <span>Title</span>
-                        <input id="sourceTitle" data-autosave-field type="text" placeholder="Electrostatics Notes PDF" />
-                      </label>
-                      <div class="form-grid">
-                        <label class="field">
-                          <span>Type</span>
-                          <select id="sourceType" data-autosave-field>
-                            <option>PDF Notes</option>
-                            <option>DPP</option>
-                            <option>Worksheet</option>
-                            <option>Formula Sheet</option>
-                            <option>Reference PDF</option>
-                            <option>External Link</option>
-                          </select>
-                        </label>
-                        <label class="field">
-                          <span>Source Mode</span>
-                          <select id="sourceMode" data-autosave-field>
-                            <option value="link">Hosted Link</option>
-                            <option value="upload">Upload File</option>
-                          </select>
-                        </label>
-                      </div>
-                      <label class="field">
-                        <span>Resource Link</span>
-                        <input id="sourceUrl" data-autosave-field type="url" placeholder="https://example.com/resource" />
-                      </label>
-                      <label class="field">
-                        <span>Upload File</span>
-                        <input id="sourceFile" type="file" />
-                        <small id="sourceFileMeta" class="helper-text">Paste a shareable document or resource link for students and teachers.</small>
-                        <div class="upload-progress-shell" id="sourceUploadProgress" aria-live="polite"></div>
-                      </label>
-                      <button class="action-button primary" id="sourceSubmitButton" type="submit">Add Source</button>
-                    </form>
-                  </div>
-
-                  <aside class="stack-card structure-card">
-                    <div class="card-head">
-                      <div>
-                        <p class="eyebrow">Live Structure</p>
-                        <h4>Course preview tree</h4>
-                      </div>
-                      <button class="action-button secondary" id="addNewCourseButton" type="button">Add Subject</button>
-                    </div>
-
-                    <div class="structure-tree" id="courseStructureTree"></div>
-
-                    <div class="divider-line"></div>
-
-                    <div class="card-head">
-                      <div>
-                        <p class="eyebrow">Validation</p>
-                        <h4>Publish checklist</h4>
-                      </div>
-                    </div>
-                    <div class="validation-list" id="courseValidationList"></div>
-                  </aside>
+                  <article class="canvas-card notes-card">
+                    <div class="card-title-row"><div><p class="pane-kicker">Teacher notes</p><h3>Planning notes</h3></div><span class="mini-save-state" id="miniSaveState">Autosaved</span></div>
+                    <textarea id="nodeNotesInput" rows="5" placeholder="Write learning objectives, teaching cues, prerequisites, or reviewer notes…"></textarea>
+                  </article>
                 </div>
               </div>
-            </article>
+              <section class="live-student-preview" id="liveStudentPreview" aria-label="Live student preview">
+                <div class="live-preview-toolbar">
+                  <div class="live-preview-title"><span class="live-indicator"></span><div><p class="pane-kicker">Live student view</p><strong>Updates instantly</strong></div></div>
+                  <div class="preview-device-controls" id="previewDeviceControls" aria-label="Preview device">
+                    <button class="is-active" data-preview-device="desktop" type="button" title="Desktop preview"><span class="material-symbols-outlined">desktop_windows</span><em>Desktop</em></button>
+                    <button data-preview-device="tablet" type="button" title="Tablet preview"><span class="material-symbols-outlined">tablet_mac</span><em>Tablet</em></button>
+                    <button data-preview-device="mobile" type="button" title="Mobile preview"><span class="material-symbols-outlined">smartphone</span><em>Mobile</em></button>
+                  </div>
+                  <div class="preview-theme-controls" id="previewThemeControls" aria-label="Preview theme">
+                    <button class="is-active" data-preview-theme="light" type="button" title="Light mode"><span class="material-symbols-outlined">light_mode</span></button>
+                    <button data-preview-theme="dark" type="button" title="Dark mode"><span class="material-symbols-outlined">dark_mode</span></button>
+                  </div>
+                </div>
+                <div class="live-preview-stage">
+                  <div class="student-course-viewport is-desktop is-light" id="studentCourseViewport">
+                    <div class="student-course-preview" id="studentCoursePreview"></div>
+                  </div>
+                </div>
+              </section>
+            </section>
+
+            <aside class="inspector-pane" aria-label="Curriculum item inspector">
+              <div class="pane-header"><div><p class="pane-kicker">Inspector</p><h2>Properties</h2></div><button class="tool-icon" id="closeInspectorButton" type="button"><span class="material-symbols-outlined">dock_to_left</span></button></div>
+              <div class="inspector-scroll">
+                <section class="inspector-section">
+                  <button class="inspector-section-title" type="button"><span>Item</span><span class="material-symbols-outlined">expand_less</span></button>
+                  <dl class="property-list"><div><dt>Type</dt><dd id="inspectorType">Course</dd></div><div><dt>ID</dt><dd id="inspectorId">—</dd></div><div><dt>Children</dt><dd id="inspectorChildren">0</dd></div><div><dt>Updated</dt><dd id="inspectorUpdated">Just now</dd></div></dl>
+                </section>
+                <section class="inspector-section">
+                  <button class="inspector-section-title" type="button"><span>Appearance</span><span class="material-symbols-outlined">expand_less</span></button>
+                  <label class="inspector-field"><span>Accent color</span><div class="color-options" id="colorOptions"><button data-color="#5b5bd6" style="--swatch:#5b5bd6" type="button"></button><button data-color="#0f9f76" style="--swatch:#0f9f76" type="button"></button><button data-color="#e6863b" style="--swatch:#e6863b" type="button"></button><button data-color="#d95087" style="--swatch:#d95087" type="button"></button><button data-color="#1687a7" style="--swatch:#1687a7" type="button"></button></div></label>
+                  <label class="inspector-field"><span>Icon</span><select id="nodeIconInput"><option value="auto">Automatic</option><option value="school">School</option><option value="science">Science</option><option value="calculate">Math</option><option value="biotech">Biology</option><option value="language">Language</option><option value="lightbulb">Idea</option></select></label>
+                </section>
+                <section class="inspector-section">
+                  <button class="inspector-section-title" type="button"><span>Publishing</span><span class="material-symbols-outlined">expand_less</span></button>
+                  <label class="toggle-row"><span><strong>Visible to students</strong><small>Show after publishing</small></span><input id="nodeVisibleInput" type="checkbox" /><i></i></label>
+                  <label class="toggle-row"><span><strong>Free preview</strong><small>Allow public access</small></span><input id="nodePreviewInput" type="checkbox" /><i></i></label>
+                </section>
+                <section class="inspector-section reusable-section">
+                  <button class="inspector-section-title" type="button"><span>Reuse &amp; versions</span><span class="material-symbols-outlined">expand_less</span></button>
+                  <div class="version-summary"><span class="material-symbols-outlined">deployed_code_history</span><div><strong id="courseVersionLabel">Version 1</strong><small>Changes sync to unlocked batches</small></div></div>
+                  <label class="toggle-row" id="templateToggleRow"><span><strong>Use as template</strong><small>Available for future courses</small></span><input id="nodeTemplateInput" type="checkbox" /><i></i></label>
+                  <div class="linked-batches-head"><span>Linked batches</span><em id="linkedBatchCount">0</em></div>
+                  <div class="linked-batch-list" id="linkedBatchList"></div>
+                </section>
+              </div>
+            </aside>
           </div>
         </section>
 
         <section class="workspace-section" data-workspace-section="batches">
-          <div class="page-stack">
-            <div class="section-heading">
-              <div>
-                <p class="eyebrow">Batch Composer</p>
-                <h2>Batch builder</h2>
-                <p class="section-copy">Create a complete batch by combining existing reusable courses like Physics, Chemistry, Mathematics, Biology, mock tests, and study material.</p>
+          <div class="batch-composer-toolbar">
+            <div><p class="eyebrow">Batch Composer</p><h2>Compose from reusable content</h2><p>Drag existing courses and subjects into a batch. Content stays linked to Content Studio.</p></div>
+            <div class="batch-toolbar-actions"><button class="tool-button" id="batchHistoryButton" type="button"><span class="material-symbols-outlined">history</span>History</button><button class="tool-button" id="cloneBatchButton" type="button"><span class="material-symbols-outlined">file_copy</span>Clone batch</button><button class="tool-button tool-button--accent" id="addBatchButton" type="button"><span class="material-symbols-outlined">add</span>New batch</button></div>
+          </div>
+          <div class="batch-composer-shell">
+            <aside class="batch-library-pane">
+              <div class="batch-pane-head"><div><p class="pane-kicker">Content Studio</p><h3>Reusable library</h3></div><span class="material-symbols-outlined">inventory_2</span></div>
+              <label class="batch-search"><span class="material-symbols-outlined">search</span><input id="batchLibrarySearch" type="search" placeholder="Search courses or subjects…" /></label>
+              <p class="drag-helper"><span class="material-symbols-outlined">drag_indicator</span>Drag content into the batch</p>
+              <div class="batch-content-library" id="batchContentLibrary"></div>
+            </aside>
+
+            <section class="batch-canvas-pane">
+              <div class="batch-selector-row"><label><span>Active batch</span><select id="batchSelector"></select></label><span class="batch-status-pill" id="batchStatusPill">Draft</span></div>
+              <div class="batch-title-row"><div><span class="material-symbols-outlined">group_work</span></div><input id="batchTitleInput" type="text" aria-label="Batch name" /><button class="tool-icon" id="batchMoreButton" type="button"><span class="material-symbols-outlined">more_horiz</span></button></div>
+              <div class="batch-drop-zone" id="batchDropZone">
+                <div class="drop-zone-empty" id="batchDropEmpty"><span class="material-symbols-outlined">move_to_inbox</span><strong>Drop reusable content here</strong><small>Courses and subjects stay connected to their Content Studio source.</small></div>
+                <div class="batch-linked-content" id="batchLinkedContent"></div>
               </div>
-            </div>
+              <section class="batch-teacher-section">
+                <div class="batch-section-title"><div><p class="pane-kicker">Teaching team</p><h3>Multiple teachers</h3></div><span id="batchTeacherCount">0 teachers</span></div>
+                <div class="batch-teacher-list" id="batchTeacherList"></div>
+                <div class="add-teacher-row"><input id="batchTeacherInput" type="text" placeholder="Teacher name or email" /><button class="tool-button" id="addBatchTeacherButton" type="button"><span class="material-symbols-outlined">person_add</span>Add teacher</button></div>
+              </section>
+            </section>
 
-            <div class="content-grid content-grid--wide">
-              <article class="panel-card">
-                <div class="card-head">
-                  <div>
-                    <p class="eyebrow">Batch Builder</p>
-                    <h3>Batch library</h3>
-                  </div>
-                  <button class="action-button secondary" id="addNewBatchButton" type="button">New Batch</button>
-                </div>
-                <div class="grid gap-4" id="batchList"></div>
-              </article>
-
-              <article class="panel-card">
-                <div class="card-head">
-                  <div>
-                    <p class="eyebrow">Batch Composition</p>
-                    <h3 id="batchFormTitle">Create a new batch</h3>
-                  </div>
-                </div>
-
-                <form class="form-stack" id="batchForm">
-                  <input id="batchId" type="hidden" />
-
-                  <div class="form-grid">
-                    <label class="field">
-                      <span>Batch Name</span>
-                      <input id="batchName" data-autosave-field type="text" placeholder="NEEV Batch 2026" />
-                    </label>
-                    <label class="field">
-                      <span>Batch Code</span>
-                      <input id="batchYear" data-autosave-field type="text" placeholder="JEE-M-2027" />
-                    </label>
-                  </div>
-
-                  <div class="form-grid form-grid--triple">
-                    <label class="field">
-                      <span>Start Date</span>
-                      <input id="batchStart" data-autosave-field type="date" />
-                    </label>
-                    <label class="field">
-                      <span>Status</span>
-                      <select id="batchStatus" data-autosave-field>
-                        <option>Open</option>
-                        <option>Upcoming</option>
-                        <option>Closed</option>
-                      </select>
-                    </label>
-                    <label class="field">
-                      <span>Course Type</span>
-                      <select id="batchType" data-autosave-field>
-                        <option>JEE</option>
-                        <option>NEET</option>
-                        <option>Foundation</option>
-                        <option>Class 11</option>
-                        <option>Class 12</option>
-                      </select>
-                    </label>
-                  </div>
-
-                  <div class="field">
-                    <span>Add Existing Courses</span>
-                    <div class="selection-grid" id="batchCoursePicker"></div>
-                  </div>
-
-                  <label class="field">
-                    <span>Capacity</span>
-                    <input id="batchCapacity" data-autosave-field type="text" placeholder="60 students" />
-                  </label>
-
-                  <label class="field">
-                    <span>Notes</span>
-                    <textarea id="batchNotes" data-autosave-field rows="4" placeholder="Describe the reusable courses, mock tests, study material, and learner experience included in this batch."></textarea>
-                  </label>
-
-                  <button class="action-button primary" type="submit">Save Batch</button>
-                </form>
-              </article>
-            </div>
+            <aside class="batch-settings-pane">
+              <div class="batch-pane-head"><div><p class="pane-kicker">Delivery</p><h3>Batch settings</h3></div><span class="material-symbols-outlined">tune</span></div>
+              <div class="batch-settings-scroll">
+                <section class="batch-settings-section"><h4>Schedule batch</h4><label><span>Start date</span><input id="batchStartDate" type="date" /></label><label><span>End date</span><input id="batchEndDate" type="date" /></label><div class="schedule-grid"><label><span>Class time</span><input id="batchClassTime" type="time" /></label><label><span>Days</span><select id="batchDays"><option>Mon, Wed, Fri</option><option>Tue, Thu, Sat</option><option>Every day</option><option>Weekends</option></select></label></div></section>
+                <section class="batch-settings-section"><h4>Content behavior</h4><div class="batch-info-card"><span class="material-symbols-outlined">sync</span><div><strong>Reusable by default</strong><small>Unlocked items receive Content Studio updates automatically.</small></div></div></section>
+                <section class="batch-settings-section batch-version-panel" id="batchVersionPanel" hidden><h4>Version history</h4><div id="batchVersionList"></div></section>
+              </div>
+              <div class="batch-publish-actions"><button class="action-button secondary" id="previewBatchButton" type="button"><span class="material-symbols-outlined">visibility</span>Student preview</button><button class="action-button primary" id="publishBatchButton" type="button"><span class="material-symbols-outlined">rocket_launch</span>Publish batch</button></div>
+            </aside>
           </div>
         </section>
 
-        <section class="workspace-section" data-workspace-section="live-classes">
-          <article class="placeholder-card">
-            <p class="eyebrow">Live Classes</p>
-            <h2>Schedule, edit, and notify</h2>
-            <p>Use this space for live class scheduling, meeting links, attendance, and recording links.</p>
-          </article>
+        <section class="workspace-section" data-workspace-section="live-classes"><div class="portal-placeholder"><span class="material-symbols-outlined">live_tv</span><div><p class="eyebrow">Live Classes</p><h2>Schedule and deliver live learning</h2><p>Manage meeting links, attendance, recordings, and class notifications.</p></div></div></section>
+        <section class="workspace-section" data-workspace-section="assignments"><div class="portal-placeholder"><span class="material-symbols-outlined">assignment</span><div><p class="eyebrow">Assignments</p><h2>Create and review student work</h2><p>Set due dates, track submissions, evaluate responses, and return feedback.</p></div></div></section>
+        <section class="workspace-section" data-workspace-section="tests"><div class="portal-placeholder"><span class="material-symbols-outlined">quiz</span><div><p class="eyebrow">Tests &amp; Question Bank</p><h2>Build assessments from reusable questions</h2><p>Create tests, organize question banks, and review performance.</p></div></div></section>
+        <section class="workspace-section" data-workspace-section="students"><div class="portal-placeholder"><span class="material-symbols-outlined">groups</span><div><p class="eyebrow">Students</p><h2>Understand every learner</h2><p>Track attendance, progress, doubts, and individual reports.</p></div></div></section>
+        <section class="workspace-section" data-workspace-section="messages"><div class="portal-placeholder"><span class="material-symbols-outlined">forum</span><div><p class="eyebrow">Messages</p><h2>Keep communication in context</h2><p>Message students, parents, and administrators from one inbox.</p></div></div></section>
+        <section class="workspace-section" data-workspace-section="resources">
+          <div class="resource-library-page">
+            <header class="resource-library-head"><div><p class="eyebrow">Global Resource Library</p><h2>Upload once. Reuse everywhere.</h2><p>Attach the same resource to any course, chapter, lecture, or batch without uploading it again.</p></div><button class="action-button primary" id="addGlobalResourceButton" type="button"><span class="material-symbols-outlined">cloud_upload</span>Add resource</button></header>
+            <div class="resource-library-stats"><article><span class="material-symbols-outlined">inventory_2</span><div><strong id="resourceTotalCount">0</strong><small>Total resources</small></div></article><article><span class="material-symbols-outlined">attachment</span><div><strong id="resourceAttachmentCount">0</strong><small>Active attachments</small></div></article><article><span class="material-symbols-outlined">cloud_done</span><div><strong id="resourceStorageLabel">0 MB</strong><small>Files stored once</small></div></article></div>
+            <div class="resource-library-shell">
+              <aside class="resource-filter-pane"><div class="batch-pane-head"><div><p class="pane-kicker">Browse</p><h3>Resource types</h3></div></div><nav id="resourceTypeFilters"><button class="is-active" data-resource-filter="all" type="button"><span class="material-symbols-outlined">apps</span>All resources<em id="resourceFilterAllCount">0</em></button><button data-resource-filter="pdf" type="button"><span class="material-symbols-outlined">picture_as_pdf</span>PDF</button><button data-resource-filter="doc" type="button"><span class="material-symbols-outlined">description</span>DOC</button><button data-resource-filter="ppt" type="button"><span class="material-symbols-outlined">slideshow</span>PPT</button><button data-resource-filter="excel" type="button"><span class="material-symbols-outlined">table_view</span>Excel</button><button data-resource-filter="zip" type="button"><span class="material-symbols-outlined">folder_zip</span>ZIP</button><button data-resource-filter="image" type="button"><span class="material-symbols-outlined">image</span>Images</button><button data-resource-filter="video" type="button"><span class="material-symbols-outlined">video_library</span>Videos</button><button data-resource-filter="google-drive" type="button"><span class="material-symbols-outlined">add_to_drive</span>Google Drive</button><button data-resource-filter="youtube" type="button"><span class="material-symbols-outlined">smart_display</span>YouTube</button><button data-resource-filter="external" type="button"><span class="material-symbols-outlined">link</span>External URLs</button></nav></aside>
+              <section class="resource-main-pane"><div class="resource-list-toolbar"><label><span class="material-symbols-outlined">search</span><input id="resourceSearchInput" type="search" placeholder="Search reusable resources…" /></label><span id="resourceResultCount">0 resources</span></div><div class="resource-table-head"><span>Resource</span><span>Type</span><span>Attached to</span><span>Updated</span><span></span></div><div class="resource-list" id="globalResourceList"></div></section>
+              <aside class="resource-detail-pane" id="resourceDetailPane"><div class="resource-detail-empty" id="resourceDetailEmpty"><span class="material-symbols-outlined">touch_app</span><strong>Select a resource</strong><small>View details and attach it without uploading again.</small></div><div id="resourceDetailContent" hidden><div class="resource-detail-hero"><span class="material-symbols-outlined" id="resourceDetailIcon">description</span><div><small id="resourceDetailType">PDF</small><h3 id="resourceDetailTitle">Resource</h3><p id="resourceDetailMeta">Stored once</p></div></div><div class="resource-detail-actions"><button class="tool-button" id="openGlobalResourceButton" type="button"><span class="material-symbols-outlined">open_in_new</span>Open</button><button class="tool-button danger" id="deleteGlobalResourceButton" type="button"><span class="material-symbols-outlined">delete</span>Delete</button></div><section class="resource-attachment-section"><div><p class="pane-kicker">Reuse</p><h4>Attach to content</h4></div><label><span>Destination type</span><select id="resourceTargetType"><option value="course">Course</option><option value="chapter">Chapter</option><option value="lecture">Lecture</option><option value="batch">Batch</option></select></label><label><span>Destination</span><select id="resourceTargetId"></select></label><button class="action-button primary" id="attachGlobalResourceButton" type="button"><span class="material-symbols-outlined">add_link</span>Attach resource</button></section><section class="resource-used-section"><div class="linked-batches-head"><span>Currently attached</span><em id="resourceUsedCount">0</em></div><div id="resourceUsedList"></div></section></div></aside>
+            </div>
+          </div>
         </section>
-
-        <section class="workspace-section" data-workspace-section="assignments">
-          <article class="placeholder-card">
-            <p class="eyebrow">Assignments</p>
-            <h2>Create and review student work</h2>
-            <p>Teachers can create assignments, set due dates, track submissions, evaluate responses, and return feedback here.</p>
-          </article>
-        </section>
-
-        <section class="workspace-section" data-workspace-section="student-performance">
-          <article class="placeholder-card">
-            <p class="eyebrow">Students</p>
-            <h2>Attendance, performance, doubts, and reports</h2>
-            <p>Track learner progress, reply to doubts, manage attendance, and review student reports from one focused workspace.</p>
-          </article>
-        </section>
-
-        <section class="workspace-section" data-workspace-section="analytics">
-          <article class="placeholder-card">
-            <p class="eyebrow">Analytics</p>
-            <h2>Watch time, course health, and engagement</h2>
-            <p>Keep analytics lightweight and teacher-focused, with course health, student progress, engagement, and completion reports.</p>
-          </article>
-        </section>
-
-        <section class="workspace-section" data-workspace-section="messages">
-          <article class="placeholder-card">
-            <p class="eyebrow">Messages</p>
-            <h2>Keep student communication focused</h2>
-            <p>Teacher messaging with students, parents, and admins can live here with search, read receipts, and file sharing.</p>
-          </article>
-        </section>
-
-        <section class="workspace-section" data-workspace-section="settings">
-          <article class="placeholder-card">
-            <p class="eyebrow">Settings</p>
-            <h2>Profile, notifications, integrations, and preferences</h2>
-            <p>Manage teacher profile, connected tools, preferences, and notification settings from one clean settings area.</p>
-          </article>
-        </section>
+        <section class="workspace-section" data-workspace-section="calendar"><div class="portal-placeholder"><span class="material-symbols-outlined">calendar_month</span><div><p class="eyebrow">Calendar</p><h2>Your complete teaching schedule</h2><p>See classes, deadlines, tests, and publishing dates together.</p></div></div></section>
+        <section class="workspace-section" data-workspace-section="analytics"><div class="portal-placeholder"><span class="material-symbols-outlined">monitoring</span><div><p class="eyebrow">Analytics</p><h2>Course health and engagement</h2><p>Monitor completion, watch time, outcomes, and learner activity.</p></div></div></section>
+        <section class="workspace-section" data-workspace-section="settings"><div class="portal-placeholder"><span class="material-symbols-outlined">manage_accounts</span><div><p class="eyebrow">Profile &amp; Settings</p><h2>Personalize your workspace</h2><p>Manage your profile, notifications, integrations, and preferences.</p></div></div></section>
       </main>
     </div>
+  </div>
+
+  <div class="context-menu" id="contextMenu" hidden role="menu">
+    <button data-context-action="add" type="button"><span class="material-symbols-outlined">add_box</span>Add child<span class="shortcut">A</span></button>
+    <button data-context-action="rename" type="button"><span class="material-symbols-outlined">drive_file_rename_outline</span>Rename<span class="shortcut">F2</span></button>
+    <button data-context-action="duplicate" type="button"><span class="material-symbols-outlined">file_copy</span>Duplicate<span class="shortcut">⌘D</span></button>
+    <span class="menu-divider"></span>
+    <button data-context-action="copy" type="button"><span class="material-symbols-outlined">content_copy</span>Copy<span class="shortcut">⌘C</span></button>
+    <button data-context-action="paste" type="button"><span class="material-symbols-outlined">content_paste</span>Paste<span class="shortcut">⌘V</span></button>
+    <span class="menu-divider"></span>
+    <button class="danger" data-context-action="delete" type="button"><span class="material-symbols-outlined">delete</span>Delete<span class="shortcut">Del</span></button>
+  </div>
+
+  <div class="popover-menu" id="addMenu" hidden>
+    <p>Add to curriculum</p><div id="addMenuOptions"></div>
+  </div>
+
+  <aside class="history-drawer" id="historyDrawer" aria-hidden="true">
+    <div class="history-head"><div><p class="pane-kicker">Timeline</p><h2>Version history</h2></div><button class="tool-icon" id="closeHistoryButton" type="button"><span class="material-symbols-outlined">close</span></button></div>
+    <p class="history-copy">Autosaved checkpoints let you safely explore and restore earlier curriculum structures.</p>
+    <div class="history-list" id="historyList"></div>
+  </aside>
+  <div class="drawer-scrim" id="drawerScrim" hidden></div>
+
+  <div class="student-preview-shell" id="studentPreviewShell" hidden>
+    <div class="student-preview-backdrop" data-close-student-preview></div>
+    <div class="student-preview-frame" role="dialog" aria-modal="true" aria-labelledby="studentPreviewTitle">
+      <div class="student-preview-bar"><div><span class="material-symbols-outlined">devices</span><strong>Student view preview</strong></div><button class="tool-icon" data-close-student-preview type="button"><span class="material-symbols-outlined">close</span></button></div>
+      <div class="student-preview-content" id="studentPreviewContent"></div>
+    </div>
+  </div>
+
+  <div class="resource-dialog-shell" id="resourceDialogShell" hidden>
+    <div class="resource-dialog-backdrop" data-close-resource-dialog></div>
+    <form class="resource-dialog" id="globalResourceForm">
+      <header><div><p class="eyebrow">Global Resource Library</p><h2>Add reusable resource</h2><p>Upload or link it once, then attach it anywhere.</p></div><button class="tool-icon" data-close-resource-dialog type="button"><span class="material-symbols-outlined">close</span></button></header>
+      <div class="resource-source-tabs" id="resourceSourceTabs"><button class="is-active" data-resource-source="upload" type="button"><span class="material-symbols-outlined">upload_file</span>Upload file</button><button data-resource-source="google-drive" type="button"><span class="material-symbols-outlined">add_to_drive</span>Google Drive</button><button data-resource-source="youtube" type="button"><span class="material-symbols-outlined">smart_display</span>YouTube</button><button data-resource-source="external" type="button"><span class="material-symbols-outlined">link</span>External URL</button></div>
+      <div class="resource-dialog-body"><label><span>Resource title</span><input id="globalResourceTitle" type="text" placeholder="e.g. Electrostatics Formula Sheet" required /></label><label><span>Resource type</span><select id="globalResourceType"><option value="pdf">PDF</option><option value="doc">DOC</option><option value="ppt">PPT</option><option value="excel">Excel</option><option value="zip">ZIP</option><option value="image">Image</option><option value="video">Video</option></select></label><label class="resource-file-field" id="resourceFileField"><span>Choose file</span><input id="globalResourceFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip,image/*,video/*" /><small>PDF, DOC, PPT, Excel, ZIP, images, and videos are supported.</small></label><label id="resourceUrlField" hidden><span>Resource URL</span><input id="globalResourceUrl" type="url" placeholder="https://…" /><small id="resourceUrlHint">Paste a shareable resource link.</small></label><label><span>Description</span><textarea id="globalResourceDescription" rows="3" placeholder="Optional notes for teachers using this resource"></textarea></label></div>
+      <footer><button class="action-button secondary" data-close-resource-dialog type="button">Cancel</button><button class="action-button primary" type="submit"><span class="material-symbols-outlined">save</span>Save to library</button></footer>
+    </form>
+  </div>
+
+  <div class="publish-validation-shell" id="publishValidationShell" hidden>
+    <div class="publish-validation-backdrop" data-close-validation></div>
+    <section class="publish-validation-card" role="dialog" aria-modal="true" aria-labelledby="validationTitle">
+      <header class="publish-validation-head"><div class="validation-shield"><span class="material-symbols-outlined">verified</span></div><div><p class="eyebrow">Pre-publish quality gate</p><h2 id="validationTitle">Course validation</h2><p id="validationSummary">Checking course readiness…</p></div><button class="tool-icon" data-close-validation type="button"><span class="material-symbols-outlined">close</span></button></header>
+      <div class="validation-progress"><span id="validationProgressBar"></span></div>
+      <div class="professional-checklist" id="professionalChecklist"></div>
+      <footer class="publish-validation-actions"><button class="action-button secondary" data-close-validation type="button">Continue editing</button><button class="action-button primary" id="confirmCoursePublishButton" type="button" disabled><span class="material-symbols-outlined">rocket_launch</span>Publish course</button></footer>
+    </section>
   </div>
 
   <div class="toast-stack" id="teacherToastStack" aria-live="polite" aria-atomic="true"></div>
   <div class="confirm-shell" id="confirmShell" hidden>
     <div class="confirm-backdrop" data-confirm-close></div>
     <div class="confirm-card" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
-      <div class="confirm-icon">
-        <span class="material-symbols-outlined">warning</span>
-      </div>
-      <div>
-        <p class="eyebrow">Confirmation</p>
-        <h3 id="confirmTitle">Are you sure?</h3>
-        <p id="confirmMessage">This action cannot be undone.</p>
-      </div>
-      <div class="confirm-actions">
-        <button class="action-button secondary" id="confirmCancelButton" type="button">Cancel</button>
-        <button class="action-button primary" id="confirmAcceptButton" type="button">Continue</button>
-      </div>
+      <div class="confirm-icon"><span class="material-symbols-outlined">warning</span></div>
+      <div><p class="eyebrow">Please confirm</p><h3 id="confirmTitle">Delete this item?</h3><p id="confirmMessage">Its nested content will also be removed.</p></div>
+      <div class="confirm-actions"><button class="action-button secondary" id="confirmCancelButton" type="button">Cancel</button><button class="action-button primary" id="confirmAcceptButton" type="button">Continue</button></div>
     </div>
   </div>
-  <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
 
   <script src="js/script.js"></script>
 </body>
